@@ -11,8 +11,24 @@
     <title>HZ Runner</title>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
+<canvas id="canvas"></canvas>
+<div id="tudo" class="hidden">
 
-    <script src="./build/app.js"></script>
+    <div class="gameover">
+        <p> GAME </p>
+        <p> OVER </p>
+
+    </div>
+    <div class="continue"><p> SCORE: </p>
+        <p id="score"></p></div>
+    <div class="continue"><p> TRY AGAIN? </p></div>
+
+    <div class="opcoes">
+        <div id="yes" class="yes"><a href="#"> YES </a></div>
+        <div id="no" class="no"><a href="#"> NO </a></div>
+    </div>
+
+</div>
+<script src="./build/app.js"></script>
 </body>
 </html>
