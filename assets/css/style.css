@@ -1,13 +1,12 @@
-body {
-    overflow: hidden;
+@font-face {
+    font-family: 'Minecraft';
+    src: url('../fonts/Minecraft.ttf') format('truetype');
 }
 
 canvas {
-    background-color: lightgray;
-    margin: 0 auto;
-    display: block;
+    font-family: 'Minecraft';
+    background-image: url("../images/nebula-bg.jpg");
 }
-
 
 .hidden {
     display: none;
@@ -281,4 +280,3 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
-

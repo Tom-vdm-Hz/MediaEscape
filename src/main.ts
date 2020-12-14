@@ -7,13 +7,7 @@ window.addEventListener('load', () => {
     const game = new Game(document.getElementById('canvas'));
 });
 
-document.getElementById('yes').addEventListener('click', () => {
-    location.reload()
-})
 
-document.getElementById('no').addEventListener('click', () => {
-    alert('Not allowed to close window due to security reasons')
-})
 
 
 
