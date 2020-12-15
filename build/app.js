@@ -104,6 +104,10 @@ KeyListener.KEY_W = 87;
 KeyListener.KEY_X = 88;
 KeyListener.KEY_Y = 89;
 KeyListener.KEY_Z = 90;
+class Player {
+}
+class View {
+}
 console.log("Javascript is working!");
 window.addEventListener('load', () => {
     console.log("Handling the Load event");
