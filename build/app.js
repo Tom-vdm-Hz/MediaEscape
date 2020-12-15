@@ -1,19 +1,20 @@
 class Game {
-    constructor(canvas) {
+    constructor(canvas, playerName, characterName) {
         this.step = () => {
             this.update();
             this.render();
             requestAnimationFrame(this.step);
         };
         this.canvas = canvas;
-        this.canvas.width = window.innerWidth / 2;
+        this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        this.view = new View(Game.loadNewImage('assets/img/players/test.png'));
-        this.player = new Player('jan', Game.loadNewImage('assets/img/players/test.png'), this.canvas.width, this.canvas.height);
+        this.view = new View(Game.loadNewImage('assets/img/views/hotelLobby.png'));
+        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/${characterName}back.png`), this.canvas.width, this.canvas.height);
         console.log('start animation');
         requestAnimationFrame(this.step);
     }
     update() {
+        this.player.update(this.canvas.width, this.canvas.height);
     }
     render() {
         const ctx = this.canvas.getContext('2d');
@@ -83,29 +84,87 @@ KeyListener.KEY_D = 68;
 KeyListener.KEY_S = 83;
 KeyListener.KEY_W = 87;
 class Player {
-    constructor(name, img, canvasWidth, canvasHeight) {
-        this.name = name;
-        this.img = img;
-        this.x = (canvasWidth / 2) + this.img.width / 2;
-        this.y = canvasHeight - img.height;
+    constructor(name, charachterName, img, canvasWidth, canvasHeight) {
+        this.speed = 3;
+        this._playerName = name;
+        this._characterName = charachterName;
+        this._img = img;
+        this._x = (canvasWidth / 2) - this._img.width / 2;
+        this._y = canvasHeight - img.height;
         this.keyListener = new KeyListener;
     }
-    move() {
-        if (this.keyListener.isKeyDown(37) == true) {
+    update(canvasWidth, canvasHeight) {
+        this.img = Game.loadNewImage(`assets/img/players/${this.playerName}back.png`);
+        this.move(canvasWidth, canvasHeight);
+    }
+    move(canvasWidth, canvasHeight) {
+        if (this.keyListener.isKeyDown(65)) {
             console.log('left');
+            if (this.x >= 0) {
+                this.x -= this.speed;
+                this.img = Game.loadNewImage(`assets/img/players/${this.playerName}left.png`);
+            }
         }
-        if (this.keyListener.isKeyDown(38) == true) {
+        if (this.keyListener.isKeyDown(87)) {
             console.log('up');
+            if (this.y >= 0) {
+                this.y -= this.speed;
+                this.img = Game.loadNewImage(`assets/img/players/${this.playerName}back.png`);
+            }
         }
-        if (this.keyListener.isKeyDown(39) == true) {
+        if (this.keyListener.isKeyDown(68)) {
             console.log('right');
+            if (canvasWidth >= this.x + this._img.width) {
+                this.x += this.speed;
+                this.img = Game.loadNewImage(`assets/img/players/${this.playerName}right.png`);
+            }
         }
-        if (this.keyListener.isKeyDown(40) == true) {
+        if (this.keyListener.isKeyDown(83)) {
             console.log('down');
+            if (canvasHeight >= this.y + this._img.height) {
+                this.y += this.speed;
+                this.img = Game.loadNewImage(`assets/img/players/${this.playerName}front.png`);
+            }
         }
     }
     draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y);
+        ctx.drawImage(this._img, this._x, this._y);
+    }
+    get playerName() {
+        return this._playerName;
+    }
+    set playerName(value) {
+        this._playerName = value;
+    }
+    get collectedCodes() {
+        return this._collectedCodes;
+    }
+    set collectedCodes(value) {
+        this._collectedCodes = value;
+    }
+    get x() {
+        return this._x;
+    }
+    set x(value) {
+        this._x = value;
+    }
+    get y() {
+        return this._y;
+    }
+    set y(value) {
+        this._y = value;
+    }
+    get img() {
+        return this._img;
+    }
+    set img(value) {
+        this._img = value;
+    }
+    get characterName() {
+        return this._characterName;
+    }
+    set characterName(value) {
+        this._characterName = value;
     }
 }
 class View {
@@ -119,6 +178,6 @@ class View {
 console.log("Javascript is working!");
 window.addEventListener('load', () => {
     console.log("Handling the Load event");
-    const game = new Game(document.getElementById('canvas'));
+    const game = new Game(document.getElementById('canvas'), 'a', 'b');
 });
 //# sourceMappingURL=app.js.map

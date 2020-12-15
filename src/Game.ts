@@ -4,14 +4,14 @@ class Game {
     private view: View;
     private readonly canvas: HTMLCanvasElement;
 
-    public constructor(canvas: HTMLElement) {
+    public constructor(canvas: HTMLElement, playerName: string, characterName: string) {
         this.canvas = <HTMLCanvasElement>canvas;
 
-        this.canvas.width = window.innerWidth / 2;
+        this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
 
-        this.view = new View(Game.loadNewImage('assets/img/players/test.png'))
-        this.player = new Player('jan', Game.loadNewImage('assets/img/players/test.png'), this.canvas.width, this.canvas.height)
+        this.view = new View(Game.loadNewImage('assets/img/views/hotelLobby.png'))
+        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/${characterName}back.png`), this.canvas.width, this.canvas.height)
 
         // Start the animation
         console.log('start animation');
@@ -32,7 +32,7 @@ class Game {
 
 
     public update() {
-
+        this.player.update(this.canvas.width, this.canvas.height)
     }
 
 
@@ -78,7 +78,7 @@ class Game {
      * @param {HTMLImageElement} source
      * @return HTMLImageElement - returns an image
      */
-    private static loadNewImage(source: string): HTMLImageElement {
+    public static loadNewImage(source: string): HTMLImageElement {
         const img = new Image();
         img.src = source;
         return img;
