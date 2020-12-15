@@ -1,20 +1,9 @@
-/* html { 
-    background: url("../img/startscreen/front-hotel-street-2.jpg") no-repeat center fixed; 
-    background-size: cover;
-} */
+body {
+    background-image: url("../img/startscreen/front-hotel-street-2.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 
-/* .button {
-    background-color: #555555; 
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 300px 700px;
-    cursor: pointer;
-  } */
 
 .hidden {
     display: none;
@@ -28,11 +17,4 @@ body, html {
     height: 100%;
 }
 
-.bg {
-    /* The image used */
-    background-image: url("../img/startscreen/front-hotel-street-2.jpg");
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+
