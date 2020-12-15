@@ -1,6 +1,7 @@
 class Game {
 
-
+    private player: Player;
+    private view: View;
     private readonly canvas: HTMLCanvasElement;
 
     public constructor(canvas: HTMLElement) {
@@ -8,6 +9,9 @@ class Game {
 
         this.canvas.width = window.innerWidth / 2;
         this.canvas.height = window.innerHeight;
+
+        this.view = new View(Game.loadNewImage('assets/img/players/test.png'))
+        this.player = new Player('jan', Game.loadNewImage('assets/img/players/test.png'), this.canvas.width, this.canvas.height)
 
         // Start the animation
         console.log('start animation');
@@ -25,7 +29,7 @@ class Game {
         this.render()
         requestAnimationFrame(this.step);
     }
- 
+
 
     public update() {
 
@@ -38,6 +42,9 @@ class Game {
         const ctx = this.canvas.getContext('2d');
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.view.draw(ctx)
+        this.player.draw(ctx)
     }
 
     /**
