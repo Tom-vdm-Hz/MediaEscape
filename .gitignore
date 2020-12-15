@@ -8,6 +8,7 @@
 # User-specific stuff
 ## Normally this is more specific, but let's just nuke the whole folder.
 .idea/
+.build/
 
 ### Linux ###
 *~
