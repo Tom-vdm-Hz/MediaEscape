@@ -10,13 +10,13 @@ class Game {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
 
-        this.view = new View(Game.loadNewImage('assets/img/views/hotelLobby.png'))
-        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/${characterName}back.png`), this.canvas.width, this.canvas.height)
+        // this.view = new View(Game.loadNewImage('assets/img/views/hotelLobby.png'))
+        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), this.canvas.width, this.canvas.height)
 
         // Start the animation
         console.log('start animation');
         requestAnimationFrame(this.step);
-        
+
     }
 
 
@@ -44,7 +44,7 @@ class Game {
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.view.draw(ctx)
+        // this.view.draw(ctx)
         this.player.draw(ctx)
     }
 

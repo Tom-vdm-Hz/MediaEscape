@@ -15,11 +15,11 @@ class Player {
         this._x = (canvasWidth / 2) - this._img.width / 2
         this._y = canvasHeight - img.height
         this.keyListener = new KeyListener
-        
+
     }
 
     public update(canvasWidth: number, canvasHeight: number) {
-        this.img = Game.loadNewImage(`assets/img/players/${this.playerName}back.png`)
+        this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Back.png`)
         this.move(canvasWidth, canvasHeight)
     }
 
@@ -29,32 +29,32 @@ class Player {
             console.log('left')
             if (this.x >= 0) {
                 this.x -= this.speed
-                this.img = Game.loadNewImage(`assets/img/players/${this.playerName}left.png`)
             }
+            this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Left.png`)
         }
         //w key is pressed
         if (this.keyListener.isKeyDown(87)) {
             console.log('up')
             if (this.y >= 0) {
                 this.y -= this.speed
-                this.img = Game.loadNewImage(`assets/img/players/${this.playerName}back.png`)
             }
+            this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Back.png`)
         }
         //d key is pressed
         if (this.keyListener.isKeyDown(68)) {
             console.log('right')
             if (canvasWidth >= this.x + this._img.width) {
                 this.x += this.speed
-                this.img = Game.loadNewImage(`assets/img/players/${this.playerName}right.png`)
             }
+            this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Right.png`)
         }
         //s key is pressed
         if (this.keyListener.isKeyDown(83)) {
             console.log('down')
             if (canvasHeight >= this.y + this._img.height) {
                 this.y += this.speed
-                this.img = Game.loadNewImage(`assets/img/players/${this.playerName}front.png`)
             }
+            this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Front.png`)
         }
     }
 
