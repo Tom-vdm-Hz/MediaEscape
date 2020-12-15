@@ -62,16 +62,12 @@ class KeyListener {
     }
 }
 KeyListener.KEY_ENTER = 13;
-KeyListener.KEY_SHIFT = 16;
-KeyListener.KEY_CTRL = 17;
-KeyListener.KEY_ALT = 18;
 KeyListener.KEY_ESC = 27;
 KeyListener.KEY_SPACE = 32;
 KeyListener.KEY_LEFT = 37;
 KeyListener.KEY_UP = 38;
 KeyListener.KEY_RIGHT = 39;
 KeyListener.KEY_DOWN = 40;
-KeyListener.KEY_DEL = 46;
 KeyListener.KEY_1 = 49;
 KeyListener.KEY_2 = 50;
 KeyListener.KEY_3 = 51;
@@ -83,37 +79,30 @@ KeyListener.KEY_8 = 56;
 KeyListener.KEY_9 = 57;
 KeyListener.KEY_0 = 58;
 KeyListener.KEY_A = 65;
-KeyListener.KEY_B = 66;
-KeyListener.KEY_C = 67;
 KeyListener.KEY_D = 68;
-KeyListener.KEY_E = 69;
-KeyListener.KEY_F = 70;
-KeyListener.KEY_G = 71;
-KeyListener.KEY_H = 72;
-KeyListener.KEY_I = 73;
-KeyListener.KEY_J = 74;
-KeyListener.KEY_K = 75;
-KeyListener.KEY_L = 76;
-KeyListener.KEY_M = 77;
-KeyListener.KEY_N = 78;
-KeyListener.KEY_O = 79;
-KeyListener.KEY_P = 80;
-KeyListener.KEY_Q = 81;
-KeyListener.KEY_R = 82;
 KeyListener.KEY_S = 83;
-KeyListener.KEY_T = 84;
-KeyListener.KEY_U = 85;
-KeyListener.KEY_V = 86;
 KeyListener.KEY_W = 87;
-KeyListener.KEY_X = 88;
-KeyListener.KEY_Y = 89;
-KeyListener.KEY_Z = 90;
 class Player {
     constructor(name, img, canvasWidth, canvasHeight) {
         this.name = name;
         this.img = img;
         this.x = (canvasWidth / 2) + this.img.width / 2;
         this.y = canvasHeight - img.height;
+        this.keyListener = new KeyListener;
+    }
+    move() {
+        if (this.keyListener.isKeyDown(37) == true) {
+            console.log('left');
+        }
+        if (this.keyListener.isKeyDown(38) == true) {
+            console.log('up');
+        }
+        if (this.keyListener.isKeyDown(39) == true) {
+            console.log('right');
+        }
+        if (this.keyListener.isKeyDown(40) == true) {
+            console.log('down');
+        }
     }
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y);
