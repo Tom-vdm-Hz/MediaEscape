@@ -6,11 +6,11 @@ class Player {
     private y: number
 
 
-    constructor(name: string, img: HTMLImageElement, x: number, y: number) {
+    constructor(name: string, img: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
         this.name = name;
         this.img = img;
-        this.x = x
-        this.y = y
+        this.x = (canvasWidth / 2) + this.img.width / 2
+        this.y = canvasHeight - img.height
     }
 
     public draw(ctx: CanvasRenderingContext2D) {

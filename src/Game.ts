@@ -11,7 +11,7 @@ class Game {
         this.canvas.height = window.innerHeight;
 
         this.view = new View(Game.loadNewImage('assets/img/players/test.png'))
-        this.player = new Player('', Game.loadNewImage('assets/img/players/test.png'), this.canvas.width / 2, this.canvas.height)
+        this.player = new Player('jan', Game.loadNewImage('assets/img/players/test.png'), this.canvas.width, this.canvas.height)
 
         // Start the animation
         console.log('start animation');
@@ -43,8 +43,8 @@ class Game {
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.player.draw(ctx)
         this.view.draw(ctx)
+        this.player.draw(ctx)
     }
 
     /**

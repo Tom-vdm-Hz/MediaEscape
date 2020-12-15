@@ -9,7 +9,7 @@ class Game {
         this.canvas.width = window.innerWidth / 2;
         this.canvas.height = window.innerHeight;
         this.view = new View(Game.loadNewImage('assets/img/players/test.png'));
-        this.player = new Player('', Game.loadNewImage('assets/img/players/test.png'), this.canvas.width / 2, this.canvas.height);
+        this.player = new Player('jan', Game.loadNewImage('assets/img/players/test.png'), this.canvas.width, this.canvas.height);
         console.log('start animation');
         requestAnimationFrame(this.step);
     }
@@ -18,8 +18,8 @@ class Game {
     render() {
         const ctx = this.canvas.getContext('2d');
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.player.draw(ctx);
         this.view.draw(ctx);
+        this.player.draw(ctx);
     }
     writeTextToCanvas(ctx, text, xCoordinate, yCoordinate, fontSize = 20, color = "red", alignment = "center") {
         ctx.font = `${fontSize}px sans-serif`;
@@ -109,11 +109,11 @@ KeyListener.KEY_X = 88;
 KeyListener.KEY_Y = 89;
 KeyListener.KEY_Z = 90;
 class Player {
-    constructor(name, img, x, y) {
+    constructor(name, img, canvasWidth, canvasHeight) {
         this.name = name;
         this.img = img;
-        this.x = x;
-        this.y = y;
+        this.x = (canvasWidth / 2) + this.img.width / 2;
+        this.y = canvasHeight - img.height;
     }
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y);
