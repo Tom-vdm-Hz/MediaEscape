@@ -16,6 +16,7 @@ class Game {
         // Start the animation
         console.log('start animation');
         requestAnimationFrame(this.step);
+        
     }
 
 
