@@ -1,9 +1,53 @@
-body {
-    background-image: url("../img/startscreen/front-hotel-street-2.jpg");
-    background-repeat: no-repeat;
-    background-position: center center;
+canvas {
+    background-image: url("../images/nebula-bg.jpg");
 }
 
+html { 
+    background: url("../img/startscreen/front-hotel-street-2.jpg") no-repeat center fixed; 
+    background-size: cover;
+}
+
+.explanationbutton {
+    background-color: #FF0000; 
+    border: 5px solid #FF6600 ;
+    border-radius: 50%;
+    color: white;
+    padding: 15px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 50px;
+    margin: 5px 710px;
+    cursor: pointer;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.imgageboy {
+    width: 100px; 
+    height: 200px;
+    margin: 5px 650px;
+}
+
+.imagegirl {
+    width: 100px; 
+    height: 200px;
+    margin: 5px 650px;
+}
+
+.startbutton {
+    background-color: #FF0000; 
+    border: 5px solid #FF6600 ;
+    border-radius: 20px;
+    color: white;
+    padding: 15px 130px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 50px;
+    margin: 5px 575px;
+    cursor: pointer;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
 
 .hidden {
     display: none;
@@ -12,9 +56,3 @@ body {
 .visible {
     display: initial;
 }
-
-body, html {
-    height: 100%;
-}
-
-
