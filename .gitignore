@@ -8,6 +8,7 @@
 # User-specific stuff
 ## Normally this is more specific, but let's just nuke the whole folder.
 .idea/
+.build/
 
 ### Linux ###
 *~
@@ -183,3 +184,5 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/osx,node,linux,macos,windows,vagrant,intellij,visualstudiocode
 
 package-lock.json
+
+build/
