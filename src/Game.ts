@@ -2,6 +2,7 @@ class Game {
 
     private player: Player;
     private view: View;
+    private room: Room1;
     private readonly canvas: HTMLCanvasElement;
     private doorLocations: any;
 
@@ -19,7 +20,7 @@ class Game {
                 minY: this.canvas.height / 1.7,
                 maxX: this.canvas.width / 6,
                 maxY: this.canvas.height / 1.1,
-                room: 'room1'
+                room: '1'
             },
             {
                 name: 'door2',
@@ -76,6 +77,7 @@ class Game {
         this.player.update(this.canvas.width, this.canvas.height)
         this.doorDetection()
         this.returnToLobby()
+        this.room.getMousePosition(event)
     }
 
 
@@ -88,6 +90,9 @@ class Game {
 
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
+        ctx.beginPath();
+        ctx.rect(this.canvas.width / 100, this.canvas.height / 100, this.canvas.width / 100, this.canvas.height / 100);
+        ctx.stroke()
     }
 
     public doorDetection() {
@@ -96,7 +101,7 @@ class Game {
         this.doorLocations.forEach((door: any) => {
                 if ((playerX >= door.minX) && (playerX <= door.maxX) && (playerY >= door.minY) && (playerY <= door.maxY)) {
                     if (this.player.keyListener.isKeyDown(13)) {
-                        this.view = new View(Game.loadNewImage(`assets/img/rooms/${door.room}.jpg`))
+                        this.view = new Room1(Game.loadNewImage(`assets/img/rooms/room1.jpg`), this.canvas)
                         this.player.inRoom = true;
                     }
                 }
@@ -149,4 +154,7 @@ class Game {
         return img;
     }
 
+    public static getMouseClick(x: number, y: number) {
+        console.log(x)
+    }
 }
