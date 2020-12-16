@@ -4,6 +4,7 @@ class Game {
     private view: View;
     private readonly canvas: HTMLCanvasElement;
     private doorLocations: any;
+    private lobbies: any
 
     public constructor(canvas: HTMLElement, playerName: string, characterName: string) {
         this.canvas = <HTMLCanvasElement>canvas;
@@ -12,46 +13,64 @@ class Game {
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallwayA.png'))
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), this.canvas.width, this.canvas.height, this.view)
         // Start the animation
+        this.lobbies = [
+            {
+                name: 'lobby',
+                minX: 0,
+                minY: 0,
+                maxX: this.player.img.width,
+                maxY: this.canvas.height / 2,
+                img: 'B'
+            },
+            {
+                name: 'lobby',
+                minX: this.canvas.width,
+                minY: this.canvas.height / 2,
+                maxX: this.canvas.width - this.player.img.width,
+                maxY: this.canvas.height,
+                img: 'A'
+            }
+        ]
         this.doorLocations = [
             {
-                name: 'door1',
+                name: 'door',
                 minX: this.canvas.width / 35,
                 minY: this.canvas.height / 1.7,
                 maxX: this.canvas.width / 6,
                 maxY: this.canvas.height / 1.1,
-                room: 'room1'
+                img: 'room1'
             },
             {
-                name: 'door2',
+                name: 'door',
                 minX: this.canvas.width / 3.4,
                 minY: this.canvas.height / 1.7,
                 maxX: this.canvas.width / 2.25,
                 maxY: this.canvas.height / 1.1,
-                room: 'room2'
+                img: 'room2'
             },
             {
-                name: 'door3',
+                name: 'door',
                 minX: this.canvas.width / 1.85,
                 minY: this.canvas.height / 1.7,
                 maxX: this.canvas.width / 1.45,
                 maxY: this.canvas.height / 1.1,
-                room: 'room3'
+                img: 'room3'
             },
             {
-                name: 'door4',
+                name: 'door',
                 minX: this.canvas.width / 6,
                 minY: this.canvas.height / 5,
                 maxX: this.canvas.width / 3.2,
                 maxY: this.canvas.height / 2,
-                room: 'room4'
+                img: 'room4'
             },
             {
-                name: 'door5',
+                name: 'door',
                 minX: this.canvas.width / 6,
                 minY: this.canvas.height / 5,
                 maxX: this.canvas.width / 1.76,
                 maxY: this.canvas.height / 2,
-                room: 'room5'
+                img: 'room5'
             },
         ]
         console.log('start animation');
@@ -74,8 +93,13 @@ class Game {
 
     public update() {
         this.player.update(this.canvas.width, this.canvas.height)
-        this.doorDetection()
+        this.doorAndLobbyDetection(this.doorLocations)
+        this.doorAndLobbyDetection(this.lobbies)
         this.returnToLobby()
+    }
+
+    public static test(x: number, y: number) {
+        console.log(x)
     }
 
 
@@ -88,21 +112,33 @@ class Game {
 
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
+        ctx.beginPath();
+        ctx.rect(0, this.canvas.height / 2, 150, 100);
+        ctx.stroke();
     }
 
-    public doorDetection() {
+    public doorAndLobbyDetection(list: any) {
         let playerX: number = this.player.x + (this.player.img.width / 2)
         let playerY: number = this.player.y + (this.player.img.height / 2)
-        this.doorLocations.forEach((door: any) => {
-                if ((playerX >= door.minX) && (playerX <= door.maxX) && (playerY >= door.minY) && (playerY <= door.maxY)) {
-                    if (this.player.keyListener.isKeyDown(13)) {
-                        this.view = new View(Game.loadNewImage(`assets/img/rooms/${door.room}.jpg`))
-                        this.player.inRoom = true;
+        list.forEach((obj: any) => {
+                if ((playerX >= obj.minX) && (playerX <= obj.maxX) && (playerY >= obj.minY) && (playerY <= obj.maxY)) {
+                    switch (obj.name) {
+                        case 'lobby':
+                            this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
+                            break;
+                        case 'door':
+                            if (this.player.keyListener.isKeyDown(13)) {
+                                this.view = new View(Game.loadNewImage(`assets/img/rooms/${obj.img}.jpg`))
+                                this.player.inRoom = true;
+                            }
+                            break;
                     }
+
                 }
             }
         )
     }
+
 
     public returnToLobby() {
         if (this.player.keyListener.isKeyDown(27)) {
