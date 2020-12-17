@@ -1,6 +1,6 @@
 /// <reference path="View.ts"/>
 
-class Room1 extends View {
+class Room extends View {
 
     private mouseX: number;
     private mouseY: number;

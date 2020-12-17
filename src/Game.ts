@@ -2,7 +2,7 @@ class Game {
 
     private player: Player;
     private view: View;
-    private room: Room1;
+    private room: Room;
     private readonly canvas: HTMLCanvasElement;
     private doorLocations: any;
     private lobbies: any
