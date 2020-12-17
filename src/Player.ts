@@ -15,8 +15,6 @@ class Player {
         this._view = view
         this._characterName = charachterName
         this._img = img;
-
-
         this._x = (canvasWidth / 2) - (this._img.width / 2)
         this._y = 500
         this.keyListener = new KeyListener

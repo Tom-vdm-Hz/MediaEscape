@@ -13,69 +13,9 @@ class Game {
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallwayA.png'))
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), this.canvas.width, this.canvas.height, this.view)
         // Start the animation
-        this.lobbies = [
-            {
-                name: 'lobby',
-                minX: 0,
-                minY: 0,
-                maxX: this.player.img.width,
-                maxY: this.canvas.height / 2,
-                img: 'B'
-            },
-            {
-                name: 'lobby',
-                minX: this.canvas.width,
-                minY: this.canvas.height / 2,
-                maxX: this.canvas.width - this.player.img.width,
-                maxY: this.canvas.height,
-                img: 'A'
-            }
-        ]
-        this.doorLocations = [
-            {
-                name: 'door',
-                minX: this.canvas.width / 35,
-                minY: this.canvas.height / 1.7,
-                maxX: this.canvas.width / 6,
-                maxY: this.canvas.height / 1.1,
-                img: 'room1'
-            },
-            {
-                name: 'door',
-                minX: this.canvas.width / 3.4,
-                minY: this.canvas.height / 1.7,
-                maxX: this.canvas.width / 2.25,
-                maxY: this.canvas.height / 1.1,
-                img: 'room2'
-            },
-            {
-                name: 'door',
-                minX: this.canvas.width / 1.85,
-                minY: this.canvas.height / 1.7,
-                maxX: this.canvas.width / 1.45,
-                maxY: this.canvas.height / 1.1,
-                img: 'room3'
-            },
-            {
-                name: 'door',
-                minX: this.canvas.width / 6,
-                minY: this.canvas.height / 5,
-                maxX: this.canvas.width / 3.2,
-                maxY: this.canvas.height / 2,
-                img: 'room4'
-            },
-            {
-                name: 'door',
-                minX: this.canvas.width / 6,
-                minY: this.canvas.height / 5,
-                maxX: this.canvas.width / 1.76,
-                maxY: this.canvas.height / 2,
-                img: 'room5'
-            },
-        ]
+        this.fillLists()
         console.log('start animation');
         requestAnimationFrame(this.step);
-
     }
 
 
@@ -112,9 +52,6 @@ class Game {
 
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
-        ctx.beginPath();
-        ctx.rect(0, this.canvas.height / 2, 150, 100);
-        ctx.stroke();
     }
 
     public doorAndLobbyDetection(list: any) {
@@ -125,6 +62,14 @@ class Game {
                     switch (obj.name) {
                         case 'lobby':
                             this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
+                            switch (obj.img) {
+                                case 'A':
+                                    this.player.x = this.canvas.width / 29
+                                    break
+                                case 'B':
+                                    this.player.x = this.canvas.width / 1.07
+                                    break
+                            }
                             break;
                         case 'door':
                             if (this.player.keyListener.isKeyDown(13)) {
@@ -183,6 +128,69 @@ class Game {
         const img = new Image();
         img.src = source;
         return img;
+    }
+
+    public fillLists() {
+        this.lobbies = [
+            {
+                name: 'lobby',
+                minX: 0,
+                minY: 0,
+                maxX: this.canvas.width / 30,
+                maxY: this.canvas.height,
+                img: 'B'
+            },
+            {
+                name: 'lobby',
+                minX: this.canvas.width / 1.05,
+                minY: 0,
+                maxX: this.canvas.width,
+                maxY: this.canvas.height,
+                img: 'A'
+            }
+        ]
+        this.doorLocations = [
+            {
+                name: 'door',
+                minX: this.canvas.width / 35,
+                minY: this.canvas.height / 1.7,
+                maxX: this.canvas.width / 6,
+                maxY: this.canvas.height / 1.1,
+                img: 'room1'
+            },
+            {
+                name: 'door',
+                minX: this.canvas.width / 3.4,
+                minY: this.canvas.height / 1.7,
+                maxX: this.canvas.width / 2.25,
+                maxY: this.canvas.height / 1.1,
+                img: 'room2'
+            },
+            {
+                name: 'door',
+                minX: this.canvas.width / 1.85,
+                minY: this.canvas.height / 1.7,
+                maxX: this.canvas.width / 1.45,
+                maxY: this.canvas.height / 1.1,
+                img: 'room3'
+            },
+            {
+                name: 'door',
+                minX: this.canvas.width / 6,
+                minY: this.canvas.height / 5,
+                maxX: this.canvas.width / 3.2,
+                maxY: this.canvas.height / 2,
+                img: 'room4'
+            },
+            {
+                name: 'door',
+                minX: this.canvas.width / 6,
+                minY: this.canvas.height / 5,
+                maxX: this.canvas.width / 1.76,
+                maxY: this.canvas.height / 2,
+                img: 'room5'
+            },
+        ]
     }
 
 }
