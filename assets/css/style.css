@@ -7,6 +7,18 @@ html {
     background-size: cover;
 }
 
+.div {
+    text-align: center;
+}
+.title {
+    color: #FDD835;
+    -webkit-text-stroke: 2px #990000;
+    text-align: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 80px;
+    text-shadow:5px 5px 10px #FF6600;
+}
+
 .explanationbutton {
     background-color: #FF0000; 
     border: 5px solid #FF6600 ;
@@ -19,19 +31,22 @@ html {
     font-size: 50px;
     margin: 5px 710px;
     cursor: pointer;
-    font-family: "Lucida Console", "Courier New", monospace;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.imgageboy {
-    width: 100px; 
-    height: 200px;
-    margin: 5px 650px;
+.nameInput {
+    color: black;
+    text-align: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.imagegirl {
-    width: 100px; 
-    height: 200px;
-    margin: 5px 650px;
+image {
+    width: 50%;
+    float: left;
+    margin: auto;
+    border: 3px;
+    display: flex;
+    justify-content: center;
 }
 
 .startbutton {
@@ -41,12 +56,12 @@ html {
     color: white;
     padding: 15px 130px;
     text-align: center;
-    text-decoration: none;
+    text-decoration: underline;
     display: inline-block;
     font-size: 50px;
     margin: 5px 575px;
     cursor: pointer;
-    font-family: "Lucida Console", "Courier New", monospace;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .hidden {
