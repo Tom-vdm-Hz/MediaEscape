@@ -1,23 +1,23 @@
 class Player {
-    private _playerName: string
+    private readonly _playerName: string
     private _characterName: string
     private _img: HTMLImageElement;
     private _collectedCodes: number[]
     private _x: number
     private _y: number
-    private _view: View;
     keyListener: KeyListener
     private speed: number = 3
     private _inRoom: boolean = false;
+    private _lobby: string;
 
-    constructor(name: string, charachterName: string, img: HTMLImageElement, canvasWidth: number, canvasHeight: number, view: View) {
+    constructor(name: string, characterName: string, img: HTMLImageElement, canvasWidth: number, canvasHeight: number, lobby: string) {
         this._playerName = name;
-        this._view = view
-        this._characterName = charachterName
+        this._characterName = characterName
         this._img = img;
         this._x = (canvasWidth / 2) - (this._img.width / 2)
-        this._y = 500
+        this._y = (canvasHeight - this.img.height)
         this.keyListener = new KeyListener
+        this._lobby = lobby
     }
 
     public update(canvasWidth: number, canvasHeight: number) {
@@ -76,18 +76,6 @@ class Player {
         return this._playerName;
     }
 
-    set playerName(value: string) {
-        this._playerName = value;
-    }
-
-    get collectedCodes(): number[] {
-        return this._collectedCodes;
-    }
-
-    set collectedCodes(value: number[]) {
-        this._collectedCodes = value;
-    }
-
     get x(): number {
         return this._x;
     }
@@ -122,17 +110,21 @@ class Player {
     }
 
 
-    set view(value: View) {
-        this._view = value;
-    }
-
-
     get inRoom(): boolean {
         return this._inRoom;
     }
 
     set inRoom(value: boolean) {
         this._inRoom = value;
+    }
+
+
+    get lobby(): string {
+        return this._lobby;
+    }
+
+    set lobby(value: string) {
+        this._lobby = value;
     }
 }
 
