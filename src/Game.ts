@@ -4,13 +4,14 @@ class Game {
     private view: View;
     private readonly canvas: HTMLCanvasElement;
     private doorLocations: any;
-
-    public constructor(canvas: HTMLElement, playerName: string, characterName: string) {
+    private questions: Questions
+    public constructor(canvas: HTMLElement, playerName: string, characterName: string, extrainfo: string, answer: string) {
         this.canvas = <HTMLCanvasElement>canvas;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallwayA.png'))
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), this.canvas.width, this.canvas.height, this.view)
+        this.questions = new Questions(extrainfo, answer)
         // Start the animation
         this.doorLocations = [
             {
@@ -88,6 +89,7 @@ class Game {
 
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
+        this.questions.draw()
     }
 
     public doorDetection() {
