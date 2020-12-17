@@ -2,9 +2,8 @@
 
 class Room1 extends View {
 
-    private mouseX: number
-    private mouseY: number
-    private mouseMove: any;
+    private mouseX: number;
+    private mouseY: number;
     private clickableItems: any;
 
     public constructor(room: HTMLImageElement, canvas: HTMLCanvasElement) {
@@ -13,34 +12,20 @@ class Room1 extends View {
         this.clickableItems = [
             {
                 name: 'item1',
-                minX: canvas.width / 100,
-                minY: canvas.height / 100,
-                maxX: canvas.width / 100,
-                maxY: canvas.height / 100
+                minX: 100,
+                minY: 100,
+                maxX: 100,
+                maxY: 100,
             }
         ]
     };
 
-    public getMousePosition(event: any) {
-        this.mouseMove.addEventListener("mousemove", () => {
-        this.mouseX = event.window.clientX
-        this.mouseY = event.window.clientY
-        console.log(this.mouseX, this.mouseY)
+    public clickHandler(event: any) {
+        this.clickableItems.item1.addEventListener('click', () => {
+            alert('question placeholder');
         })
-    }    
-    public clickedItem(event: any) {
-        this.getMousePosition(event);
-        this.clickableItems.forEach((item: any) => {
-            if ((this.mouseX >= item.minX) &&
-                (this.mouseY <= item.maxX) &&
-                (this.mouseX >= item.minY) &&
-                (this.mouseY <= item.maxY)) {
-                alert("question placeholder")
-            }
-        }
-    )} 
-    
-    
+        
+    }
 }
 
 
