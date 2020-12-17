@@ -1,9 +1,12 @@
 console.log("Javascript is working!");
+document.getElementById("canvas").classList.add("hidden");
+let myStartButton = document.getElementById("startButton");
 
 // Add EventListener to load the game whenever the browser is ready
-window.addEventListener('load', () => {
-    console.log("Handling the Load event");
-
+myStartButton.addEventListener('click', () => {
+    console.log("starting game!");
+    document.getElementById("canvas").classList.remove("hidden");
+    document.getElementById("canvas").classList.add("visible");
     const game = new Game(document.getElementById('canvas'), 'a', 'A');
 });
 
@@ -20,8 +23,4 @@ let canvasElem = document.querySelector("canvas");
 canvasElem.addEventListener("mousedown", function (e) {
     getMousePosition(canvasElem, e);
 });
-
-
-
-
 
