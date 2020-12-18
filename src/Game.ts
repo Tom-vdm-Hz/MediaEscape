@@ -58,29 +58,29 @@ class Game {
         let playerX: number = this.player.x + (this.player.img.width / 2)
         let playerY: number = this.player.y + (this.player.img.height / 2)
         list.forEach((obj: any) => {
-                if ((playerX >= obj.minX) && (playerX <= obj.maxX) && (playerY >= obj.minY) && (playerY <= obj.maxY)) {
-                    switch (obj.name) {
-                        case 'lobby':
-                            this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
-                            switch (obj.img) {
-                                case 'A':
-                                    this.player.x = this.canvas.width / 29
-                                    break
-                                case 'B':
-                                    this.player.x = this.canvas.width / 1.07
-                                    break
-                            }
-                            break;
-                        case 'door':
-                            if (this.player.keyListener.isKeyDown(13)) {
-                                this.view = new View(Game.loadNewImage(`assets/img/rooms/${obj.img}.jpg`))
-                                this.player.inRoom = true;
-                            }
-                            break;
-                    }
-
+            if ((playerX >= obj.minX) && (playerX <= obj.maxX) && (playerY >= obj.minY) && (playerY <= obj.maxY)) {
+                switch (obj.name) {
+                    case 'lobby':
+                        this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
+                        switch (obj.img) {
+                            case 'A':
+                                this.player.x = this.canvas.width / 29
+                                break
+                            case 'B':
+                                this.player.x = this.canvas.width / 1.07
+                                break
+                        }
+                        break;
+                    case 'door':
+                        if (this.player.keyListener.isKeyDown(13)) {
+                            this.view = new View(Game.loadNewImage(`assets/img/rooms/${obj.img}.jpg`))
+                            this.player.inRoom = true;
+                        }
+                        break;
                 }
+
             }
+        }
         )
     }
 
