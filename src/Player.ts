@@ -29,6 +29,7 @@ class Player {
         let floorDivider: number = canvasHeight / 2.07;
         let feetLocation: number = this.y + this.img.height
         if (this.inRoom === false) {
+
             //a key is pressed
             if (this.keyListener.isKeyDown(65)) {
                 if (this.x >= 0) {
@@ -36,20 +37,7 @@ class Player {
                 }
                 this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Left.png`)
             }
-            //w key is pressed
-            if (this.keyListener.isKeyDown(87)) {
-                switch (this.lobby) {
-                    case 'hallwayA.png':
-                        if (this.x > canvasWidth / 1.15) {
-                            this._x = canvasWidth / 1.15 - (this.img.width * 2)
-                            this._y = canvasHeight / 2.07 - this.img.height
-                        }
-                        break;
-                    case 'hallwayB.png':
-                        break;
-                }
-                this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Back.png`)
-            }
+
             //d key is pressed
             if (this.keyListener.isKeyDown(68)) {
                 if (canvasWidth >= this.x + this._img.width) {
@@ -57,16 +45,40 @@ class Player {
                 }
                 this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Right.png`)
             }
+
+            //w key is pressed
+            if (this.keyListener.isKeyDown(87)) {
+                switch (this.lobby) {
+                    case 'hallwayA.png':
+                        if (this.x > canvasWidth / 1.15 && this.x < canvasWidth && this.y > floorDivider) {
+                            this._x = canvasWidth / 1.15 - (this.img.width * 2)
+                            this._y = canvasHeight / 2.07 - this.img.height
+                        }
+                        break;
+                    case 'hallwayB.png':
+                        if (this.x > 0 && this.x < canvasWidth / 8 && this.y > floorDivider) {
+                            this._x = canvasWidth / 4.5 - this.img.width
+                            this._y = canvasHeight / 2.07 - this.img.height
+                        }
+                        break;
+                }
+                this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Back.png`)
+            }
+
             //s key is pressed
             if (this.keyListener.isKeyDown(83)) {
                 switch (this.lobby) {
                     case 'hallwayA.png':
-                        if (this.x > canvasWidth / 1.3) {
+                        if (this.x > canvasWidth / 1.3 && this.x < canvasWidth / 1.15 && this.y < floorDivider) {
                             this._x = canvasWidth / 1.1
                             this._y = canvasHeight - this.img.height
                         }
                         break;
                     case 'hallwayB.png':
+                        if (this.x > canvasWidth / 8 && this.x < canvasWidth / 4.5 && this.y < floorDivider) {
+                            this._x = canvasWidth / 8 - (this.img.width * 2)
+                            this._y = canvasHeight - this.img.height
+                        }
                         break;
                 }
 
@@ -90,9 +102,6 @@ class Player {
         if (this._inRoom === false) {
             ctx.drawImage(this._img, this._x, this._y)
         }
-        ctx.beginPath();
-        ctx.rect(this.x, this.y + this.img.height, 10, 10);
-        ctx.stroke();
     }
 
 
