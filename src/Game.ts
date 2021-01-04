@@ -57,9 +57,11 @@ class Game {
         const ctx = this.canvas.getContext('2d');
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
+        ctx.beginPath();
+        ctx.rect(this.canvas.width / 4.2, this.canvas.height / 2.07, 10, 10);
+        ctx.stroke();
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {

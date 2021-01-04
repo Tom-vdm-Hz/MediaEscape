@@ -34,20 +34,39 @@ class Player {
         let groundFloorMax: number = canvasHeight - this.img.height
         let firstFloorMin: number = canvasHeight / 2
         let firstFloorMax: number = (canvasHeight / 2) - this.img.height
+
+
+        let stairAMin1X: number = canvasWidth - (canvasWidth / 4.2)
+        let stairAMin1Y: number = canvasHeight / 2.1
+        let stairAMax1X: number = canvasWidth - (canvasWidth / 18)
+        let stairAMax1Y: number = canvasHeight / 1.4
+
+        let stairAMin2X: number = canvasWidth - (canvasWidth / 5.5)
+        let stairAMin2Y: number = canvasHeight / 1.4
+        let stairAMax2X: number = canvasWidth
+        let stairAMax2Y: number = canvasHeight
+
+        let stairBMin1X: number = canvasWidth / 4.2
+        let stairBMin1Y: number = canvasHeight / 2.1
+        let stairBMax1X: number = canvasWidth / 18
+        let stairBMax1Y: number = canvasHeight / 1.4
+
+        let stairBMin2X: number = canvasWidth / 5.5
+        let stairBMin2Y: number = canvasHeight / 1.4
+        let stairBMax2X: number = 0
+        let stairBMax2Y: number = canvasHeight
+
+
         //a key is pressed
         if (this.keyListener.isKeyDown(65)) {
             if (this.x >= 0) {
-                if ((this.y + this.img.height >= firstFloorMax && this.y + this.img.height <= firstFloorMin) ||
-                    (this.y + this.img.height >= groundFloorMax && this.y + this.img.height <= groundFloorMin) ||
-                    (this.x >= stairStart)) {
-                    this.x -= this.speed
-                }
+                this.x -= this.speed
             }
             this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Left.png`)
         }
         //w key is pressed
         if (this.keyListener.isKeyDown(87)) {
-            if (this.y >= 0 && this.x >= stairStart) {
+            if (this.y >= 0) {
                 this.y -= this.speed
             }
             this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Back.png`)
@@ -61,10 +80,23 @@ class Player {
         }
         //s key is pressed
         if (this.keyListener.isKeyDown(83)) {
-            if (canvasHeight >= this.y + this._img.height && this.x >= stairStart) {
+            if (canvasHeight >= this.y + this._img.height) {
                 this.y += this.speed
             }
             this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Front.png`)
+        }
+
+        this.applySimpleGravity(canvasHeight)
+    }
+
+    private applySimpleGravity(canvasHeight: number) {
+        let floorDivider: number = canvasHeight / 2.07;
+        let feetLocation: number = this.y + this.img.height
+        if (feetLocation > floorDivider + 5 && feetLocation < canvasHeight) {
+            this.y += 2;
+        }
+        if (feetLocation < floorDivider && feetLocation < floorDivider - 5) {
+            this.y += 2;
         }
     }
 
@@ -72,6 +104,9 @@ class Player {
         if (this._inRoom === false) {
             ctx.drawImage(this._img, this._x, this._y)
         }
+        ctx.beginPath();
+        ctx.rect(this.x, this.y + this.img.height, 10, 10);
+        ctx.stroke();
     }
 
 
