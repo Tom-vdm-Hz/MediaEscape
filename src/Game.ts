@@ -60,7 +60,10 @@ class Game {
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
         ctx.beginPath();
-        ctx.rect(this.canvas.width / 4.2, this.canvas.height / 2.07, 10, 10);
+        ctx.rect(this.canvas.width / 1.3, this.canvas.height / 2.07, 10, 10);
+        ctx.rect(this.canvas.width / 1.15, this.canvas.height / 2.07, 10, 10);
+        ctx.rect(this.canvas.width / 1.15, this.canvas.height - 20, 10, 10);
+        ctx.rect(this.canvas.width, this.canvas.height - 20, 10, 10);
         ctx.stroke();
     }
 
