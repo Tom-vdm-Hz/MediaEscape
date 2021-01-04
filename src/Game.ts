@@ -59,9 +59,6 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
-        ctx.beginPath();
-        ctx.rect(this.canvas.width / 8, this.canvas.height - 20, 10, 10);
-        ctx.stroke();
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {
