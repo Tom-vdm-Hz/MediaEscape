@@ -1,27 +1,36 @@
-canvas {
-    background-image: url("../images/nebula-bg.jpg");
+html, body {
+    width: 100%;
+    height: 100%;
+    /* remove the extra whites around */
+    margin: 0;
 }
 
-html { 
-    background: url("../img/startscreen/front-hotel-street-2.jpg") no-repeat center fixed; 
+#canvas {
+    width: 100%;
+    height: 100%;
+}
+
+html {
+    background: url("../img/startscreen/front-hotel-street-2.jpg") no-repeat center fixed;
     background-size: cover;
 }
 
 .div {
     text-align: center;
 }
+
 .title {
     color: #FDD835;
     -webkit-text-stroke: 2px #990000;
     text-align: center;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 80px;
-    text-shadow:5px 5px 10px #FF6600;
+    text-shadow: 5px 5px 10px #FF6600;
 }
 
 .explanationbutton {
-    background-color: #FF0000; 
-    border: 5px solid #FF6600 ;
+    background-color: #FF0000;
+    border: 5px solid #FF6600;
     border-radius: 50%;
     color: white;
     padding: 15px 50px;
@@ -31,13 +40,13 @@ html {
     font-size: 50px;
     margin: 5px 710px;
     cursor: pointer;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .nameInput {
     color: black;
     text-align: center;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 image {
@@ -50,8 +59,8 @@ image {
 }
 
 .startbutton {
-    background-color: #FF0000; 
-    border: 5px solid #FF6600 ;
+    background-color: #FF0000;
+    border: 5px solid #FF6600;
     border-radius: 20px;
     color: white;
     padding: 15px 130px;
@@ -70,4 +79,8 @@ image {
 
 .visible {
     display: initial;
+}
+
+.block {
+    display: block;
 }

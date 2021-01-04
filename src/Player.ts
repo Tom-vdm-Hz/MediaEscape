@@ -14,10 +14,14 @@ class Player {
         this._playerName = name;
         this._characterName = characterName
         this._img = img;
-        this._x = (canvasWidth / 2) - (this._img.width / 2)
-        this._y = (canvasHeight - this.img.height)
+        // this._x = (canvasWidth / 2) - (this._img.width / 2)
+        // this._y = canvasHeight - this.img.height
+        this._x = canvasWidth / 2
+        this._y = canvasHeight - 231
         this.keyListener = new KeyListener
         this._lobby = lobby
+        console.log(`x:${this.x}`)
+        console.log(`y:${this.y}`)
     }
 
     public update(canvasWidth: number, canvasHeight: number) {

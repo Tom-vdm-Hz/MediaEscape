@@ -11,8 +11,7 @@ class Game {
         this.canvas = <HTMLCanvasElement>canvas;
         this.canvas.width = windowWidth;
         this.canvas.height = windowHeight;
-        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), windowWidth, windowHeight, 'hallwayA.png')
-        console.log(this.player.img)
+        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), this.canvas.width, this.canvas.height, 'hallwayA.png')
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallwayA.png'))
 
         // Start the animation
