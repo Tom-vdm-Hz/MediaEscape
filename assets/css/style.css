@@ -10,6 +10,10 @@ html, body {
     height: 100%;
 }
 
+.block {
+    display: block;
+}
+
 html {
     background: url("../img/startscreen/front-hotel-street-2.jpg") no-repeat center fixed;
     background-size: cover;
@@ -79,8 +83,4 @@ image {
 
 .visible {
     display: initial;
-}
-
-.block {
-    display: block;
 }

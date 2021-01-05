@@ -7,7 +7,9 @@ let myStartButton = document.getElementById("startButton");
 myStartButton.addEventListener('click', () => {
     console.log("starting game!");
     document.getElementById("canvas").classList.remove("hidden");
-    document.getElementById("canvas").classList.add("visible");
+    document.getElementById("canvas").classList.add("block");
+    document.getElementById("startScreen").classList.add("hidden");
+    document.getElementById("startScreen").classList.remove("visible");
     const game = new Game(document.getElementById('canvas'), 'a', 'A', window.innerHeight, window.innerWidth);
 });
 
