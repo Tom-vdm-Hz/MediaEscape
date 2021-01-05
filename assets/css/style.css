@@ -15,21 +15,22 @@ html {
     -webkit-text-stroke: 2px #990000;
     text-align: center;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 80px;
+    font-size: 100px;
     text-shadow:5px 5px 10px #FF6600;
+    margin: 5px;
 }
 
 .explanationbutton {
     background-color: #FF0000; 
     border: 5px solid #FF6600 ;
-    border-radius: 50%;
+    border-radius: 75%;
     color: white;
-    padding: 15px 50px;
+    padding: 15px 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 50px;
-    margin: 5px 710px;
+    font-size: 20px;
+    margin: 0px 630px;
     cursor: pointer;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
@@ -79,6 +80,7 @@ html {
     color: black;
     text-align: center;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 5px;
 }
 
 image {
