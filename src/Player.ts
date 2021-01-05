@@ -9,6 +9,7 @@ class Player {
     private speed: number = 3
     private _inRoom: boolean = false;
     private _lobby: string;
+    private lastWalkImg: number = 1
 
     constructor(name: string, characterName: string, img: HTMLImageElement, canvasWidth: number, canvasHeight: number, lobby: string) {
         this._playerName = name;
@@ -35,7 +36,8 @@ class Player {
                 if (this.x >= 0) {
                     this.x -= this.speed
                 }
-                this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Left.png`)
+                this.img = Game.loadNewImage(`assets/img/players/walkCycle${this.playerName}/left/char${this.playerName}${this.lastWalkImg}Left.png`)
+                this.lastWalkImg++
             }
 
             //d key is pressed
@@ -43,7 +45,8 @@ class Player {
                 if (canvasWidth >= this.x + this._img.width) {
                     this.x += this.speed
                 }
-                this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}Right.png`)
+                this.img = Game.loadNewImage(`assets/img/players/walkCycle${this.playerName}/right/char${this.playerName}${this.lastWalkImg}Right.png`)
+                this.lastWalkImg++
             }
 
             //w key is pressed

@@ -14,13 +14,12 @@ class Game {
         this.canvas = <HTMLCanvasElement>canvas;
         this.canvas.width = windowWidth;
         this.canvas.height = windowHeight;
+
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), this.canvas.width, this.canvas.height, 'hallwayA.png')
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallwayA.png'))
-        // Start the animation
+
         this.fillLists()
         this.createRooms()
-
-
         requestAnimationFrame(this.step);
     }
 
@@ -39,18 +38,19 @@ class Game {
 
     public update() {
         this.player.update(this.canvas.width, this.canvas.height)
+
         if (this.getImgName(this.view.img).includes('A')) {
             this.doorAndLobbyDetection(this.doorLocationsLobbyA)
         } else if (this.getImgName(this.view.img).includes('B')) {
             this.doorAndLobbyDetection(this.doorLocationsLobbyB)
         }
+
         this.doorAndLobbyDetection(this.lobbies)
         this.returnToLobby()
     }
 
 
     public getCursorPosition(x: number, y: number) {
-        console.log(this.activeQuestion)
         if (this.activeRoom != null && this.activeQuestion === undefined) {
             let question = this.activeRoom.checkClick(x, y)
             if (question != null) {
@@ -66,11 +66,14 @@ class Game {
         const ctx = this.canvas.getContext('2d');
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
+
         ctx.beginPath();
         ctx.rect(this.canvas.width / 1.12, this.canvas.height / 1.4, 10, 10);
         ctx.stroke();
+
         if (this.activeQuestion != undefined) {
             Game.writeTextToCanvas(ctx, this.activeQuestion.question, this.canvas.width / 2, this.canvas.height / 2)
         }
