@@ -2,6 +2,7 @@ class Game {
 
     private player: Player;
     private view: View;
+    private room: Room;
     private readonly canvas: HTMLCanvasElement;
     private doorLocationsLobbyA: collisionObj[];
     private doorLocationsLobbyB: collisionObj[];
@@ -58,6 +59,9 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
+        ctx.beginPath();
+        ctx.rect(this.canvas.width / 100, this.canvas.height / 100, this.canvas.width / 100, this.canvas.height / 100);
+        ctx.stroke()
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {
