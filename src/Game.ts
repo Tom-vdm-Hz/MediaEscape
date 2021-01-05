@@ -171,10 +171,10 @@ class Game {
 
 
     private createRooms() {
-        let basic1: Room = new RoomBasic1(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height)
-        let basic2: Room = new RoomBasic2(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height)
+        let basic1: Room = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height)
+        let basic2: Room = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height)
         let bath: Room = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height)
-        let beach: Room = new RoomBeach403(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height)
+        let beach: Room = new RoomBeach402(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height)
         let chinese: Room = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height)
         let future: Room = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height)
         let penthouse: Room = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height)
@@ -257,7 +257,7 @@ class Game {
                 minY: this.canvas.height / 5,
                 maxX: this.canvas.width / 1.76,
                 maxY: this.canvas.height / 2,
-                img: 'room6'
+                img: 'room7'
             },
             {
                 name: 'vault',
