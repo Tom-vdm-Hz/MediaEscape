@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,26 +15,65 @@
     <div class="div" id="div">
         <canvas id="canvas"></canvas>
         <h1 class="title" id="title">Media Escape</h1>
-        <button type="explanationbutton" id="explanationbutton" class="explanationbutton">?</button>
+        
+        <!-- Trigger/Open The Modal -->
+        <button type="explanationbutton" id="explanationbutton" class="explanationbutton">Uitleg en Besturing</button>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Hier ga je iets leren over nepnieuws en informatie opzoeken. dat ga je doen door in verschillende
+                hotelkamers vragen goed te beantwoorden en spelletjes te spelen.<br><br>
+                In elke hotelkamer is er een cijfer verstopt die je moet vinden en onthouden. Als je alle hotelkamers langs bent gegaan dan
+                heb je (7) cijfers achterhaald waar je een code mee kan vormen om de kluis te openen en het spel te winnen.</p>
+            </div>
+
+        </div>
+
+
         <form action="/action_page.php" class="nameInput" id="nameInput">
             <label for="fname">Naam:</label><br>
             <input type="text" id="fname" name="fname" value="John"><br><br>
             <input type="submit" value="Submit">
         </form>
-        <!-- <img src="./assets\img\startscreen\boy-character.png" alt="" class="imageboy" id="imageboy">
-        <img src="./assets\img\startscreen\boy-character.png" alt="" class="imagegirl" id="imagegirl"> -->
-
-        <div class="image"><a href="./assets\img\startscreen\boy-character.png" >
-            <img src="./assets\img\startscreen\boy-character.png" alt="" /></a>
+        <div class="image"><a href="./assets\img\startscreen\boy-character.png">
+                <img src="./assets\img\startscreen\boy-character.png" alt="" /></a>
         </div>
 
-        <div class="image"><a href="./assets\img\startscreen\boy-character.png" >
-            <img src="./assets\img\startscreen\boy-character.png" alt="" /></a>
-         </div>
+        <div class="image"><a href="./assets\img\startscreen\boy-character.png">
+                <img src="./assets\img\startscreen\boy-character.png" alt="" /></a>
+        </div>
         <button type="startbutton" id="startButton" class="startbutton">Start</button>
     </div>
 
-    <script src="./build/app.js"></script>
+    <script src="./build/app.js">
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("explanationbutton");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>
