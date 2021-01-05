@@ -11,7 +11,7 @@ class Game {
         this.canvas = <HTMLCanvasElement>canvas;
         this.canvas.width = windowWidth;
         this.canvas.height = windowHeight;
-        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), windowWidth, windowHeight, 'hallwayA.png')
+        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), this.canvas.width, this.canvas.height, 'hallwayA.png')
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallwayA.png'))
 
         // Start the animation
@@ -57,7 +57,6 @@ class Game {
         const ctx = this.canvas.getContext('2d');
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
     }
