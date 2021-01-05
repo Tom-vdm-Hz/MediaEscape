@@ -2,17 +2,15 @@ class Questions {
 
     protected _extraInfo: string
     protected _answer: string
+    
     public constructor(extrainfo: string, answer: string) {
         this._extraInfo = extrainfo
         this._answer = answer
     }
 
-    public draw() {
-        var canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
-        var context = canvas.getContext('2d');
-    
-        context.font = "20px Calibri";
-        context.fillText("Test Text", 100, 200);
+    public draw(ctx: CanvasRenderingContext2D) {
+        ctx.font = "36px Arial";
+        ctx.fillText("Test Text", 750, 450);
     }
 
     get extraInfo(): string {
