@@ -2,30 +2,28 @@
 
 class Room extends View {
 
-    private mouseX: number;
-    private mouseY: number;
-    private clickableItems: any;
 
-    public constructor(room: HTMLImageElement, canvas: HTMLCanvasElement) {
+    private questions: Question[]
+    private clickableItems: collisionObj[]
+
+
+    public constructor(room: HTMLImageElement, questions: Question[], clickableItems: collisionObj[]) {
         super(room)
-
-        this.clickableItems = [
-            {
-                name: 'item1',
-                minX: 100,
-                minY: 100,
-                maxX: 100,
-                maxY: 100,
-            }
-        ]
+        this.questions = questions
+        this.clickableItems = clickableItems
     };
 
-    public clickHandler(event: any) {
-        this.clickableItems.item1.addEventListener('click', () => {
-            alert('question placeholder');
+    public checkClick(x: number, y: number): Question {
+        let question: Question;
+        this.clickableItems.forEach(obj => {
+            if ((x >= obj.minX) && (x <= obj.maxX) && (y >= obj.minY) && (y <= obj.maxY)) {
+                question = this.questions[Math.floor(Math.random() * this.questions.length)]
+            }
         })
-        
+        return question
     }
+
+
 }
 
 

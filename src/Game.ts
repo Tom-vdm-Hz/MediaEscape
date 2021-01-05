@@ -2,7 +2,9 @@ class Game {
 
     private player: Player;
     private view: View;
-    private room: Room;
+    private activeRoom: Room;
+    private activeQuestion: Question
+    private rooms: Room[] = []
     private readonly canvas: HTMLCanvasElement;
     private doorLocationsLobbyA: collisionObj[];
     private doorLocationsLobbyB: collisionObj[];
@@ -16,8 +18,9 @@ class Game {
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallwayA.png'))
         // Start the animation
         this.fillLists()
+        this.createRooms()
 
-        console.log('start animation');
+
         requestAnimationFrame(this.step);
     }
 
@@ -35,7 +38,6 @@ class Game {
 
 
     public update() {
-        // console.log(`playerY = ${this.player.y}`)
         this.player.update(this.canvas.width, this.canvas.height)
         if (this.getImgName(this.view.img).includes('A')) {
             this.doorAndLobbyDetection(this.doorLocationsLobbyA)
@@ -46,8 +48,15 @@ class Game {
         this.returnToLobby()
     }
 
-    public static test(x: number, y: number) {
-        console.log(x)
+
+    public getCursorPosition(x: number, y: number) {
+        console.log(this.activeQuestion)
+        if (this.activeRoom != null && this.activeQuestion === undefined) {
+            let question = this.activeRoom.checkClick(x, y)
+            if (question != null) {
+                this.activeQuestion = question
+            }
+        }
     }
 
 
@@ -59,9 +68,9 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
-        ctx.beginPath();
-        ctx.rect(this.canvas.width / 100, this.canvas.height / 100, this.canvas.width / 100, this.canvas.height / 100);
-        ctx.stroke()
+        if (this.activeQuestion != undefined) {
+            Game.writeTextToCanvas(ctx, this.activeQuestion.question, this.canvas.width / 2, this.canvas.height / 2)
+        }
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {
@@ -90,8 +99,13 @@ class Game {
                             break;
                         case 'door':
                             if (this.player.keyListener.isKeyDown(13)) {
-                                this.view = new View(Game.loadNewImage(`assets/img/rooms/${obj.img}.jpg`))
-                                this.player.inRoom = true;
+                                this.rooms.forEach(room => {
+                                    if (this.getImgName(room.img) === `${obj.img}.jpg`) {
+                                        this.view = room
+                                        this.activeRoom = room
+                                        this.player.inRoom = true;
+                                    }
+                                })
                             }
                             break;
                     }
@@ -105,6 +119,7 @@ class Game {
     public returnToLobby() {
         if (this.player.keyListener.isKeyDown(27)) {
             this.view = new View(Game.loadNewImage(`assets/img/backgrounds/${this.player.lobby}`))
+            this.activeRoom = null;
             this.player.inRoom = false;
         }
     }
@@ -152,7 +167,18 @@ class Game {
     }
 
 
-    public fillLists() {
+    private createRooms() {
+        let basic1: Room = new RoomBasic1(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height)
+        let basic2: Room = new RoomBasic2(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height)
+        let bath: Room = new RoomBath(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height)
+        let beach: Room = new RoomBeach(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height)
+        let chinese: Room = new RoomChinese(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height)
+        let future: Room = new RoomFuture(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height)
+        let penthouse: Room = new RoomPenthouse(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height)
+        this.rooms.push(basic1, basic2, bath, beach, chinese, future, penthouse)
+    }
+
+    private fillLists() {
         this.lobbies = [
             {
                 name: 'lobby',
@@ -258,5 +284,5 @@ type collisionObj = {
     minY: number,
     maxX: number,
     maxY: number,
-    img: string
+    img?: string
 }
