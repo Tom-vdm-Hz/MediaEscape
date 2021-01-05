@@ -1,5 +1,5 @@
 /// <reference path="Room.ts"/>
-class RoomBath extends Room {
+class RoomChinese400 extends Room {
     constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
         let questions: Question[] = []
         questions.push(

@@ -68,6 +68,9 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
+        ctx.beginPath();
+        ctx.rect(this.canvas.width / 1.12, this.canvas.height / 1.4, 10, 10);
+        ctx.stroke();
         if (this.activeQuestion != undefined) {
             Game.writeTextToCanvas(ctx, this.activeQuestion.question, this.canvas.width / 2, this.canvas.height / 2)
         }
@@ -170,11 +173,11 @@ class Game {
     private createRooms() {
         let basic1: Room = new RoomBasic1(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height)
         let basic2: Room = new RoomBasic2(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height)
-        let bath: Room = new RoomBath(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height)
-        let beach: Room = new RoomBeach(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height)
-        let chinese: Room = new RoomChinese(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height)
-        let future: Room = new RoomFuture(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height)
-        let penthouse: Room = new RoomPenthouse(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height)
+        let bath: Room = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height)
+        let beach: Room = new RoomBeach403(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height)
+        let chinese: Room = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height)
+        let future: Room = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height)
+        let penthouse: Room = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height)
         this.rooms.push(basic1, basic2, bath, beach, chinese, future, penthouse)
     }
 
