@@ -16,16 +16,20 @@ myStartButton.addEventListener('click', () => {
 
 });
 
-function getMousePosition(canvas: HTMLCanvasElement, event: MouseEvent) {
+function getMousePosition(canvas: HTMLCanvasElement, event: MouseEvent, type: string) {
     let rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
-    game.getCursorPosition(x, y);
+    game.getCursorPosition(x, y, type);
 }
 
 let canvasElem = document.querySelector("canvas");
 
 canvasElem.addEventListener("mousedown", function (e) {
-    getMousePosition(canvasElem, e);
+    getMousePosition(canvasElem, e, 'click');
+});
+
+canvasElem.addEventListener("mousemove", function (e) {
+    getMousePosition(canvasElem, e, 'hover');
 });
 

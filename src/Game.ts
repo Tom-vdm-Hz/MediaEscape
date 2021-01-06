@@ -50,11 +50,24 @@ class Game {
     }
 
 
-    public getCursorPosition(x: number, y: number) {
+    public getCursorPosition(x: number, y: number, type: string) {
         if (this.activeRoom != null && this.activeQuestion === undefined) {
-            let question = this.activeRoom.checkClick(x, y)
+            let question = this.activeRoom.checkClick(x, y, type)
             if (question != null) {
                 this.activeQuestion = question
+            }
+        }
+        if (this.activeQuestion != undefined) {
+            switch (this.activeQuestion.checkAnswer(x, y, type)) {
+                case true:
+                    Game.removeItem(this.activeRoom.questions, this.activeQuestion)
+                    this.activeQuestion = undefined;
+                    break;
+                case false:
+                    this.activeQuestion = undefined;
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -66,7 +79,7 @@ class Game {
         const ctx = this.canvas.getContext('2d');
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
+
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
 
@@ -75,7 +88,7 @@ class Game {
         ctx.stroke();
 
         if (this.activeQuestion != undefined) {
-            Game.writeTextToCanvas(ctx, this.activeQuestion.question, this.canvas.width / 2, this.canvas.height / 2)
+            this.activeQuestion.draw(ctx, this.canvas.width, this.canvas.height)
         }
     }
 
@@ -123,7 +136,7 @@ class Game {
 
 
     public returnToLobby() {
-        if (this.player.keyListener.isKeyDown(27)) {
+        if (this.player.keyListener.isKeyDown(27) && this.activeQuestion === undefined) {
             this.view = new View(Game.loadNewImage(`assets/img/backgrounds/${this.player.lobby}`))
             this.activeRoom = null;
             this.player.inRoom = false;
@@ -145,14 +158,19 @@ class Game {
         text: string,
         xCoordinate: number,
         yCoordinate: number,
-        fontSize: number = 20,
-        color: string = "red",
+        fontSize: number = 30,
+        color: string = "black",
         alignment: CanvasTextAlign = "center"
     ) {
         ctx.font = `${fontSize}px sans-serif`;
         ctx.fillStyle = color;
-        ctx.textAlign = alignment;
+        ctx.textAlign = "center";
         ctx.fillText(text, xCoordinate, yCoordinate);
+    }
+
+    public static removeItem(list: any, obj: any) {
+        // @ts-ignore
+        list.slice(list.indexOf(obj), 1);
     }
 
 
