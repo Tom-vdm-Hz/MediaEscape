@@ -9,14 +9,14 @@ class Player {
     private speed: number = 3
     private _inRoom: boolean = false;
     private _lobby: string;
-    private lastWalkImg: number = 1
+    private _lastWalkImg: number = 1
 
     constructor(name: string, characterName: string, img: HTMLImageElement, canvasWidth: number, canvasHeight: number, lobby: string) {
         this._playerName = name;
         this._characterName = characterName
         this._img = img;
         this._x = canvasWidth / 2
-        this._y = canvasHeight - 231 //231 = img height
+        this._y = canvasHeight - 231//231 = img height
         this.keyListener = new KeyListener
         this._lobby = lobby
     }
@@ -36,8 +36,7 @@ class Player {
                 if (this.x >= 0) {
                     this.x -= this.speed
                 }
-                this.img = Game.loadNewImage(`assets/img/players/walkCycle${this.playerName}/left/char${this.playerName}${this.lastWalkImg}Left.png`)
-                this.lastWalkImg++
+                this.walk('left')
             }
 
             //d key is pressed
@@ -45,8 +44,7 @@ class Player {
                 if (canvasWidth >= this.x + this._img.width) {
                     this.x += this.speed
                 }
-                this.img = Game.loadNewImage(`assets/img/players/walkCycle${this.playerName}/right/char${this.playerName}${this.lastWalkImg}Right.png`)
-                this.lastWalkImg++
+                this.walk('right')
             }
 
             //w key is pressed
@@ -91,6 +89,19 @@ class Player {
         }
     }
 
+    private walk(direction: string) {
+        let walkNum: number = this.walkNumCalculation();
+        switch (direction) {
+            case 'right':
+                this.img = Game.loadNewImage(`assets/img/players/walkCycle${this.playerName}/right/char${this.playerName}${walkNum}Right.png`)
+                break;
+            case 'left':
+                this.img = Game.loadNewImage(`assets/img/players/walkCycle${this.playerName}/left/char${this.playerName}${walkNum}Left.png`)
+                break;
+        }
+        this.lastWalkImg++
+    }
+
     private applySimpleGravity(canvasHeight: number, feetLocation: number, floorDivider: number) {
 
         if (feetLocation > floorDivider + 5 && feetLocation < canvasHeight) {
@@ -107,6 +118,38 @@ class Player {
         }
     }
 
+    private walkNumCalculation(): number {
+        if (this.lastWalkImg >= 80) {
+            this.lastWalkImg = 0
+        }
+        if (this.lastWalkImg < 10) {
+            return 10;
+        } else if (this.lastWalkImg > 10 && this.lastWalkImg < 20) {
+            return 20;
+        } else if (this.lastWalkImg > 20 && this.lastWalkImg < 30) {
+            return 30
+        } else if (this.lastWalkImg > 30 && this.lastWalkImg < 40) {
+            return 40
+        } else if (this.lastWalkImg > 40 && this.lastWalkImg < 50) {
+            return 50
+        } else if (this.lastWalkImg > 50 && this.lastWalkImg < 60) {
+            return 60
+        } else if (this.lastWalkImg > 60 && this.lastWalkImg < 70) {
+            return 70
+        } else if (this.lastWalkImg > 70 && this.lastWalkImg < 80) {
+            return 80
+        }
+        return null
+    }
+
+
+    get lastWalkImg(): number {
+        return this._lastWalkImg;
+    }
+
+    set lastWalkImg(value: number) {
+        this._lastWalkImg = value;
+    }
 
     get playerName(): string {
         return this._playerName;
