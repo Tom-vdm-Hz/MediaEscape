@@ -2,6 +2,7 @@ class Player {
     private readonly _playerName: string
     private _characterName: string
     private _img: HTMLImageElement;
+    private _baseImg: HTMLImageElement = Game.loadNewImage(`assets/img/players/charABack.png`)
     private _collectedCodes: number[]
     private _x: number
     private _y: number
@@ -204,6 +205,10 @@ class Player {
 
     set lobby(value: string) {
         this._lobby = value;
+    }
+
+    get baseImg(): HTMLImageElement {
+        return this._baseImg;
     }
 }
 

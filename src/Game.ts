@@ -80,8 +80,8 @@ class Game {
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {
-        let playerX: number = this.player.x + (this.player.img.width / 2)
-        let playerY: number = this.player.y + (this.player.img.height / 2)
+        let playerX: number = this.player.x + (this.player.baseImg.width / 2)
+        let playerY: number = this.player.y + (this.player.baseImg.height / 2)
         list.forEach((obj: collisionObj) => {
                 if ((playerX >= obj.minX) && (playerX <= obj.maxX) && (playerY >= obj.minY) && (playerY <= obj.maxY)) {
                     switch (obj.name) {
@@ -89,14 +89,14 @@ class Game {
                             switch (obj.img) {
                                 case 'A':
                                     if (this.getImgName(this.view.img).includes('B')) {
-                                        this.player.x = this.canvas.width / 29
+                                        this.player.x = this.player.baseImg.width - (this.player.baseImg.width / 2)
                                         this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
                                         this.player.lobby = this.getImgName(this.view.img)
                                     }
                                     break
                                 case 'B':
                                     if (this.getImgName(this.view.img).includes('A')) {
-                                        this.player.x = this.canvas.width / 1.07
+                                        this.player.x = this.canvas.width - (this.player.baseImg.width * 1.1)
                                         this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
                                         this.player.lobby = this.getImgName(this.view.img)
                                     }
@@ -190,13 +190,13 @@ class Game {
                 name: 'lobby',
                 minX: 0,
                 minY: 0,
-                maxX: this.canvas.width / 30,
+                maxX: this.player.baseImg.width / 2,
                 maxY: this.canvas.height,
                 img: 'B'
             },
             {
                 name: 'lobby',
-                minX: this.canvas.width / 1.05,
+                minX: this.canvas.width - (this.player.baseImg.width / 2),
                 minY: 0,
                 maxX: this.canvas.width,
                 maxY: this.canvas.height,
