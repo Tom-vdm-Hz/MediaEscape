@@ -661,7 +661,7 @@ class RoomBasic303 extends Room {
 class RoomBath401 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question(canvasWidth, canvasHeight, 'Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.'), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep'));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',

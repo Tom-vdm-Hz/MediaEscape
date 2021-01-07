@@ -3,8 +3,8 @@ class RoomBath401 extends Room {
     constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
         let questions: Question[] = []
         questions.push(
-            new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')),
-            new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')))
+            new Question(canvasWidth, canvasHeight, 'Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.'),
+            new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep'))
 
         let clickableItems: collisionObj[] = []
         clickableItems.push({
