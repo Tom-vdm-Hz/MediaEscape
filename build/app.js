@@ -139,6 +139,10 @@ class Game {
         if (this.activeQuestion != undefined) {
             this.activeQuestion.draw(ctx, this.canvas.width, this.canvas.height);
         }
+        ctx.beginPath();
+        ctx.rect(this.canvas.width / 35, this.canvas.height / 1.7, 5, 5);
+        ctx.rect(this.canvas.width / 30, this.canvas.height / 1.6, 5, 5);
+        ctx.stroke();
     }
     doorAndLobbyDetection(list) {
         let playerX = this.player.x + (this.player.baseImg.width / 2);
@@ -667,8 +671,8 @@ class RoomBath401 extends Room {
             name: 'question',
             minX: canvasWidth / 35,
             minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            maxX: canvasWidth / 30,
+            maxY: canvasHeight / 1.6,
         }, {
             name: 'question',
             minX: canvasWidth / 3.4,

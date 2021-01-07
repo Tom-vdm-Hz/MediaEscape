@@ -11,8 +11,8 @@ class RoomBath401 extends Room {
                 name: 'question',
                 minX: canvasWidth / 35,
                 minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 6,
-                maxY: canvasHeight / 1.1,
+                maxX: canvasWidth / 30,
+                maxY: canvasHeight / 1.6,
             },
             {
                 name: 'question',
