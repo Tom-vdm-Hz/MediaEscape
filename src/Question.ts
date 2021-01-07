@@ -2,15 +2,14 @@ class Question {
 
     private readonly _question: string
     private readonly _extraInfo: string
-    private readonly _goodAnswer: string;
-    private goodAnswerCoordinates: coordinates;
-    private readonly _badAnswer: string
-    private badAnswerCoordinates: coordinates;
+    private readonly _goodAnswer: Button;
+    private readonly _badAnswer: Button
     private readonly _img: HTMLImageElement
 
-    public constructor(question: string, extraInfo: string, goodAnswer: string, badAnswer: string, img?: HTMLImageElement) {
-        this._badAnswer = badAnswer
-        this._goodAnswer = goodAnswer
+    public constructor(canvasWidth: number, canvasHeight: number, question: string, extraInfo: string, goodAnswer: string, badAnswer: string, img?: HTMLImageElement) {
+        let ctx = (document.getElementById('canvas') as HTMLCanvasElement).getContext('2d');
+        this._badAnswer = new Button(canvasWidth / 1.6 - ((canvasWidth / 10) / 2), canvasHeight / 1.2, canvasWidth / 10, 50, badAnswer)
+        this._goodAnswer = new Button(canvasWidth / 2.4 - ((canvasWidth / 10 / 2)), canvasHeight / 1.2, canvasWidth / 10, 50, goodAnswer)
         this._extraInfo = extraInfo
         this._question = question
         this._img = img
@@ -18,37 +17,23 @@ class Question {
 
 
     public draw(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number) {
-        let goodAnswerSize = ctx.measureText(this.question)
-        let badAnswerSize = ctx.measureText(this.question)
-        this.goodAnswerCoordinates = {
-            minX: canvasWidth / 2 + (goodAnswerSize.width / 4),
-            minY: canvasHeight / 1.2 - 30,
-            maxX: canvasWidth / 2 + (goodAnswerSize.width / 2),
-            maxY: canvasHeight / 1.2
-        }
-        this.badAnswerCoordinates = {
-            minX: canvasWidth / 2 - (badAnswerSize.width / 2),
-            minY: canvasHeight / 1.2 - 30,
-            maxX: canvasWidth / 2 - (goodAnswerSize.width / 4),
-            maxY: canvasHeight / 1.2
-        }
         Game.writeTextToCanvas(ctx, this.question, canvasWidth / 2, canvasHeight / 4)
-        Game.writeTextToCanvas(ctx, this.goodAnswer, canvasWidth / 1.8, canvasHeight / 1.2)
-        Game.writeTextToCanvas(ctx, this.badAnswer, canvasWidth / 2.2, canvasHeight / 1.2)
+        this.goodAnswer.draw(ctx)
+        this.badAnswer.draw(ctx)
         if (this.img != undefined) {
             ctx.drawImage(this.img, canvasWidth / 2 - (this.img.width / 2), canvasHeight / 2 - (this.img.height / 2))
         }
     }
 
     public checkAnswer(x: number, y: number, type: string): boolean {
-        if ((x >= this.badAnswerCoordinates.minX) && (x <= this.badAnswerCoordinates.maxX) && (y >= this.badAnswerCoordinates.minY) && (y <= this.badAnswerCoordinates.maxY)) {
+        if (this.badAnswer.checkClick(x, y)) {
             if (type === 'click') {
                 alert('Verkeerd Antwoord')
                 return false
             } else {
                 document.getElementById('canvas').style.cursor = 'pointer'
             }
-        } else if ((x >= this.goodAnswerCoordinates.minX) && (x <= this.goodAnswerCoordinates.maxX) && (y >= this.goodAnswerCoordinates.minY) && (y <= this.goodAnswerCoordinates.maxY)) {
+        } else if (this.goodAnswer.checkClick(x, y)) {
             if (type === 'click') {
                 alert('Goed Antwoord')
                 return true
@@ -71,11 +56,11 @@ class Question {
     }
 
 
-    get goodAnswer(): string {
+    get goodAnswer(): Button {
         return this._goodAnswer;
     }
 
-    get badAnswer(): string {
+    get badAnswer(): Button {
         return this._badAnswer;
     }
 
