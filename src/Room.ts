@@ -22,6 +22,7 @@ class Room extends View {
             if ((x >= obj.minX) && (x <= obj.maxX) && (y >= obj.minY) && (y <= obj.maxY)) {
                 switch (type) {
                     case 'click':
+                        Game.removeItem(this._clickableItems, obj)
                         question = this._questions[Math.floor(Math.random() * this._questions.length)]
                         break;
                     case 'hover':
@@ -42,7 +43,7 @@ class Room extends View {
         this._questions = value;
     }
 
-   
+
 }
 
 

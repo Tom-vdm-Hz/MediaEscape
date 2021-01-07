@@ -100,11 +100,10 @@ class Game {
         });
     }
     returnToLobby() {
-        if (this.player.keyListener.isKeyDown(27)) {
+        if (this.player.keyListener.isKeyDown(27) && this.activeQuestion === undefined) {
             this.view = new View(Game.loadNewImage(`assets/img/backgrounds/${this.player.lobby}`));
             this.activeRoom = null;
             this.player.inRoom = false;
-            this.activeQuestion = undefined;
         }
     }
     static writeTextToCanvas(ctx, text, xCoordinate, yCoordinate, fontSize = 30, color = "black", alignment = "center") {
@@ -553,6 +552,7 @@ class Room extends View {
             if ((x >= obj.minX) && (x <= obj.maxX) && (y >= obj.minY) && (y <= obj.maxY)) {
                 switch (type) {
                     case 'click':
+                        Game.removeItem(this._clickableItems, obj);
                         question = this._questions[Math.floor(Math.random() * this._questions.length)];
                         break;
                     case 'hover':

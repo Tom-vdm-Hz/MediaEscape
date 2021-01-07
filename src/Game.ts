@@ -137,11 +137,10 @@ class Game {
 
 
     public returnToLobby() {
-        if (this.player.keyListener.isKeyDown(27)) {
+        if (this.player.keyListener.isKeyDown(27) && this.activeQuestion === undefined) {
             this.view = new View(Game.loadNewImage(`assets/img/backgrounds/${this.player.lobby}`))
             this.activeRoom = null;
             this.player.inRoom = false;
-            this.activeQuestion = undefined
         }
     }
 
