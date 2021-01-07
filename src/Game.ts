@@ -9,6 +9,7 @@ class Game {
     private doorLocationsLobby1: collisionObj[];
     private doorLocationsLobby2: collisionObj[];
     private lobbies: collisionObj[]
+    private listsLoaded: number = 0
 
     public constructor(canvas: HTMLElement, playerName: string, characterName: string, windowHeight: number, windowWidth: number) {
         this.canvas = <HTMLCanvasElement>canvas;
@@ -18,7 +19,7 @@ class Game {
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}back.png`), this.canvas.width, this.canvas.height, 'hallway1.png')
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallway1.png'))
 
-        this.fillLists()
+
         this.createRooms()
         requestAnimationFrame(this.step);
     }
@@ -37,6 +38,10 @@ class Game {
 
 
     public update() {
+        if (this.listsLoaded != 2) {
+            this.fillLists()
+            this.listsLoaded++
+        }
         this.player.update(this.canvas.width, this.canvas.height)
 
         if (this.getImgName(this.view.img).includes('1')) {
@@ -55,7 +60,7 @@ class Game {
             let question = this.activeRoom.checkClick(x, y, type)
             if (question != null) {
                 this.activeQuestion = question
-                
+
             }
         }
         if (this.activeQuestion != undefined) {
@@ -92,7 +97,7 @@ class Game {
         let playerX: number = this.player.x + (this.player.baseImg.width / 2)
         let playerY: number = this.player.y + (this.player.baseImg.height / 2)
         list.forEach((obj: collisionObj) => {
-                if ((playerX >= obj.minX) && (playerX <= obj.maxX) && (playerY >= obj.minY) && (playerY <= obj.maxY)) {
+                if (playerX > obj.minX && playerX < obj.maxX && playerY > obj.minY && playerY < obj.maxY) {
                     switch (obj.name) {
                         case 'lobby':
                             switch (obj.img) {

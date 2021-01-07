@@ -1,6 +1,7 @@
 class Game {
     constructor(canvas, playerName, characterName, windowHeight, windowWidth) {
         this.rooms = [];
+        this.listsLoaded = 0;
         this.step = () => {
             this.update();
             this.render();
@@ -11,11 +12,14 @@ class Game {
         this.canvas.height = windowHeight;
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}back.png`), this.canvas.width, this.canvas.height, 'hallway1.png');
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallway1.png'));
-        this.fillLists();
         this.createRooms();
         requestAnimationFrame(this.step);
     }
     update() {
+        if (this.listsLoaded != 2) {
+            this.fillLists();
+            this.listsLoaded++;
+        }
         this.player.update(this.canvas.width, this.canvas.height);
         if (this.getImgName(this.view.img).includes('1')) {
             this.doorAndLobbyDetection(this.doorLocationsLobby1);
@@ -60,7 +64,7 @@ class Game {
         let playerX = this.player.x + (this.player.baseImg.width / 2);
         let playerY = this.player.y + (this.player.baseImg.height / 2);
         list.forEach((obj) => {
-            if ((playerX >= obj.minX) && (playerX <= obj.maxX) && (playerY >= obj.minY) && (playerY <= obj.maxY)) {
+            if (playerX > obj.minX && playerX < obj.maxX && playerY > obj.minY && playerY < obj.maxY) {
                 switch (obj.name) {
                     case 'lobby':
                         switch (obj.img) {
