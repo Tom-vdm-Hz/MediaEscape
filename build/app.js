@@ -139,10 +139,14 @@ class Game {
         if (this.activeQuestion != undefined) {
             this.activeQuestion.draw(ctx, this.canvas.width, this.canvas.height);
         }
-        ctx.beginPath();
-        ctx.rect(this.canvas.width / 35, this.canvas.height / 1.7, 5, 5);
-        ctx.rect(this.canvas.width / 30, this.canvas.height / 1.6, 5, 5);
-        ctx.stroke();
+        if (this.activeRoom != undefined) {
+            this.activeRoom.clickableItems.forEach(obj => {
+                ctx.beginPath();
+                ctx.rect(obj.minX, obj.minY, 5, 5);
+                ctx.rect(obj.maxX, obj.maxY, 5, 5);
+                ctx.stroke();
+            });
+        }
     }
     doorAndLobbyDetection(list) {
         let playerX = this.player.x + (this.player.baseImg.width / 2);
@@ -639,6 +643,12 @@ class Room extends View {
     }
     set questions(value) {
         this._questions = value;
+    }
+    get clickableItems() {
+        return this._clickableItems;
+    }
+    set clickableItems(value) {
+        this._clickableItems = value;
     }
 }
 class RoomBasic303 extends Room {

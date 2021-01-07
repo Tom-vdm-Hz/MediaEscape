@@ -85,16 +85,22 @@ class Game {
         const ctx = this.canvas.getContext('2d');
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-       
+
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
         if (this.activeQuestion != undefined) {
             this.activeQuestion.draw(ctx, this.canvas.width, this.canvas.height)
+
         }
-        ctx.beginPath();
-        ctx.rect(this.canvas.width / 35, this.canvas.height / 1.7, 5, 5);
-        ctx.rect(this.canvas.width / 30, this.canvas.height / 1.6, 5, 5);
-        ctx.stroke();
+        if (this.activeRoom != undefined) {
+            this.activeRoom.clickableItems.forEach(obj => {
+                ctx.beginPath();
+                ctx.rect(obj.minX, obj.minY, 5, 5);
+                ctx.rect(obj.maxX, obj.maxY, 5, 5);
+                ctx.stroke();
+            })
+        }
+
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {

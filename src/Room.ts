@@ -44,6 +44,13 @@ class Room extends View {
     }
 
 
+    get clickableItems(): collisionObj[] {
+        return this._clickableItems;
+    }
+
+    set clickableItems(value: collisionObj[]) {
+        this._clickableItems = value;
+    }
 }
 
 
