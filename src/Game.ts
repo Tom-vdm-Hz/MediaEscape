@@ -6,19 +6,20 @@ class Game {
     private activeQuestion: Question
     private rooms: Room[] = []
     private readonly canvas: HTMLCanvasElement;
-    private doorLocationsLobbyA: collisionObj[];
-    private doorLocationsLobbyB: collisionObj[];
+    private doorLocationsLobby1: collisionObj[];
+    private doorLocationsLobby2: collisionObj[];
     private lobbies: collisionObj[]
+    private listsLoaded: number = 0
 
     public constructor(canvas: HTMLElement, playerName: string, characterName: string, windowHeight: number, windowWidth: number) {
         this.canvas = <HTMLCanvasElement>canvas;
         this.canvas.width = windowWidth;
         this.canvas.height = windowHeight;
 
-        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}Back.png`), this.canvas.width, this.canvas.height, 'hallwayA.png')
-        this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallwayA.png'))
+        this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}back.png`), this.canvas.width, this.canvas.height, 'hallway1.png')
+        this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallway1.png'))
 
-        this.fillLists()
+
         this.createRooms()
         requestAnimationFrame(this.step);
     }
@@ -37,12 +38,16 @@ class Game {
 
 
     public update() {
+        if (this.listsLoaded != 2) {
+            this.fillLists()
+            this.listsLoaded++
+        }
         this.player.update(this.canvas.width, this.canvas.height)
 
-        if (this.getImgName(this.view.img).includes('A')) {
-            this.doorAndLobbyDetection(this.doorLocationsLobbyA)
-        } else if (this.getImgName(this.view.img).includes('B')) {
-            this.doorAndLobbyDetection(this.doorLocationsLobbyB)
+        if (this.getImgName(this.view.img).includes('1')) {
+            this.doorAndLobbyDetection(this.doorLocationsLobby1)
+        } else if (this.getImgName(this.view.img).includes('2')) {
+            this.doorAndLobbyDetection(this.doorLocationsLobby2)
         }
 
         this.doorAndLobbyDetection(this.lobbies)
@@ -55,6 +60,7 @@ class Game {
             let question = this.activeRoom.checkClick(x, y, type)
             if (question != null) {
                 this.activeQuestion = question
+
             }
         }
         if (this.activeQuestion != undefined) {
@@ -79,14 +85,11 @@ class Game {
         const ctx = this.canvas.getContext('2d');
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        ctx.beginPath();
+        ctx.rect(20, 20, 150, 100);
+        ctx.stroke();
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
-
-        ctx.beginPath();
-        ctx.rect(this.canvas.width / 1.12, this.canvas.height / 1.4, 10, 10);
-        ctx.stroke();
-
         if (this.activeQuestion != undefined) {
             this.activeQuestion.draw(ctx, this.canvas.width, this.canvas.height)
         }
@@ -96,41 +99,41 @@ class Game {
         let playerX: number = this.player.x + (this.player.baseImg.width / 2)
         let playerY: number = this.player.y + (this.player.baseImg.height / 2)
         list.forEach((obj: collisionObj) => {
-                if ((playerX >= obj.minX) && (playerX <= obj.maxX) && (playerY >= obj.minY) && (playerY <= obj.maxY)) {
-                    switch (obj.name) {
-                        case 'lobby':
-                            switch (obj.img) {
-                                case 'A':
-                                    if (this.getImgName(this.view.img).includes('B')) {
-                                        this.player.x = this.player.baseImg.width - (this.player.baseImg.width / 2)
-                                        this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
-                                        this.player.lobby = this.getImgName(this.view.img)
-                                    }
-                                    break
-                                case 'B':
-                                    if (this.getImgName(this.view.img).includes('A')) {
-                                        this.player.x = this.canvas.width - (this.player.baseImg.width * 1.1)
-                                        this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
-                                        this.player.lobby = this.getImgName(this.view.img)
-                                    }
-                                    break
-                            }
-                            break;
-                        case 'door':
-                            if (this.player.keyListener.isKeyDown(13)) {
-                                this.rooms.forEach(room => {
-                                    if (this.getImgName(room.img) === `${obj.img}.jpg`) {
-                                        this.view = room
-                                        this.activeRoom = room
-                                        this.player.inRoom = true;
-                                    }
-                                })
-                            }
-                            break;
-                    }
-
+            if (playerX > obj.minX && playerX < obj.maxX && playerY > obj.minY && playerY < obj.maxY) {
+                switch (obj.name) {
+                    case 'lobby':
+                        switch (obj.img) {
+                            case '1':
+                                if (this.getImgName(this.view.img).includes('2')) {
+                                    this.player.x = this.player.baseImg.width - (this.player.baseImg.width / 2)
+                                    this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
+                                    this.player.lobby = this.getImgName(this.view.img)
+                                }
+                                break
+                            case '2':
+                                if (this.getImgName(this.view.img).includes('1')) {
+                                    this.player.x = this.canvas.width - (this.player.baseImg.width * 1.1)
+                                    this.view = new View(Game.loadNewImage(`assets/img/backgrounds/hallway${obj.img}.png`))
+                                    this.player.lobby = this.getImgName(this.view.img)
+                                }
+                                break
+                        }
+                        break;
+                    case 'door':
+                        if (this.player.keyListener.isKeyDown(13)) {
+                            this.rooms.forEach(room => {
+                                if (this.getImgName(room.img) === `${obj.img}.jpg`) {
+                                    this.view = room
+                                    this.activeRoom = room
+                                    this.player.inRoom = true;
+                                }
+                            })
+                        }
+                        break;
                 }
+
             }
+        }
         )
     }
 
@@ -210,7 +213,7 @@ class Game {
                 minY: 0,
                 maxX: this.player.baseImg.width / 2,
                 maxY: this.canvas.height,
-                img: 'B'
+                img: '2'
             },
             {
                 name: 'lobby',
@@ -218,10 +221,10 @@ class Game {
                 minY: 0,
                 maxX: this.canvas.width,
                 maxY: this.canvas.height,
-                img: 'A'
+                img: '1'
             }
         ]
-        this.doorLocationsLobbyA = [
+        this.doorLocationsLobby1 = [
             {
                 name: 'door',
                 minX: this.canvas.width / 35,
@@ -263,7 +266,7 @@ class Game {
                 img: 'room5'
             },
         ]
-        this.doorLocationsLobbyB = [
+        this.doorLocationsLobby2 = [
             {
                 name: 'door',
                 minX: this.canvas.width / 1.45,

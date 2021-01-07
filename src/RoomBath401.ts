@@ -3,7 +3,7 @@ class RoomBath401 extends Room {
     constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
         let questions: Question[] = []
         questions.push(
-            new Question('test', 'test', 'test', 'test'),
+            new Question('Waarom maken mensen nepnieuws?', 'test', 'Ze willen er geld mee verdienen', 'Ze vinden het grappig om te maken, Ze vinden het leuk als mensen erin trappen, Ze willen aandacht krijgen'),
             new Question('test', 'test', 'test', 'test', Game.loadNewImage('assets/img/questionImages/imgName.jpg')))
 
         let clickableItems: collisionObj[] = []
