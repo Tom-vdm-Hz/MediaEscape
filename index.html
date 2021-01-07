@@ -26,64 +26,68 @@
 <body>
 <canvas id="canvas"></canvas>
 <div class="wrapper" id="startScreen">
-    <div class="container-fluid">
-        <h1 class="display-1 text-center mt-0 mb-5 pt-5">Media Escape</h1>
+    <div class="container">
+        <h1 class="display-1 text-center mt-0 mb-5 pt-5">MediaEscape</h1>
         <h1 class="text-center py-5">Kies je karakter:</h1>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-sm-3">
+        <div class="row justify-content-center">
+            <div class="col-4"></div>
+            <div class="col-2">
+                <button class="btn mt-5" type="button" id="male">
                     <img src="./assets/img/startscreen/charaface.png" class="mx-auto d-block" alt="charAFace">
-                </div>
-                <div class="col-sm-3">
+                </button>
+            </div>
+            <div class="col-2">
+                <button class="btn mt-5" type="button" id="female">
                     <img src="./assets/img/startscreen/charbface.png" class="mx-auto d-block" alt="charBFace">
-                </div>
-            </div>
-        </div>
-        <div class="container mt-5 pt-5">
-            <div class="d-flex justify-content-center">
-                <button class="btn mx-5" type="button" id="startButton">
-                    <img src="./assets/img/startscreen/startbuttonplaceholder.png" alt="startbuttonplaceholder">
-                </button>
-                <button class="btn mx-5" type="button" data-toggle="modal" data-target="#helpButton">
-                    <img src="./assets/img/startscreen/helpbuttonplaceholder.png" alt="helpbuttonplaceholder">
                 </button>
             </div>
+            <div class="col-4"></div>
         </div>
+        <div class="d-flex justify-content-center">
+
+            <button class="btn mt-5" type="button" data-toggle="modal" data-target="#helpButton">
+                <img src="./assets/img/startscreen/startbuttonplaceholder.png" alt="startbuttonplaceholder">
+            </button>
+        </div>
+        <p style="position: absolute; bottom:0;width:50%; text-align: center"> Gemaakt door:<br> Tom van den
+            Muijsenberg | Lisa Modriaan | Stefan
+            Geissler | Roemer
+            Barends
+        </p>
     </div>
 </div>
 <div class="modal fade" id="helpButton" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Uitleg en Besturing</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="modal-content text-center">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-header mx-auto text-center">
+                <h3 class="modal-title">Welkom bij MediaEscape</h3>
             </div>
             <div class="modal-body">
-                Welkom bij het spel Media Escape.
-                <hr>
-
-                Hier ga je iets leren over nepnieuws. Dat ga je doen door in verschillende hotelkamers
+                Hier ga je iets leren over media wijsheid.<br> Dit ga je doen door in verschillende hotelkamers
                 vragen te beantwoorden.
                 <hr>
 
-                Als je op start klikt dan kom je in een hotelgang terecht met hotelkamers. Die moet je af gaan om
+                Als je op start klikt dan kom je in een hotelgang terecht met hotelkamers.<br> Die moet je af gaan om
                 een code te
-                vinden en de kluis te openen. Dit doe je door de vragen goed te beantwoorden en in elke kamer een
+                vinden en de kluis te openen.<br> Dit doe je door de vragen goed te beantwoorden en in elke kamer een
                 cijfer te
                 vinden en te onthouden. Uiteindelijk moet je daarmee de code vormen.
                 <hr>
 
                 Om door de gangen van het hotel te lopen en de trap op te gaan gebruik je de WASD toetsen op je
-                toetsenbord.
-                De kamer in gaan doe je met de Enter en de kamer uit gaan doe je met Esc. Als je in de kamer staat
+                toetsenbord.<br>
+                De kamer in gaan doe je met de Enter en de kamer uit gaan doe je met Esc.<br> Als je in de kamer staat
                 gebruik je je muis
                 om objecten aan te klikken en vragen te beantwoorden.
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Ik begrijp het!</button>
+            <div class="modal-footer mx-auto text-center">
+                <button class="btn" type="button" id="startButton" data-dismiss="modal">
+                    <img src="./assets/img/startscreen/startbuttonplaceholder.png" alt="startbuttonplaceholder">
+                </button>
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@ class Player {
         this._characterName = characterName
         this._img = img;
         this._x = canvasWidth / 2
-        this._y = canvasHeight - 231//231 = img height
+        this._y = canvasHeight - 240//235 = img height
         this.keyListener = new KeyListener
         this._lobby = lobby
     }
