@@ -120,24 +120,24 @@ class Player {
     }
 
     private walkNumCalculation(): number {
-        if (this.lastWalkImg >= 80) {
+        if (this.lastWalkImg >= 120) {
             this.lastWalkImg = 0
         }
-        if (this.lastWalkImg < 10) {
+        if (this.lastWalkImg < 15) {
             return 10;
-        } else if (this.lastWalkImg > 10 && this.lastWalkImg < 20) {
+        } else if (this.lastWalkImg > 15 && this.lastWalkImg < 30) {
             return 20;
-        } else if (this.lastWalkImg > 20 && this.lastWalkImg < 30) {
+        } else if (this.lastWalkImg > 30 && this.lastWalkImg < 45) {
             return 30
-        } else if (this.lastWalkImg > 30 && this.lastWalkImg < 40) {
+        } else if (this.lastWalkImg > 45 && this.lastWalkImg < 60) {
             return 40
-        } else if (this.lastWalkImg > 40 && this.lastWalkImg < 50) {
+        } else if (this.lastWalkImg > 60 && this.lastWalkImg < 75) {
             return 50
-        } else if (this.lastWalkImg > 50 && this.lastWalkImg < 60) {
+        } else if (this.lastWalkImg > 75 && this.lastWalkImg < 90) {
             return 60
-        } else if (this.lastWalkImg > 60 && this.lastWalkImg < 70) {
+        } else if (this.lastWalkImg > 90 && this.lastWalkImg < 105) {
             return 70
-        } else if (this.lastWalkImg > 70 && this.lastWalkImg < 80) {
+        } else if (this.lastWalkImg > 105 && this.lastWalkImg < 120) {
             return 80
         }
         return null
