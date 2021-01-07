@@ -1,3 +1,4 @@
+/// <reference path="Button.ts"/>
 class Game {
 
     private player: Player;
@@ -18,7 +19,6 @@ class Game {
 
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}back.png`), this.canvas.width, this.canvas.height, 'hallway1.png')
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallway1.png'))
-
 
         this.createRooms()
         requestAnimationFrame(this.step);
