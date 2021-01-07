@@ -100,10 +100,11 @@ class Game {
         });
     }
     returnToLobby() {
-        if (this.player.keyListener.isKeyDown(27) && this.activeQuestion === undefined) {
+        if (this.player.keyListener.isKeyDown(27)) {
             this.view = new View(Game.loadNewImage(`assets/img/backgrounds/${this.player.lobby}`));
             this.activeRoom = null;
             this.player.inRoom = false;
+            this.activeQuestion = undefined;
         }
     }
     static writeTextToCanvas(ctx, text, xCoordinate, yCoordinate, fontSize = 30, color = "black", alignment = "center") {
