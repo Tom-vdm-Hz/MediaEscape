@@ -4,7 +4,7 @@ class RoomBath401 extends Room {
         let questions: Question[] = []
         questions.push(
             new Question(canvasWidth, canvasHeight, 'Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.'),
-            new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep'))
+            new Question(canvasWidth, canvasHeight, 'Hackers hebben altijd slechte bedoelingen?', 'Donald Trump was de president van amerika', 'Waar', 'Niet waar'))
 
         let clickableItems: collisionObj[] = []
         clickableItems.push({
