@@ -17,6 +17,19 @@ document.getElementById('female').addEventListener('click', () => {
     male.style.borderColor = ''
 })
 
+document.getElementById('awnser1').addEventListener('click', () => {
+    game.checkAnswer('1', document.getElementById('awnser1').innerHTML)
+})
+document.getElementById('awnser2').addEventListener('click', () => {
+    game.checkAnswer('2', document.getElementById('awnser2').innerHTML)
+})
+document.getElementById('awnser3').addEventListener('click', () => {
+    game.checkAnswer('3', document.getElementById('awnser3').innerHTML)
+})
+document.getElementById('awnser4').addEventListener('click', () => {
+    game.checkAnswer('4', document.getElementById('awnser4').innerHTML)
+})
+
 myStartButton.addEventListener('click', () => {
     if (male.style.borderColor === 'lightblue') {
         startGame('a', 'frank')

@@ -1,83 +1,3 @@
-class Point {
-    constructor(x, y) {
-        this._x = x;
-        this._y = y;
-    }
-    get x() {
-        return this._x;
-    }
-    set x(value) {
-        this._x = value;
-    }
-    get y() {
-        return this._y;
-    }
-    set y(value) {
-        this._y = value;
-    }
-}
-class Size {
-    constructor(width, height) {
-        this._width = width;
-        this._height = height;
-    }
-    get width() {
-        return this._width;
-    }
-    set width(value) {
-        this._width = value;
-    }
-    get height() {
-        return this._height;
-    }
-    set height(value) {
-        this._height = value;
-    }
-}
-class Rectangle {
-    constructor(x, y, w, h) {
-        this._point = new Point(x, y);
-        this._size = new Size(w, h);
-    }
-    get point() {
-        return this._point;
-    }
-    set point(value) {
-        this._point = value;
-    }
-    get size() {
-        return this._size;
-    }
-    set size(value) {
-        this._size = value;
-    }
-}
-class Button {
-    constructor(x, y, w, h, text) {
-        this.rectangle = new Rectangle(x, y, w, h);
-        this.text = text;
-    }
-    draw(ctx) {
-        ctx.beginPath();
-        ctx.rect(this.rectangle.point.x, this.rectangle.point.y, this.rectangle.size.width, this.rectangle.size.height);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillStyle = 'rgba(225,225,225,0.5)';
-        ctx.fillRect(this.rectangle.point.x, this.rectangle.point.y, this.rectangle.size.width, this.rectangle.size.height);
-        ctx.fill();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#000000';
-        ctx.stroke();
-        ctx.closePath();
-        ctx.font = '40pt Kremlin Pro Web';
-        ctx.fillStyle = '#000000';
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(this.text, this.rectangle.point.x + (this.rectangle.size.width / 2), this.rectangle.point.y + (this.rectangle.size.height / 2));
-    }
-    checkClick(mouseX, mouseY) {
-        return mouseX > this.rectangle.point.x && mouseX < this.rectangle.point.x + this.rectangle.size.width && mouseY < this.rectangle.point.y + this.rectangle.size.height && mouseY > this.rectangle.point.y;
-    }
-}
 class Game {
     constructor(canvas, playerName, characterName, windowHeight, windowWidth) {
         this.rooms = [];
@@ -110,24 +30,28 @@ class Game {
         this.doorAndLobbyDetection(this.lobbies);
         this.returnToLobby();
     }
+    checkAnswer(button, answer) {
+        if (this.activeQuestion.goodAnswer === answer) {
+            alert('Goed Antwoord');
+            this.activeRoom.hideQuestion();
+            this.activeRoom.questions.splice(this.activeRoom.questions.indexOf(this.activeQuestion), 1);
+            this.activeRoom.clickableItems.splice(this.activeRoom.clickableItems.indexOf(this.activeRoom.lastClickedObj), 1);
+            this.activeQuestion = undefined;
+            if (this.activeRoom.questions.length === 0) {
+                alert('alle vragen in deze kamer beantwoord');
+            }
+        }
+        else {
+            alert('Verkeerd Antwoord');
+            this.activeRoom.hideQuestion();
+            this.activeQuestion = undefined;
+        }
+    }
     getCursorPosition(x, y, type) {
         if (this.activeRoom != null && this.activeQuestion === undefined) {
             let question = this.activeRoom.checkClick(x, y, type);
             if (question != null) {
                 this.activeQuestion = question;
-            }
-        }
-        if (this.activeQuestion != undefined) {
-            switch (this.activeQuestion.checkAnswer(x, y, type)) {
-                case true:
-                    Game.removeItem(this.activeRoom.questions, this.activeQuestion);
-                    this.activeQuestion = undefined;
-                    break;
-                case false:
-                    this.activeQuestion = undefined;
-                    break;
-                default:
-                    break;
             }
         }
     }
@@ -136,9 +60,6 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height);
         this.player.draw(ctx);
-        if (this.activeQuestion != undefined) {
-            this.activeQuestion.draw(ctx, this.canvas.width, this.canvas.height);
-        }
     }
     doorAndLobbyDetection(list) {
         let playerX = this.player.x + (this.player.baseImg.width / 2);
@@ -535,46 +456,33 @@ class Player {
         return this._baseImg;
     }
 }
+class Point {
+    constructor(x, y) {
+        this._x = x;
+        this._y = y;
+    }
+    get x() {
+        return this._x;
+    }
+    set x(value) {
+        this._x = value;
+    }
+    get y() {
+        return this._y;
+    }
+    set y(value) {
+        this._y = value;
+    }
+}
 class Question {
-    constructor(canvasWidth, canvasHeight, question, extraInfo, goodAnswer, badAnswer, img) {
-        let ctx = document.getElementById('canvas').getContext('2d');
-        this._badAnswer = new Button(canvasWidth / 1.6 - ((canvasWidth / 10) / 2), canvasHeight / 1.2, canvasWidth / 10, 50, badAnswer);
-        this._goodAnswer = new Button(canvasWidth / 2.4 - ((canvasWidth / 10 / 2)), canvasHeight / 1.2, canvasWidth / 10, 50, goodAnswer);
+    constructor(question, extraInfo, goodAnswer, badAnswer1, badAnswer2, badAnswer3, img) {
+        this._badAnswer1 = badAnswer1;
+        this._badAnswer2 = badAnswer2;
+        this._badAnswer3 = badAnswer3;
+        this._goodAnswer = goodAnswer;
         this._extraInfo = extraInfo;
         this._question = question;
         this._img = img;
-    }
-    draw(ctx, canvasWidth, canvasHeight) {
-        Game.writeTextToCanvas(ctx, this.question, canvasWidth / 2, canvasHeight / 4);
-        this.goodAnswer.draw(ctx);
-        this.badAnswer.draw(ctx);
-        if (this.img != undefined) {
-            ctx.drawImage(this.img, canvasWidth / 2 - (this.img.width / 2), canvasHeight / 2 - (this.img.height / 2));
-        }
-    }
-    checkAnswer(x, y, type) {
-        if (this.badAnswer.checkClick(x, y)) {
-            if (type === 'click') {
-                alert('Verkeerd Antwoord');
-                return false;
-            }
-            else {
-                document.getElementById('canvas').style.cursor = 'pointer';
-            }
-        }
-        else if (this.goodAnswer.checkClick(x, y)) {
-            if (type === 'click') {
-                alert('Goed Antwoord');
-                return true;
-            }
-            else {
-                document.getElementById('canvas').style.cursor = 'pointer';
-            }
-        }
-        else {
-            document.getElementById('canvas').style.cursor = 'default';
-        }
-        return null;
     }
     get question() {
         return this._question;
@@ -582,14 +490,56 @@ class Question {
     get extraInfo() {
         return this._extraInfo;
     }
+    get img() {
+        return this._img;
+    }
     get goodAnswer() {
         return this._goodAnswer;
     }
-    get badAnswer() {
-        return this._badAnswer;
+    get badAnswer1() {
+        return this._badAnswer1;
     }
-    get img() {
-        return this._img;
+    get badAnswer2() {
+        return this._badAnswer2;
+    }
+    get badAnswer3() {
+        return this._badAnswer3;
+    }
+}
+class Size {
+    constructor(width, height) {
+        this._width = width;
+        this._height = height;
+    }
+    get width() {
+        return this._width;
+    }
+    set width(value) {
+        this._width = value;
+    }
+    get height() {
+        return this._height;
+    }
+    set height(value) {
+        this._height = value;
+    }
+}
+class Rectangle {
+    constructor(x, y, w, h) {
+        this._point = new Point(x, y);
+        this._size = new Size(w, h);
+    }
+    get point() {
+        return this._point;
+    }
+    set point(value) {
+        this._point = value;
+    }
+    get size() {
+        return this._size;
+    }
+    set size(value) {
+        this._size = value;
     }
 }
 class View {
@@ -619,8 +569,33 @@ class Room extends View {
             if ((x >= obj.minX) && (x <= obj.maxX) && (y >= obj.minY) && (y <= obj.maxY)) {
                 switch (type) {
                     case 'click':
-                        Game.removeItem(this._clickableItems, obj);
+                        this._lastClickedObj = obj;
                         question = this._questions[Math.floor(Math.random() * this._questions.length)];
+                        this.showQuestion();
+                        document.getElementById("questionText").innerHTML = question.question;
+                        this.hideExtraAnswerAndImg();
+                        if (this.getRndInteger(1, 3) === 1) {
+                            document.getElementById("awnser1").innerHTML = question.badAnswer1;
+                            document.getElementById("awnser2").innerHTML = question.goodAnswer;
+                        }
+                        else {
+                            document.getElementById("awnser2").innerHTML = question.badAnswer1;
+                            document.getElementById("awnser1").innerHTML = question.goodAnswer;
+                        }
+                        if (question.badAnswer2 || question.badAnswer3 != undefined) {
+                            document.getElementById("awnser3").innerHTML = question.badAnswer2;
+                            document.getElementById("awnser4").innerHTML = question.badAnswer3;
+                            document.getElementById('awnser3').classList.remove('hidden');
+                            document.getElementById('awnser3').classList.add('visible');
+                            document.getElementById('awnser4').classList.remove('hidden');
+                            document.getElementById('awnser4').classList.add('visible');
+                        }
+                        document.getElementById("hintText").innerHTML = question.extraInfo;
+                        if (question.img != undefined) {
+                            document.getElementById("questionImg").classList.add('visible');
+                            document.getElementById("questionImg").classList.remove('hidden');
+                            document.getElementById("questionImg").src = question.img.src;
+                        }
                         break;
                     case 'hover':
                         document.getElementById('canvas').style.cursor = 'zoom-in';
@@ -630,17 +605,58 @@ class Room extends View {
         });
         return question;
     }
+    hideExtraAnswerAndImg() {
+        document.getElementById("questionImg").classList.remove('visible');
+        document.getElementById("questionImg").classList.add('hidden');
+        document.getElementById('awnser3').classList.add('hidden');
+        document.getElementById('awnser3').classList.remove('visible');
+        document.getElementById('awnser4').classList.add('hidden');
+        document.getElementById('awnser4').classList.remove('visible');
+    }
+    showQuestion() {
+        document.getElementById("canvas").classList.add("hidden");
+        document.getElementById("canvas").classList.remove("visible");
+        document.getElementById("canvas").classList.remove("block");
+        document.getElementById("question").classList.remove("hidden");
+        document.getElementById("question").classList.add("visible");
+        document.body.style.backgroundImage = `url('${this.img.src}')`;
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center center';
+    }
+    hideQuestion() {
+        document.getElementById("canvas").classList.remove("hidden");
+        document.getElementById("canvas").classList.add("visible");
+        document.getElementById("canvas").classList.add("block");
+        document.getElementById("question").classList.add("hidden");
+        document.getElementById("question").classList.remove("visible");
+    }
+    getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
     get questions() {
         return this._questions;
     }
     set questions(value) {
         this._questions = value;
     }
+    get clickableItems() {
+        return this._clickableItems;
+    }
+    set clickableItems(value) {
+        this._clickableItems = value;
+    }
+    get lastClickedObj() {
+        return this._lastClickedObj;
+    }
+    set lastClickedObj(value) {
+        this._lastClickedObj = value;
+    }
 }
 class RoomBasic303 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -661,7 +677,7 @@ class RoomBasic303 extends Room {
 class RoomBath401 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question(canvasWidth, canvasHeight, 'Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.'), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep'));
+        questions.push(new Question('Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.', undefined, undefined, undefined), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, undefined));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -682,7 +698,7 @@ class RoomBath401 extends Room {
 class RoomBeach402 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -703,7 +719,7 @@ class RoomBeach402 extends Room {
 class RoomChinese400 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -724,7 +740,7 @@ class RoomChinese400 extends Room {
 class RoomFuture301 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -745,7 +761,7 @@ class RoomFuture301 extends Room {
 class RoomPenthouse302 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -766,7 +782,7 @@ class RoomPenthouse302 extends Room {
 class RoomSky403 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -797,6 +813,18 @@ document.getElementById('male').addEventListener('click', () => {
 document.getElementById('female').addEventListener('click', () => {
     female.style.borderColor = 'lightblue';
     male.style.borderColor = '';
+});
+document.getElementById('awnser1').addEventListener('click', () => {
+    game.checkAnswer('1', document.getElementById('awnser1').innerHTML);
+});
+document.getElementById('awnser2').addEventListener('click', () => {
+    game.checkAnswer('2', document.getElementById('awnser2').innerHTML);
+});
+document.getElementById('awnser3').addEventListener('click', () => {
+    game.checkAnswer('3', document.getElementById('awnser3').innerHTML);
+});
+document.getElementById('awnser4').addEventListener('click', () => {
+    game.checkAnswer('4', document.getElementById('awnser4').innerHTML);
 });
 myStartButton.addEventListener('click', () => {
     if (male.style.borderColor === 'lightblue') {
