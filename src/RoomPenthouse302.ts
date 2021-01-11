@@ -3,8 +3,8 @@ class RoomPenthouse302 extends Room {
     constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
         let questions: Question[] = []
         questions.push(
-            new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')),
-            new Question(canvasWidth, canvasHeight, 'Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', Game.loadNewImage('assets/img/questionImages/trump.jpg')))
+            new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', Game.loadNewImage('assets/img/questionImages/trump.jpg')),
+            new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', Game.loadNewImage('assets/img/questionImages/trump.jpg')))
 
         let clickableItems: collisionObj[] = []
         clickableItems.push(
