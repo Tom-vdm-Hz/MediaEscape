@@ -10,6 +10,15 @@ html, body {
     height: 100%;
 }
 
+.centerVAndH {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
 
 .wrapper {
     background-image: url('../img/startscreen/front-hotel-street-2.jpg');
