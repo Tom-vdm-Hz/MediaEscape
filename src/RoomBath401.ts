@@ -3,23 +3,24 @@ class RoomBath401 extends Room {
     constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
         let questions: Question[] = []
         questions.push(
-            new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.', 'Donald Trump was de president van amerika', undefined, undefined, undefined),
-            new Question('Hackers hebben altijd slechte bedoelingen?', 'waar', 'Niet waar', undefined, undefined, 'Donald Trump was de president van amerika', undefined))
+            new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurd als je klikt en gaat kijken naar nepnieuws', undefined),
+            new Question('Hackers hebben altijd slechte bedoelingen?', 'Niet waar', 'Waar', undefined, undefined, '', undefined))
 
         let clickableItems: collisionObj[] = []
-        clickableItems.push({
+        clickableItems.push(
+            {
                 name: 'question',
-                minX: canvasWidth / 20,
-                minY: canvasHeight / 45,
-                maxX: canvasWidth / 15,
-                maxY: canvasHeight / 40,
+                minX: canvasWidth / 5,
+                minY: canvasHeight / 5,
+                maxX: canvasWidth / 3,
+                maxY: canvasHeight / 3,
             },
             {
                 name: 'question',
-                minX: canvasWidth / 3.4,
-                minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 2.25,
-                maxY: canvasHeight / 1.1,
+                minX: canvasWidth / 1.12,
+                minY: canvasHeight / 1.4,
+                maxX: canvasWidth / 1.06,
+                maxY: canvasHeight / 1.31,
             })
 
         super(room, questions, clickableItems);

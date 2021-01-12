@@ -7,19 +7,20 @@ class RoomChinese400 extends Room {
             new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')))
 
         let clickableItems: collisionObj[] = []
-        clickableItems.push({
+        clickableItems.push(
+            {
                 name: 'question',
-                minX: canvasWidth / 35,
-                minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 6,
-                maxY: canvasHeight / 1.1,
+                minX: canvasWidth / 3.18,
+                minY: canvasHeight / 1.25,
+                maxX: canvasWidth / 2.8,
+                maxY: canvasHeight / 1.17,
             },
             {
                 name: 'question',
-                minX: canvasWidth / 3.4,
-                minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 2.25,
-                maxY: canvasHeight / 1.1,
+                minX: canvasWidth / 1.12,
+                minY: canvasHeight / 1.4,
+                maxX: canvasWidth / 1.06,
+                maxY: canvasHeight / 1.31,
             })
 
         super(room, questions, clickableItems);
