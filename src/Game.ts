@@ -1,4 +1,3 @@
-/// <reference path="Button.ts"/>
 class Game {
 
     private player: Player;
@@ -54,26 +53,29 @@ class Game {
         this.returnToLobby()
     }
 
+    public checkAnswer(button: string, answer: string) {
+        if (this.activeQuestion.goodAnswer === answer) {
+            alert('Goed Antwoord')
+            this.activeRoom.hideQuestion()
+            this.activeRoom.questions.splice(this.activeRoom.questions.indexOf(this.activeQuestion), 1)
+            this.activeRoom.clickableItems.splice(this.activeRoom.clickableItems.indexOf(this.activeRoom.lastClickedObj), 1)
+            this.activeQuestion = undefined;
+            if (this.activeRoom.questions.length === 0) {
+                alert('alle vragen in deze kamer beantwoord')
+            }
+        } else {
+            alert('Verkeerd Antwoord')
+            this.activeRoom.hideQuestion()
+            this.activeQuestion = undefined;
+        }
+    }
+
 
     public getCursorPosition(x: number, y: number, type: string) {
         if (this.activeRoom != null && this.activeQuestion === undefined) {
             let question = this.activeRoom.checkClick(x, y, type)
             if (question != null) {
                 this.activeQuestion = question
-
-            }
-        }
-        if (this.activeQuestion != undefined) {
-            switch (this.activeQuestion.checkAnswer(x, y, type)) {
-                case true:
-                    Game.removeItem(this.activeRoom.questions, this.activeQuestion)
-                    this.activeQuestion = undefined;
-                    break;
-                case false:
-                    this.activeQuestion = undefined;
-                    break;
-                default:
-                    break;
             }
         }
     }
@@ -88,10 +90,7 @@ class Game {
 
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
-        if (this.activeQuestion != undefined) {
-            this.activeQuestion.draw(ctx, this.canvas.width, this.canvas.height)
 
-        }
         if (this.activeRoom != undefined) {
             this.activeRoom.clickableItems.forEach(obj => {
                 ctx.beginPath();
@@ -100,6 +99,7 @@ class Game {
                 ctx.stroke();
             })
         }
+
 
     }
 
