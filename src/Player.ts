@@ -3,11 +3,11 @@ class Player {
     private _characterName: string
     private _img: HTMLImageElement;
     private _baseImg: HTMLImageElement = Game.loadNewImage(`assets/img/players/charaback.png`)
-    private _collectedCodes: number[]
+    private _collectedCodes: Code[] = []
     private _x: number
     private _y: number
     keyListener: KeyListener
-    private speed: number = 3
+    private speed: number = 4
     private _inRoom: boolean = false;
     private _lobby: string;
     private _lastWalkImg: number = 1
@@ -17,7 +17,7 @@ class Player {
         this._characterName = characterName
         this._img = img;
         this._x = canvasWidth / 2
-        this._y = canvasHeight - 240//235 = img height
+        this._y = canvasHeight / 1.35
         this.keyListener = new KeyListener
         this._lobby = lobby
     }
@@ -116,7 +116,17 @@ class Player {
     public draw(ctx: CanvasRenderingContext2D) {
         if (this._inRoom === false) {
             ctx.drawImage(this._img, this._x, this._y)
+            let h: number = 35
+            this._collectedCodes.forEach(code => {
+                Game.writeTextToCanvas(ctx, JSON.stringify(code.roomNum), 30, h)
+                Game.writeTextToCanvas(ctx, '=', 70, h)
+                if (code.codeNum != undefined) {
+                    Game.writeTextToCanvas(ctx, JSON.stringify(code.codeNum), 95, h)
+                }
+                h += 35
+            })
         }
+
     }
 
     private walkNumCalculation(): number {
@@ -181,15 +191,6 @@ class Player {
         this._img = value;
     }
 
-    get characterName(): string {
-        return this._characterName;
-    }
-
-    set characterName(value: string) {
-        this._characterName = value;
-    }
-
-
     get inRoom(): boolean {
         return this._inRoom;
     }
@@ -210,5 +211,16 @@ class Player {
     get baseImg(): HTMLImageElement {
         return this._baseImg;
     }
+
+
+    get collectedCodes(): Code[] {
+        return this._collectedCodes;
+    }
+
+    set collectedCodes(value: Code[]) {
+        this._collectedCodes = value;
+    }
 }
+
+
 

@@ -1,6 +1,6 @@
 /// <reference path="Room.ts"/>
 class RoomPenthouse302 extends Room {
-    constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
+    constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number, roomNumber: number) {
         let questions: Question[] = []
         questions.push(
             new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', Game.loadNewImage('assets/img/questionImages/trump.jpg')),
@@ -24,6 +24,6 @@ class RoomPenthouse302 extends Room {
             }
         )
 
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }

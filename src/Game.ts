@@ -5,6 +5,8 @@ class Game {
     private activeRoom: Room;
     private activeQuestion: Question
     private rooms: Room[] = []
+    private vault: Vault = new Vault(Game.loadNewImage('assets/img/backgrounds/vault.png'))
+    private keypad: Keypad;
     private readonly canvas: HTMLCanvasElement;
     private doorLocationsLobby1: collisionObj[];
     private doorLocationsLobby2: collisionObj[];
@@ -18,6 +20,8 @@ class Game {
 
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}back.png`), this.canvas.width, this.canvas.height, 'hallway1.png')
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallway1.png'))
+
+        this.keypad = new Keypad(Game.loadNewImage('assets/img/backgrounds/keypadzoomin.png'), this.canvas.width, this.canvas.height)
 
         this.createRooms()
         requestAnimationFrame(this.step);
@@ -37,7 +41,7 @@ class Game {
 
 
     public update() {
-        if (this.listsLoaded != 2) {
+        if (this.listsLoaded != 20) {
             this.fillLists()
             this.listsLoaded++
         }
@@ -49,22 +53,42 @@ class Game {
             this.doorAndLobbyDetection(this.doorLocationsLobby2)
         }
 
+        if (this.view === this.vault) {
+
+        }
+
+        if (this.view === this.keypad) {
+            if (this.player.keyListener.isKeyDown(8)) {
+                this.keypad.deleteLastNum()
+            }
+            if (this.player.keyListener.isKeyDown(13)) {
+                this.keypad.checkCode(this.player.collectedCodes, this.vault)
+            }
+
+        }
+
+
         this.doorAndLobbyDetection(this.lobbies)
         this.returnToLobby()
     }
 
     public checkAnswer(button: string, answer: string) {
         if (this.activeQuestion.goodAnswer === answer) {
-            alert('Goed Antwoord')
+            Game.popup('Goed gedaan', 'Je hebt de vraag goed beantwoord')
             this.activeRoom.hideQuestion()
             this.activeRoom.questions.splice(this.activeRoom.questions.indexOf(this.activeQuestion), 1)
             this.activeRoom.clickableItems.splice(this.activeRoom.clickableItems.indexOf(this.activeRoom.lastClickedObj), 1)
             this.activeQuestion = undefined;
             if (this.activeRoom.questions.length === 0) {
-                alert('alle vragen in deze kamer beantwoord')
+                this.player.collectedCodes.forEach(code => {
+                    if (code.roomNum === this.activeRoom.roomNumber) {
+                        code.codeNum = Room.getRndInteger(1, 10)
+                    }
+                })
+                Game.popup('Goed gedaan, kamer voltooid', 'alle vragen in deze kamer zijn goed beantwoord, nieuw deel van de code vrijgespeeld, druk op ESC om de kamer te verlaten')
             }
         } else {
-            alert('Verkeerd Antwoord')
+            Game.popup('Helaas, fout', 'Probeer opnieuw')
             this.activeRoom.hideQuestion()
             this.activeQuestion = undefined;
         }
@@ -87,10 +111,23 @@ class Game {
         const ctx = this.canvas.getContext('2d');
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
 
+        if (this.view === this.vault) {
+
+        }
+
+        if (this.view === this.keypad) {
+            this.keypad.drawCode(ctx, this.canvas.width, this.canvas.height)
+        }
+
+        this.keypad.clickableItems.forEach(obj => {
+            ctx.beginPath();
+            ctx.rect(obj.minX, obj.minY, 1, 1);
+            ctx.rect(obj.maxX, obj.maxY, 1, 1);
+            ctx.stroke();
+        })
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {
@@ -128,8 +165,25 @@ class Game {
                                 })
                             }
                             break;
-                    }
+                        case 'vault':
+                            if (this.player.keyListener.isKeyDown(13)) {
+                                if (this.vault.isOpen) {
+                                    this.view = this.vault
+                                    this.player.inRoom = true;
+                                } else {
+                                    Game.popup('Kluis zit nog op slot', 'vul de juiste code in op de keypad om de kluis te openen')
+                                }
 
+                            }
+                            break;
+                        case 'keypad':
+                            if (this.player.keyListener.isKeyDown(13)) {
+                                this.view = this.keypad
+                                this.player.inRoom = true;
+                            }
+                            break;
+
+                    }
                 }
             }
         )
@@ -169,11 +223,6 @@ class Game {
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
 
-    public static removeItem(list: any, obj: any) {
-        // @ts-ignore
-        list.slice(list.indexOf(obj), 1);
-    }
-
 
     /**
      * Loads an image in such a way that the screen doesn't constantly flicker
@@ -186,6 +235,12 @@ class Game {
         return img;
     }
 
+    public static popup(headerText: string, bodyText: string) {
+        document.getElementById('popupButton').click()
+        document.getElementById('headerText').innerHTML = headerText
+        document.getElementById('bodyText').innerHTML = bodyText
+    }
+
     public getImgName(img: HTMLImageElement): string {
         let fullPath = img.src;
         return fullPath.replace(/^.*[\\\/]/, '')
@@ -193,14 +248,15 @@ class Game {
 
 
     private createRooms() {
-        let basic1: Room = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height)
-        let basic2: Room = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height)
-        let bath: Room = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height)
-        let beach: Room = new RoomBeach402(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height)
-        let chinese: Room = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height)
-        let future: Room = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height)
-        let penthouse: Room = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height)
+        let basic1: Room = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height, 303)
+        let basic2: Room = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height, 403)
+        let bath: Room = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height, 401)
+        let beach: Room = new RoomBeach402(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height, 402)
+        let chinese: Room = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height, 400)
+        let future: Room = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height, 301)
+        let penthouse: Room = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height, 302)
         this.rooms.push(basic1, basic2, bath, beach, chinese, future, penthouse)
+        this.player.collectedCodes.push(new Code(basic1.roomNumber), new Code(basic2.roomNumber), new Code(bath.roomNumber), new Code(beach.roomNumber), new Code(chinese.roomNumber), new Code(future.roomNumber), new Code(penthouse.roomNumber))
     }
 
     private fillLists() {
