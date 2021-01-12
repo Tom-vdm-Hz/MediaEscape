@@ -3,8 +3,8 @@ class RoomBath401 extends Room {
     constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
         let questions: Question[] = []
         questions.push(
-            new Question(canvasWidth, canvasHeight, 'Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.'),
-            new Question(canvasWidth, canvasHeight, 'Hackers hebben altijd slechte bedoelingen?', 'Donald Trump was de president van amerika', 'Waar', 'Niet waar'))
+            new Question('Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.', undefined, undefined, undefined),
+            new Question('Hackers hebben altijd slechte bedoelingen?', 'Donald Trump was de president van amerika', 'waar', 'Niet waar', undefined, undefined, undefined))
 
         let clickableItems: collisionObj[] = []
         clickableItems.push({
