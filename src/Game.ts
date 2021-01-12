@@ -6,7 +6,7 @@ class Game {
     private activeQuestion: Question
     private rooms: Room[] = []
     private vault: Vault = new Vault(Game.loadNewImage('assets/img/backgrounds/vault.png'))
-    private keypad: Keypad;
+    private readonly keypad: Keypad;
     private readonly canvas: HTMLCanvasElement;
     private doorLocationsLobby1: collisionObj[];
     private doorLocationsLobby2: collisionObj[];
@@ -58,13 +58,12 @@ class Game {
         }
 
         if (this.view === this.keypad) {
-            if (this.player.keyListener.isKeyDown(8)) {
+            if (this.player.keyListener.keyDownOnce(8)) {
                 this.keypad.deleteLastNum()
             }
             if (this.player.keyListener.isKeyDown(13)) {
                 this.keypad.checkCode(this.player.collectedCodes, this.vault)
             }
-
         }
 
 
@@ -102,6 +101,9 @@ class Game {
                 this.activeQuestion = question
             }
         }
+        if (this.view === this.keypad) {
+            this.keypad.checkClick(x, y, type)
+        }
     }
 
 
@@ -121,13 +123,6 @@ class Game {
         if (this.view === this.keypad) {
             this.keypad.drawCode(ctx, this.canvas.width, this.canvas.height)
         }
-
-        this.keypad.clickableItems.forEach(obj => {
-            ctx.beginPath();
-            ctx.rect(obj.minX, obj.minY, 1, 1);
-            ctx.rect(obj.maxX, obj.maxY, 1, 1);
-            ctx.stroke();
-        })
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {
