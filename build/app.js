@@ -658,16 +658,16 @@ class RoomBasic303 extends Room {
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 35,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 6.7,
+            minY: canvasHeight / 1.56,
+            maxX: canvasWidth / 4.22,
+            maxY: canvasHeight / 1.44,
         }, {
             name: 'question',
-            minX: canvasWidth / 3.4,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 2.25,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 2.52,
+            minY: canvasHeight / 2.08,
+            maxX: canvasWidth / 0.48,
+            maxY: canvasHeight / 1.77,
         });
         super(room, questions, clickableItems);
     }
@@ -742,16 +742,16 @@ class RoomFuture301 extends Room {
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 35,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 4.4,
+            minY: canvasHeight / 1.36,
+            maxX: canvasWidth / 3.77,
+            maxY: canvasHeight / 1.51,
         }, {
             name: 'question',
-            minX: canvasWidth / 3.4,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 2.25,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 1.49,
+            minY: canvasHeight / 2.15,
+            maxX: canvasWidth / 1.32,
+            maxY: canvasHeight / 1.66,
         });
         super(room, questions, clickableItems);
     }

@@ -9,17 +9,17 @@ class RoomBasic303 extends Room {
         let clickableItems: collisionObj[] = []
         clickableItems.push({
                 name: 'question',
-                minX: canvasWidth / 35,
-                minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 6,
-                maxY: canvasHeight / 1.1,
+                minX: canvasWidth / 6.7,
+                minY: canvasHeight / 1.56,
+                maxX: canvasWidth / 4.22,
+                maxY: canvasHeight / 1.44,
             },
             {
                 name: 'question',
-                minX: canvasWidth / 3.4,
-                minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 2.25,
-                maxY: canvasHeight / 1.1,
+                minX: canvasWidth / 2.52,
+                minY: canvasHeight / 2.08,
+                maxX: canvasWidth / 0.48,
+                maxY: canvasHeight / 1.77,
             })
 
         super(room, questions, clickableItems);
