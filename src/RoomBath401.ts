@@ -9,10 +9,10 @@ class RoomBath401 extends Room {
         let clickableItems: collisionObj[] = []
         clickableItems.push({
                 name: 'question',
-                minX: canvasWidth / 35,
-                minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 30,
-                maxY: canvasHeight / 1.6,
+                minX: canvasWidth / 20,
+                minY: canvasHeight / 45,
+                maxX: canvasWidth / 15,
+                maxY: canvasHeight / 40,
             },
             {
                 name: 'question',
