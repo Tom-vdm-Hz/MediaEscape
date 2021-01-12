@@ -8,7 +8,7 @@ class Question {
     private readonly _badAnswer3: string
     private readonly _img: HTMLImageElement
 
-    public constructor(question: string, extraInfo: string, goodAnswer: string, badAnswer1: string, badAnswer2?: string, badAnswer3?: string, img?: HTMLImageElement) {
+    public constructor(question: string, goodAnswer: string, badAnswer1: string, badAnswer2?: string, badAnswer3?: string, extraInfo?: string, img?: HTMLImageElement) {
         this._badAnswer1 = badAnswer1
         this._badAnswer2 = badAnswer2
         this._badAnswer3 = badAnswer3
