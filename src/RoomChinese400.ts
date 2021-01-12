@@ -3,7 +3,7 @@ class RoomChinese400 extends Room {
     constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
         let questions: Question[] = []
         questions.push(
-            new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')),
+            new Question('Verdienen youtubers veel geld als mensen naar hun fimpjes kijken?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')),
             new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')))
 
         let clickableItems: collisionObj[] = []

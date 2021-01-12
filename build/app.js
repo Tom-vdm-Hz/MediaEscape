@@ -719,7 +719,7 @@ class RoomBeach402 extends Room {
 class RoomChinese400 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Verdienen youtubers veel geld als mensen naar hun fimpjes kijken?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
