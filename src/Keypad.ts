@@ -83,6 +83,7 @@ class Keypad extends View {
                     if (this.enteredCode.length < 8) {
                         this.enteredCode += JSON.stringify(obj.value)
                     }
+
                 }
             }
         })

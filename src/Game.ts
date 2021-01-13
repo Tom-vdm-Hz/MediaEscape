@@ -127,12 +127,6 @@ class Game {
             Game.writeTextToCanvas(ctx, 'Druk op "spatie" om de code te controleren', this.canvas.width / 2, this.canvas.height - 40, 40)
         }
 
-        this.doorLocationsLobby2.forEach(obj => {
-            ctx.beginPath();
-            ctx.rect(obj.minX, obj.minY, 3, 3);
-            ctx.rect(obj.maxX, obj.maxY, 3, 3);
-            ctx.stroke();
-        })
     }
 
     public doorAndLobbyDetection(list: collisionObj[]) {
