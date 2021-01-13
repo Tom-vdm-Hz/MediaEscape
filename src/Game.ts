@@ -156,7 +156,7 @@ class Game {
                         case 'door':
                             if (this.player.keyListener.isKeyDown(13)) {
                                 this.rooms.forEach(room => {
-                                    if (this.getImgName(room.img) === `${obj.img}.jpg`) {
+                                    if (this.getImgName(room.img) === `${obj.img}.png`) {
                                         this.view = room
                                         this.activeRoom = room
                                         this.player.inRoom = true;
@@ -247,13 +247,13 @@ class Game {
 
 
     private createRooms() {
-        let basic1: Room = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height, 303)
-        let basic2: Room = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height, 403)
-        let bath: Room = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height, 401)
-        let beach: Room = new RoomBeach402(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height, 402)
-        let chinese: Room = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height, 400)
-        let future: Room = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height, 301)
-        let penthouse: Room = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height, 302)
+        let basic1: Room = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.png'), this.canvas.width, this.canvas.height, 303)
+        let basic2: Room = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.png'), this.canvas.width, this.canvas.height, 403)
+        let bath: Room = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.png'), this.canvas.width, this.canvas.height, 401)
+        let beach: Room = new RoomBeach402(Game.loadNewImage('assets/img/rooms/room6.png'), this.canvas.width, this.canvas.height, 402)
+        let chinese: Room = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.png'), this.canvas.width, this.canvas.height, 400)
+        let future: Room = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.png'), this.canvas.width, this.canvas.height, 301)
+        let penthouse: Room = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.png'), this.canvas.width, this.canvas.height, 302)
         this.rooms.push(basic1, basic2, bath, beach, chinese, future, penthouse)
         this.player.collectedCodes.push(new Code(basic1.roomNumber), new Code(basic2.roomNumber), new Code(bath.roomNumber), new Code(beach.roomNumber), new Code(chinese.roomNumber), new Code(future.roomNumber), new Code(penthouse.roomNumber))
     }
