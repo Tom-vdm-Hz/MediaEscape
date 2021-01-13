@@ -5,11 +5,13 @@ class Room extends View {
     private _questions: Question[]
     private _clickableItems: collisionObj[]
     private _lastClickedObj: collisionObj;
+    private readonly _roomNumber: number;
 
-    public constructor(room: HTMLImageElement, questions: Question[], clickableItems: collisionObj[]) {
+    public constructor(room: HTMLImageElement, questions: Question[], clickableItems: collisionObj[], roomNumber: number) {
         super(room)
         this._questions = questions
         this._clickableItems = clickableItems
+        this._roomNumber = roomNumber
     };
 
     public checkClick(x: number, y: number, type: string): Question {
@@ -26,7 +28,7 @@ class Room extends View {
                         this.showQuestion()
                         document.getElementById("questionText").innerHTML = question.question
                         this.hideExtraAnswerAndImg()
-                        if (this.getRndInteger(1, 3) === 1) {
+                        if (Room.getRndInteger(1, 3) === 1) {
                             document.getElementById("awnser1").innerHTML = question.badAnswer1
                             document.getElementById("awnser2").innerHTML = question.goodAnswer;
                         } else {
@@ -87,7 +89,7 @@ class Room extends View {
         document.getElementById("question").classList.remove("visible");
     }
 
-    public getRndInteger(min: number, max: number): number {
+    public static getRndInteger(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
@@ -114,6 +116,11 @@ class Room extends View {
 
     set lastClickedObj(value: collisionObj) {
         this._lastClickedObj = value;
+    }
+
+
+    get roomNumber(): number {
+        return this._roomNumber;
     }
 }
 
