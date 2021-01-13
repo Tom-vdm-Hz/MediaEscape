@@ -20,9 +20,9 @@ class Keypad extends View {
             maxY: canvasHeight / 1.4,
         }, {
             value: 3,
-            minX: canvasWidth / 1.7,
+            minX: canvasWidth / 1.78,
             minY: canvasHeight / 1.54,
-            maxX: canvasWidth / 1.5,
+            maxX: canvasWidth / 1.58,
             maxY: canvasHeight / 1.4,
         }, {
             value: 4,
@@ -32,15 +32,15 @@ class Keypad extends View {
             maxY: canvasHeight / 1.55,
         }, {
             value: 5,
-            minX: canvasWidth / 2,
+            minX: canvasWidth / 2.06,
             minY: canvasHeight / 1.73,
-            maxX: canvasWidth / 2,
+            maxX: canvasWidth / 1.8,
             maxY: canvasHeight / 1.55,
         }, {
             value: 6,
-            minX: canvasWidth / 2,
+            minX: canvasWidth / 1.78,
             minY: canvasHeight / 1.73,
-            maxX: canvasWidth / 1.6,
+            maxX: canvasWidth / 1.58,
             maxY: canvasHeight / 1.55,
         }, {
             value: 7,
@@ -50,15 +50,15 @@ class Keypad extends View {
             maxY: canvasHeight / 1.75,
         }, {
             value: 8,
-            minX: canvasWidth / 2,
+            minX: canvasWidth / 2.06,
             minY: canvasHeight / 1.97,
-            maxX: canvasWidth / 2,
+            maxX: canvasWidth / 1.8,
             maxY: canvasHeight / 1.75,
         }, {
             value: 9,
-            minX: canvasWidth / 2,
+            minX: canvasWidth / 1.78,
             minY: canvasHeight / 1.97,
-            maxX: canvasWidth / 2,
+            maxX: canvasWidth / 1.58,
             maxY: canvasHeight / 1.75,
         },]
     }
@@ -69,7 +69,10 @@ class Keypad extends View {
             playerCodeString += code.codeNum;
         })
         if (playerCodeString === this.enteredCode) {
+            Game.popup('Goed gedaan', 'De kluis is nu open')
             vault.isOpen = true
+        } else {
+            Game.popup('Verkeerd', 'Probeer opnieuw en controleer of je alle kamers hebt afgemaakt')
         }
     }
 
@@ -77,18 +80,20 @@ class Keypad extends View {
         this._clickableItems.forEach(obj => {
             if ((x >= obj.minX) && (x <= obj.maxX) && (y >= obj.minY) && (y <= obj.maxY)) {
                 if (type === 'click') {
-                    this.enteredCode += JSON.stringify(obj.value)
+                    if (this.enteredCode.length < 8) {
+                        this.enteredCode += JSON.stringify(obj.value)
+                    }
                 }
             }
         })
     }
 
     public deleteLastNum() {
-        this.enteredCode.slice(this.enteredCode.length, 1)
+        this.enteredCode = this.enteredCode.slice(0, -1)
     }
 
     public drawCode(ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number) {
-        Game.writeTextToCanvas(ctx, this.enteredCode, canvasWidth / 2, canvasHeight / 2)
+        Game.writeTextToCanvas(ctx, this.enteredCode, canvasWidth / 2, canvasHeight / 3, 50, 'white')
     }
 
 

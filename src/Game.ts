@@ -6,7 +6,7 @@ class Game {
     private activeQuestion: Question
     private rooms: Room[] = []
     private vault: Vault = new Vault(Game.loadNewImage('assets/img/backgrounds/vault.png'))
-    private keypad: Keypad;
+    private readonly keypad: Keypad;
     private readonly canvas: HTMLCanvasElement;
     private doorLocationsLobby1: collisionObj[];
     private doorLocationsLobby2: collisionObj[];
@@ -54,17 +54,18 @@ class Game {
         }
 
         if (this.view === this.vault) {
-
+            if (this.player.keyListener.isKeyDown(32)) {
+                Game.popup('Goed gedaan', 'Je hebt de kluis geopend en gewonnen')
+            }
         }
 
         if (this.view === this.keypad) {
-            if (this.player.keyListener.isKeyDown(8)) {
+            if (this.player.keyListener.keyDownOnce(8)) {
                 this.keypad.deleteLastNum()
             }
-            if (this.player.keyListener.isKeyDown(13)) {
+            if (this.player.keyListener.isKeyDown(32)) {
                 this.keypad.checkCode(this.player.collectedCodes, this.vault)
             }
-
         }
 
 
@@ -102,6 +103,9 @@ class Game {
                 this.activeQuestion = question
             }
         }
+        if (this.view === this.keypad) {
+            this.keypad.checkClick(x, y, type)
+        }
     }
 
 
@@ -115,17 +119,18 @@ class Game {
         this.player.draw(ctx)
 
         if (this.view === this.vault) {
-
+            Game.writeTextToCanvas(ctx, 'Druk op "spatie" om het spel te beindigen', this.canvas.width / 2, this.canvas.height - 40, 40)
         }
 
         if (this.view === this.keypad) {
             this.keypad.drawCode(ctx, this.canvas.width, this.canvas.height)
+            Game.writeTextToCanvas(ctx, 'Druk op "spatie" om de code te controleren', this.canvas.width / 2, this.canvas.height - 40, 40)
         }
 
-        this.keypad.clickableItems.forEach(obj => {
+        this.doorLocationsLobby2.forEach(obj => {
             ctx.beginPath();
-            ctx.rect(obj.minX, obj.minY, 1, 1);
-            ctx.rect(obj.maxX, obj.maxY, 1, 1);
+            ctx.rect(obj.minX, obj.minY, 3, 3);
+            ctx.rect(obj.maxX, obj.maxY, 3, 3);
             ctx.stroke();
         })
     }
@@ -347,9 +352,9 @@ class Game {
             },
             {
                 name: 'keypad',
-                minX: this.canvas.width / 2.05,
+                minX: this.canvas.width / 2.3,
                 minY: this.canvas.height / 1.7,
-                maxX: this.canvas.width / 1.85,
+                maxX: this.canvas.width / 2,
                 maxY: this.canvas.height / 1.1,
                 img: 'room6'
             },

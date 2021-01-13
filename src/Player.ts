@@ -31,23 +31,44 @@ class Player {
         let floorDivider: number = canvasHeight / 2.07;
         let feetLocation: number = this.y + this.img.height
         if (this.inRoom === false) {
-
             //a key is pressed
             if (this.keyListener.isKeyDown(65)) {
-                if (this.x >= 0) {
-                    this.x -= this.speed
+                switch (this.lobby) {
+                    case 'hallway1.png':
+                        if (this.x >= 0) {
+                            this.x -= this.speed
+                        }
+                        break;
+                    case 'hallway2.png':
+                        if (this.y < floorDivider && this.x >= canvasWidth / 8) {
+                            this.x -= this.speed
+                        } else if (this.y > floorDivider && this.x >= 0) {
+                            this.x -= this.speed
+                        }
+                        break;
                 }
                 this.walk('left')
             }
-
             //d key is pressed
             if (this.keyListener.isKeyDown(68)) {
-                if (canvasWidth >= this.x + this._img.width) {
-                    this.x += this.speed
+                switch (this.lobby) {
+                    case 'hallway1.png':
+                        if (this.y < floorDivider && canvasWidth / 1.15 >= this.x + this._img.width) {
+                            this.x += this.speed
+                        }
+                        if (this.y > floorDivider && canvasWidth >= this.x + this._img.width) {
+                            this.x += this.speed
+                        }
+                        break;
+                    case 'hallway2.png':
+                        if (canvasWidth >= this.x + this._img.width) {
+                            this.x += this.speed
+                        }
+                        break;
                 }
+
                 this.walk('right')
             }
-
             //w key is pressed
             if (this.keyListener.isKeyDown(87)) {
                 switch (this.lobby) {
@@ -66,7 +87,6 @@ class Player {
                 }
                 this.img = Game.loadNewImage(`assets/img/players/char${this.playerName}back.png`)
             }
-
             //s key is pressed
             if (this.keyListener.isKeyDown(83)) {
                 switch (this.lobby) {
@@ -104,7 +124,6 @@ class Player {
     }
 
     private applySimpleGravity(canvasHeight: number, feetLocation: number, floorDivider: number) {
-
         if (feetLocation > floorDivider + 5 && feetLocation < canvasHeight) {
             this.y += 2;
         }

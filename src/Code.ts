@@ -4,6 +4,7 @@ class Code {
 
     constructor(roomNum: number) {
         this._roomNum = roomNum;
+        this.codeNum = Room.getRndInteger(1, 10)
     }
 
     get roomNum(): number {
