@@ -1,6 +1,24 @@
+class Code {
+    constructor(roomNum) {
+        this._roomNum = roomNum;
+    }
+    get roomNum() {
+        return this._roomNum;
+    }
+    set roomNum(value) {
+        this._roomNum = value;
+    }
+    get codeNum() {
+        return this._codeNum;
+    }
+    set codeNum(value) {
+        this._codeNum = value;
+    }
+}
 class Game {
     constructor(canvas, playerName, characterName, windowHeight, windowWidth) {
         this.rooms = [];
+        this.vault = new Vault(Game.loadNewImage('assets/img/backgrounds/vault.png'));
         this.listsLoaded = 0;
         this.step = () => {
             this.update();
@@ -12,11 +30,12 @@ class Game {
         this.canvas.height = windowHeight;
         this.player = new Player(playerName, characterName, Game.loadNewImage(`assets/img/players/char${characterName}back.png`), this.canvas.width, this.canvas.height, 'hallway1.png');
         this.view = new View(Game.loadNewImage('assets/img/backgrounds/hallway1.png'));
+        this.keypad = new Keypad(Game.loadNewImage('assets/img/backgrounds/keypadzoomin.png'), this.canvas.width, this.canvas.height);
         this.createRooms();
         requestAnimationFrame(this.step);
     }
     update() {
-        if (this.listsLoaded != 2) {
+        if (this.listsLoaded != 20) {
             this.fillLists();
             this.listsLoaded++;
         }
@@ -27,22 +46,40 @@ class Game {
         else if (this.getImgName(this.view.img).includes('2')) {
             this.doorAndLobbyDetection(this.doorLocationsLobby2);
         }
+        if (this.view === this.vault) {
+            if (this.player.keyListener.isKeyDown(32)) {
+                Game.popup('Goed gedaan', 'Je hebt de kluis geopend en gewonnen');
+            }
+        }
+        if (this.view === this.keypad) {
+            if (this.player.keyListener.keyDownOnce(8)) {
+                this.keypad.deleteLastNum();
+            }
+            if (this.player.keyListener.isKeyDown(32)) {
+                this.keypad.checkCode(this.player.collectedCodes, this.vault);
+            }
+        }
         this.doorAndLobbyDetection(this.lobbies);
         this.returnToLobby();
     }
     checkAnswer(button, answer) {
         if (this.activeQuestion.goodAnswer === answer) {
-            alert('Goed Antwoord');
+            Game.popup('Goed gedaan', 'Je hebt de vraag goed beantwoord');
             this.activeRoom.hideQuestion();
             this.activeRoom.questions.splice(this.activeRoom.questions.indexOf(this.activeQuestion), 1);
             this.activeRoom.clickableItems.splice(this.activeRoom.clickableItems.indexOf(this.activeRoom.lastClickedObj), 1);
             this.activeQuestion = undefined;
             if (this.activeRoom.questions.length === 0) {
-                alert('alle vragen in deze kamer beantwoord');
+                this.player.collectedCodes.forEach(code => {
+                    if (code.roomNum === this.activeRoom.roomNumber) {
+                        code.codeNum = Room.getRndInteger(1, 10);
+                    }
+                });
+                Game.popup('Goed gedaan, kamer voltooid', 'alle vragen in deze kamer zijn goed beantwoord, nieuw deel van de code vrijgespeeld, druk op ESC om de kamer te verlaten');
             }
         }
         else {
-            alert('Verkeerd Antwoord');
+            Game.popup('Helaas, fout', 'Probeer opnieuw');
             this.activeRoom.hideQuestion();
             this.activeQuestion = undefined;
         }
@@ -53,6 +90,9 @@ class Game {
             if (question != null) {
                 this.activeQuestion = question;
             }
+        }
+        if (this.view === this.keypad) {
+            this.keypad.checkClick(x, y, type);
         }
     }
     render() {
@@ -67,6 +107,13 @@ class Game {
                 ctx.rect(obj.maxX, obj.maxY, 5, 5);
                 ctx.stroke();
             });
+        }
+        if (this.view === this.vault) {
+            Game.writeTextToCanvas(ctx, 'Druk op "spatie" om het spel te beindigen', this.canvas.width / 2, this.canvas.height - 40, 40);
+        }
+        if (this.view === this.keypad) {
+            this.keypad.drawCode(ctx, this.canvas.width, this.canvas.height);
+            Game.writeTextToCanvas(ctx, 'Druk op "spatie" om de code te controleren', this.canvas.width / 2, this.canvas.height - 40, 40);
         }
     }
     doorAndLobbyDetection(list) {
@@ -96,12 +143,29 @@ class Game {
                     case 'door':
                         if (this.player.keyListener.isKeyDown(13)) {
                             this.rooms.forEach(room => {
-                                if (this.getImgName(room.img) === `${obj.img}.jpg`) {
+                                if (this.getImgName(room.img) === `${obj.img}.png`) {
                                     this.view = room;
                                     this.activeRoom = room;
                                     this.player.inRoom = true;
                                 }
                             });
+                        }
+                        break;
+                    case 'vault':
+                        if (this.player.keyListener.isKeyDown(13)) {
+                            if (this.vault.isOpen) {
+                                this.view = this.vault;
+                                this.player.inRoom = true;
+                            }
+                            else {
+                                Game.popup('Kluis zit nog op slot', 'vul de juiste code in op de keypad om de kluis te openen');
+                            }
+                        }
+                        break;
+                    case 'keypad':
+                        if (this.player.keyListener.isKeyDown(13)) {
+                            this.view = this.keypad;
+                            this.player.inRoom = true;
                         }
                         break;
                 }
@@ -121,27 +185,30 @@ class Game {
         ctx.textAlign = "center";
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
-    static removeItem(list, obj) {
-        list.slice(list.indexOf(obj), 1);
-    }
     static loadNewImage(source) {
         const img = new Image();
         img.src = source;
         return img;
+    }
+    static popup(headerText, bodyText) {
+        document.getElementById('popupButton').click();
+        document.getElementById('headerText').innerHTML = headerText;
+        document.getElementById('bodyText').innerHTML = bodyText;
     }
     getImgName(img) {
         let fullPath = img.src;
         return fullPath.replace(/^.*[\\\/]/, '');
     }
     createRooms() {
-        let basic1 = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height);
-        let basic2 = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height);
-        let bath = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height);
-        let beach = new RoomBeach402(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height);
-        let chinese = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height);
-        let future = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height);
-        let penthouse = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height);
+        let basic1 = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.png'), this.canvas.width, this.canvas.height, 303);
+        let basic2 = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.png'), this.canvas.width, this.canvas.height, 403);
+        let bath = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.png'), this.canvas.width, this.canvas.height, 401);
+        let beach = new RoomBeach402(Game.loadNewImage('assets/img/rooms/room6.png'), this.canvas.width, this.canvas.height, 402);
+        let chinese = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.png'), this.canvas.width, this.canvas.height, 400);
+        let future = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.png'), this.canvas.width, this.canvas.height, 301);
+        let penthouse = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.png'), this.canvas.width, this.canvas.height, 302);
         this.rooms.push(basic1, basic2, bath, beach, chinese, future, penthouse);
+        this.player.collectedCodes.push(new Code(basic1.roomNumber), new Code(basic2.roomNumber), new Code(bath.roomNumber), new Code(beach.roomNumber), new Code(chinese.roomNumber), new Code(future.roomNumber), new Code(penthouse.roomNumber));
     }
     fillLists() {
         this.lobbies = [
@@ -231,9 +298,9 @@ class Game {
             },
             {
                 name: 'keypad',
-                minX: this.canvas.width / 2.05,
+                minX: this.canvas.width / 2.3,
                 minY: this.canvas.height / 1.7,
-                maxX: this.canvas.width / 1.85,
+                maxX: this.canvas.width / 2,
                 maxY: this.canvas.height / 1.1,
                 img: 'room6'
             },
@@ -243,8 +310,7 @@ class Game {
 class KeyListener {
     constructor() {
         this.keyCodeStates = new Array();
-        this.keyCodeTyped = new Array();
-        this.previousState = new Array();
+        this.keyDownOnceSwitch = false;
         window.addEventListener("keydown", (ev) => {
             this.keyCodeStates[ev.keyCode] = true;
         });
@@ -252,20 +318,19 @@ class KeyListener {
             this.keyCodeStates[ev.keyCode] = false;
         });
     }
-    onFrameStart() {
-        this.keyCodeTyped = new Array();
-        this.keyCodeStates.forEach((val, key) => {
-            if (this.previousState[key] != val && !this.keyCodeStates[key]) {
-                this.keyCodeTyped[key] = true;
-                this.previousState[key] = val;
-            }
-        });
-    }
     isKeyDown(keyCode) {
         return this.keyCodeStates[keyCode] == true;
     }
-    isKeyTyped(keyCode) {
-        return this.keyCodeTyped[keyCode] == true;
+    keyDownOnce(keyCode) {
+        if (this.keyCodeStates[keyCode] == true && this.keyDownOnceSwitch != true) {
+            this.keyDownOnceSwitch = true;
+            return true;
+        }
+        else if (this.keyCodeStates[keyCode] == false) {
+            this.keyDownOnceSwitch = false;
+            return false;
+        }
+        return false;
     }
 }
 KeyListener.KEY_ENTER = 13;
@@ -289,9 +354,115 @@ KeyListener.KEY_A = 65;
 KeyListener.KEY_D = 68;
 KeyListener.KEY_S = 83;
 KeyListener.KEY_W = 87;
+class View {
+    constructor(img) {
+        this._img = img;
+    }
+    draw(ctx, cWidth, cHeight) {
+        ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, cWidth, cHeight);
+    }
+    get img() {
+        return this._img;
+    }
+}
+class Keypad extends View {
+    constructor(img, canvasWidth, canvasHeight) {
+        super(img);
+        this.enteredCode = '';
+        this._clickableItems = [{
+                value: 1,
+                minX: canvasWidth / 2.48,
+                minY: canvasHeight / 1.54,
+                maxX: canvasWidth / 2.1,
+                maxY: canvasHeight / 1.4,
+            }, {
+                value: 2,
+                minX: canvasWidth / 2.06,
+                minY: canvasHeight / 1.54,
+                maxX: canvasWidth / 1.8,
+                maxY: canvasHeight / 1.4,
+            }, {
+                value: 3,
+                minX: canvasWidth / 1.78,
+                minY: canvasHeight / 1.54,
+                maxX: canvasWidth / 1.58,
+                maxY: canvasHeight / 1.4,
+            }, {
+                value: 4,
+                minX: canvasWidth / 2.48,
+                minY: canvasHeight / 1.73,
+                maxX: canvasWidth / 2.1,
+                maxY: canvasHeight / 1.55,
+            }, {
+                value: 5,
+                minX: canvasWidth / 2.06,
+                minY: canvasHeight / 1.73,
+                maxX: canvasWidth / 1.8,
+                maxY: canvasHeight / 1.55,
+            }, {
+                value: 6,
+                minX: canvasWidth / 1.78,
+                minY: canvasHeight / 1.73,
+                maxX: canvasWidth / 1.58,
+                maxY: canvasHeight / 1.55,
+            }, {
+                value: 7,
+                minX: canvasWidth / 2.48,
+                minY: canvasHeight / 1.97,
+                maxX: canvasWidth / 2.1,
+                maxY: canvasHeight / 1.75,
+            }, {
+                value: 8,
+                minX: canvasWidth / 2.06,
+                minY: canvasHeight / 1.97,
+                maxX: canvasWidth / 1.8,
+                maxY: canvasHeight / 1.75,
+            }, {
+                value: 9,
+                minX: canvasWidth / 1.78,
+                minY: canvasHeight / 1.97,
+                maxX: canvasWidth / 1.58,
+                maxY: canvasHeight / 1.75,
+            },];
+    }
+    checkCode(playerCode, vault) {
+        let playerCodeString = '';
+        playerCode.forEach(code => {
+            playerCodeString += code.codeNum;
+        });
+        if (playerCodeString === this.enteredCode) {
+            Game.popup('Goed gedaan', 'De kluis is nu open');
+            vault.isOpen = true;
+        }
+        else {
+            Game.popup('Verkeerd', 'Probeer opnieuw en controleer of je alle kamers hebt afgemaakt');
+        }
+    }
+    checkClick(x, y, type) {
+        this._clickableItems.forEach(obj => {
+            if ((x >= obj.minX) && (x <= obj.maxX) && (y >= obj.minY) && (y <= obj.maxY)) {
+                if (type === 'click') {
+                    if (this.enteredCode.length < 8) {
+                        this.enteredCode += JSON.stringify(obj.value);
+                    }
+                }
+            }
+        });
+    }
+    deleteLastNum() {
+        this.enteredCode = this.enteredCode.slice(0, -1);
+    }
+    drawCode(ctx, canvasWidth, canvasHeight) {
+        Game.writeTextToCanvas(ctx, this.enteredCode, canvasWidth / 2, canvasHeight / 3, 50, 'white');
+    }
+    get clickableItems() {
+        return this._clickableItems;
+    }
+}
 class Player {
     constructor(name, characterName, img, canvasWidth, canvasHeight, lobby) {
         this._baseImg = Game.loadNewImage(`assets/img/players/charaback.png`);
+        this._collectedCodes = [];
         this.speed = 10;
         this._inRoom = false;
         this._lastWalkImg = 1;
@@ -299,7 +470,7 @@ class Player {
         this._characterName = characterName;
         this._img = img;
         this._x = canvasWidth / 2;
-        this._y = canvasHeight - 240;
+        this._y = canvasHeight / 1.35;
         this.keyListener = new KeyListener;
         this._lobby = lobby;
     }
@@ -312,14 +483,38 @@ class Player {
         let feetLocation = this.y + this.img.height;
         if (this.inRoom === false) {
             if (this.keyListener.isKeyDown(65)) {
-                if (this.x >= 0) {
-                    this.x -= this.speed;
+                switch (this.lobby) {
+                    case 'hallway1.png':
+                        if (this.x >= 0) {
+                            this.x -= this.speed;
+                        }
+                        break;
+                    case 'hallway2.png':
+                        if (this.y < floorDivider && this.x >= canvasWidth / 8) {
+                            this.x -= this.speed;
+                        }
+                        else if (this.y > floorDivider && this.x >= 0) {
+                            this.x -= this.speed;
+                        }
+                        break;
                 }
                 this.walk('left');
             }
             if (this.keyListener.isKeyDown(68)) {
-                if (canvasWidth >= this.x + this._img.width) {
-                    this.x += this.speed;
+                switch (this.lobby) {
+                    case 'hallway1.png':
+                        if (this.y < floorDivider && canvasWidth / 1.15 >= this.x + this._img.width) {
+                            this.x += this.speed;
+                        }
+                        if (this.y > floorDivider && canvasWidth >= this.x + this._img.width) {
+                            this.x += this.speed;
+                        }
+                        break;
+                    case 'hallway2.png':
+                        if (canvasWidth >= this.x + this._img.width) {
+                            this.x += this.speed;
+                        }
+                        break;
                 }
                 this.walk('right');
             }
@@ -383,6 +578,15 @@ class Player {
     draw(ctx) {
         if (this._inRoom === false) {
             ctx.drawImage(this._img, this._x, this._y);
+            let h = 35;
+            this._collectedCodes.forEach(code => {
+                Game.writeTextToCanvas(ctx, JSON.stringify(code.roomNum), 30, h);
+                Game.writeTextToCanvas(ctx, '=', 70, h);
+                if (code.codeNum != undefined) {
+                    Game.writeTextToCanvas(ctx, JSON.stringify(code.codeNum), 95, h);
+                }
+                h += 35;
+            });
         }
     }
     walkNumCalculation() {
@@ -442,12 +646,6 @@ class Player {
     set img(value) {
         this._img = value;
     }
-    get characterName() {
-        return this._characterName;
-    }
-    set characterName(value) {
-        this._characterName = value;
-    }
     get inRoom() {
         return this._inRoom;
     }
@@ -462,6 +660,12 @@ class Player {
     }
     get baseImg() {
         return this._baseImg;
+    }
+    get collectedCodes() {
+        return this._collectedCodes;
+    }
+    set collectedCodes(value) {
+        this._collectedCodes = value;
     }
 }
 class Point {
@@ -550,22 +754,12 @@ class Rectangle {
         this._size = value;
     }
 }
-class View {
-    constructor(img) {
-        this._img = img;
-    }
-    draw(ctx, cWidth, cHeight) {
-        ctx.drawImage(this.img, 0, 0, this.img.width, this.img.height, 0, 0, cWidth, cHeight);
-    }
-    get img() {
-        return this._img;
-    }
-}
 class Room extends View {
-    constructor(room, questions, clickableItems) {
+    constructor(room, questions, clickableItems, roomNumber) {
         super(room);
         this._questions = questions;
         this._clickableItems = clickableItems;
+        this._roomNumber = roomNumber;
     }
     ;
     checkClick(x, y, type) {
@@ -582,7 +776,7 @@ class Room extends View {
                         this.showQuestion();
                         document.getElementById("questionText").innerHTML = question.question;
                         this.hideExtraAnswerAndImg();
-                        if (this.getRndInteger(1, 3) === 1) {
+                        if (Room.getRndInteger(1, 3) === 1) {
                             document.getElementById("awnser1").innerHTML = question.badAnswer1;
                             document.getElementById("awnser2").innerHTML = question.goodAnswer;
                         }
@@ -639,7 +833,7 @@ class Room extends View {
         document.getElementById("question").classList.add("hidden");
         document.getElementById("question").classList.remove("visible");
     }
-    getRndInteger(min, max) {
+    static getRndInteger(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
     get questions() {
@@ -660,9 +854,12 @@ class Room extends View {
     set lastClickedObj(value) {
         this._lastClickedObj = value;
     }
+    get roomNumber() {
+        return this._roomNumber;
+    }
 }
 class RoomBasic303 extends Room {
-    constructor(room, canvasWidth, canvasHeight) {
+    constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
         questions.push(new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
@@ -679,11 +876,11 @@ class RoomBasic303 extends Room {
             maxX: canvasWidth / 0.48,
             maxY: canvasHeight / 1.77,
         });
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }
 class RoomBath401 extends Room {
-    constructor(room, canvasWidth, canvasHeight) {
+    constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
         questions.push(new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurd als je klikt en gaat kijken naar nepnieuws', undefined), new Question('Hackers hebben altijd slechte bedoelingen?', 'Niet waar', 'Waar', undefined, undefined, 'Bedenk waar je hackers ook nog voor kan gebruiken in een bedrijf', undefined));
         let clickableItems = [];
@@ -700,11 +897,11 @@ class RoomBath401 extends Room {
             maxX: canvasWidth / 1.06,
             maxY: canvasHeight / 1.31,
         });
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }
 class RoomBeach402 extends Room {
-    constructor(room, canvasWidth, canvasHeight) {
+    constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
         questions.push(new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
@@ -721,11 +918,11 @@ class RoomBeach402 extends Room {
             maxX: canvasWidth / 2.25,
             maxY: canvasHeight / 1.1,
         });
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }
 class RoomChinese400 extends Room {
-    constructor(room, canvasWidth, canvasHeight) {
+    constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
         questions.push(new Question('Verdienen youtubers veel geld met het maken van filmpjes?', 'ja', 'nee', undefined, undefined, 'per 1000 views kan je tussen de 30 cent en 4 euro verdienen', Game.loadNewImage('assets/img/questionImages/youtube.png')), new Question('Wat mag je sinds 1 juli 2019 niet meer doen op de fiets?', 'Je telefoon gebruiken', 'Zonder handen fietsen', 'Bellen met je fietsbel', 'Iemand meenemen op je bagagedrager', 'Wat mag je ook niet doen achter het stuur in de auto?', Game.loadNewImage('assets/img/questionImages/fietsen.jpg')));
         let clickableItems = [];
@@ -742,11 +939,11 @@ class RoomChinese400 extends Room {
             maxX: canvasWidth / 1.06,
             maxY: canvasHeight / 1.31,
         });
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }
 class RoomFuture301 extends Room {
-    constructor(room, canvasWidth, canvasHeight) {
+    constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
         questions.push(new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
@@ -763,11 +960,11 @@ class RoomFuture301 extends Room {
             maxX: canvasWidth / 1.32,
             maxY: canvasHeight / 1.66,
         });
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }
 class RoomPenthouse302 extends Room {
-    constructor(room, canvasWidth, canvasHeight) {
+    constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
         questions.push(new Question('Is deze man echt of nep?', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
@@ -784,11 +981,11 @@ class RoomPenthouse302 extends Room {
             maxX: canvasWidth / 1.06,
             maxY: canvasHeight / 1.31,
         });
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }
 class RoomSky403 extends Room {
-    constructor(room, canvasWidth, canvasHeight) {
+    constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
         questions.push(new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
         let clickableItems = [];
@@ -805,7 +1002,19 @@ class RoomSky403 extends Room {
             maxX: canvasWidth / 2.25,
             maxY: canvasHeight / 1.1,
         });
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
+    }
+}
+class Vault extends View {
+    constructor(img) {
+        super(img);
+        this._isOpen = false;
+    }
+    get isOpen() {
+        return this._isOpen;
+    }
+    set isOpen(value) {
+        this._isOpen = value;
     }
 }
 console.log("Javascript is working!");

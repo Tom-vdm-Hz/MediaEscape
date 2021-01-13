@@ -1,6 +1,6 @@
 /// <reference path="Room.ts"/>
 class RoomBath401 extends Room {
-    constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
+    constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number, roomNumber: number) {
         let questions: Question[] = []
         questions.push(
             new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurd als je klikt en gaat kijken naar nepnieuws', undefined),
@@ -23,6 +23,6 @@ class RoomBath401 extends Room {
                 maxY: canvasHeight / 1.31,
             })
 
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }

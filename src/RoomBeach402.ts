@@ -1,6 +1,6 @@
 /// <reference path="Room.ts"/>
 class RoomBeach402 extends Room {
-    constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number) {
+    constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number, roomNumber: number) {
         let questions: Question[] = []
         questions.push(
             new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')),
@@ -22,6 +22,6 @@ class RoomBeach402 extends Room {
                 maxY: canvasHeight / 1.1,
             })
 
-        super(room, questions, clickableItems);
+        super(room, questions, clickableItems, roomNumber);
     }
 }
