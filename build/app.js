@@ -685,7 +685,7 @@ class RoomBasic303 extends Room {
 class RoomBath401 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurd als je klikt en gaat kijken naar nepnieuws', undefined), new Question('Hackers hebben altijd slechte bedoelingen?', 'Niet waar', 'Waar', undefined, undefined, '', undefined));
+        questions.push(new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurd als je klikt en gaat kijken naar nepnieuws', undefined), new Question('Hackers hebben altijd slechte bedoelingen?', 'Niet waar', 'Waar', undefined, undefined, 'Bedenk waar je hackers ook nog voor kan gebruiken in een bedrijf', undefined));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -727,14 +727,14 @@ class RoomBeach402 extends Room {
 class RoomChinese400 extends Room {
     constructor(room, canvasWidth, canvasHeight) {
         let questions = [];
-        questions.push(new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Echt', 'Nep', undefined, undefined, 'Donald Trump was de president van amerika', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Verdienen youtubers veel geld met het maken van filmpjes?', 'ja', 'nee', undefined, undefined, 'per 1000 views kan je tussen de 30 cent en 4 euro verdienen', Game.loadNewImage('assets/img/questionImages/youtube.png')), new Question('Wat mag je sinds 1 juli 2019 niet meer doen op de fiets?', 'Je telefoon gebruiken', 'Zonder handen fietsen', 'Bellen met je fietsbel', 'Iemand meenemen op je bagagedrager', 'Wat mag je ook niet doen achter het stuur in de auto?', Game.loadNewImage('assets/img/questionImages/fietsen.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 3.18,
-            minY: canvasHeight / 1.25,
-            maxX: canvasWidth / 2.8,
-            maxY: canvasHeight / 1.17,
+            minX: canvasWidth / 2.3,
+            minY: canvasHeight / 2.35,
+            maxX: canvasWidth / 1.83,
+            maxY: canvasHeight / 1.78,
         }, {
             name: 'question',
             minX: canvasWidth / 1.12,
