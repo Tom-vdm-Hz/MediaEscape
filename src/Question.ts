@@ -7,6 +7,7 @@ class Question {
     private readonly _badAnswer2: string
     private readonly _badAnswer3: string
     private readonly _img: HTMLImageElement
+    private _showHint: boolean = false;
 
     public constructor(question: string, goodAnswer: string, badAnswer1: string, badAnswer2?: string, badAnswer3?: string, extraInfo?: string, img?: HTMLImageElement) {
         this._badAnswer1 = badAnswer1
@@ -46,6 +47,15 @@ class Question {
 
     get badAnswer3(): string {
         return this._badAnswer3;
+    }
+
+
+    get showHint(): boolean {
+        return this._showHint;
+    }
+
+    set showHint(value: boolean) {
+        this._showHint = value;
     }
 }
 

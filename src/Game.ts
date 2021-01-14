@@ -90,6 +90,7 @@ class Game {
             }
         } else {
             Game.popup('Helaas, fout', 'Probeer opnieuw')
+            this.activeQuestion.showHint = true;
             this.activeRoom.hideQuestion()
             this.activeQuestion = undefined;
         }

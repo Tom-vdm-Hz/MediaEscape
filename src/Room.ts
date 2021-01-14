@@ -43,7 +43,11 @@ class Room extends View {
                             document.getElementById('awnser4').classList.remove('hidden')
                             document.getElementById('awnser4').classList.add('visible')
                         }
-                        document.getElementById("hintText").innerHTML = question.extraInfo;
+                        if (question.showHint) {
+                            document.getElementById("hintText").innerHTML = question.extraInfo;
+                        } else {
+                            document.getElementById("hintText").innerHTML = "Hint is pas beschikbaar als je de vraag 1 keer fout hebt beantwoord.";
+                        }
                         if (question.img != undefined) {
                             document.getElementById("questionImg").classList.add('visible');
                             document.getElementById("questionImg").classList.remove('hidden');
