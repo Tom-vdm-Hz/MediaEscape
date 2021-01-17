@@ -7,7 +7,7 @@ class Player {
     private _x: number
     private _y: number
     keyListener: KeyListener
-    private speed: number = 10
+    private speed: number = 4
     private _inRoom: boolean = false;
     private _lobby: string;
     private _lastWalkImg: number = 1

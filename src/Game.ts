@@ -118,16 +118,7 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
-
-        if (this.activeRoom != undefined) {
-            this.activeRoom.clickableItems.forEach(obj => {
-                ctx.beginPath();
-                ctx.rect(obj.minX, obj.minY, 5, 5);
-                ctx.rect(obj.maxX, obj.maxY, 5, 5);
-                ctx.stroke();
-            })
-        }
-
+        
         if (this.view === this.vault) {
             Game.writeTextToCanvas(ctx, 'Druk op "spatie" om het spel te beindigen', this.canvas.width / 2, this.canvas.height - 40, 40)
         }

@@ -101,14 +101,6 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height);
         this.player.draw(ctx);
-        if (this.activeRoom != undefined) {
-            this.activeRoom.clickableItems.forEach(obj => {
-                ctx.beginPath();
-                ctx.rect(obj.minX, obj.minY, 5, 5);
-                ctx.rect(obj.maxX, obj.maxY, 5, 5);
-                ctx.stroke();
-            });
-        }
         if (this.view === this.vault) {
             Game.writeTextToCanvas(ctx, 'Druk op "spatie" om het spel te beindigen', this.canvas.width / 2, this.canvas.height - 40, 40);
         }
@@ -464,7 +456,7 @@ class Player {
     constructor(name, characterName, img, canvasWidth, canvasHeight, lobby) {
         this._baseImg = Game.loadNewImage(`assets/img/players/charaback.png`);
         this._collectedCodes = [];
-        this.speed = 10;
+        this.speed = 4;
         this._inRoom = false;
         this._lastWalkImg = 1;
         this._playerName = name;
@@ -899,16 +891,16 @@ class RoomBath401 extends Room {
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 5,
-            minY: canvasHeight / 5,
-            maxX: canvasWidth / 3,
-            maxY: canvasHeight / 3,
+            minX: canvasWidth / 2.33,
+            minY: canvasHeight / 2.6,
+            maxX: canvasWidth / 2.2,
+            maxY: canvasHeight / 2.1,
         }, {
             name: 'question',
-            minX: canvasWidth / 1.12,
-            minY: canvasHeight / 1.4,
-            maxX: canvasWidth / 1.06,
-            maxY: canvasHeight / 1.31,
+            minX: canvasWidth / 1.23,
+            minY: canvasHeight / 1.15,
+            maxX: canvasWidth / 1.13,
+            maxY: canvasHeight / 1.03,
         });
         super(room, questions, clickableItems, roomNumber);
     }
@@ -941,16 +933,16 @@ class RoomChinese400 extends Room {
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 2.3,
-            minY: canvasHeight / 2.35,
-            maxX: canvasWidth / 1.83,
-            maxY: canvasHeight / 1.78,
+            minX: canvasWidth / 12,
+            minY: canvasHeight / 1.7,
+            maxX: canvasWidth / 9,
+            maxY: canvasHeight / 1.5,
         }, {
             name: 'question',
-            minX: canvasWidth / 1.12,
-            minY: canvasHeight / 1.4,
-            maxX: canvasWidth / 1.06,
-            maxY: canvasHeight / 1.31,
+            minX: canvasWidth / 1.5,
+            minY: canvasHeight / 1.35,
+            maxX: canvasWidth / 1.4,
+            maxY: canvasHeight / 1.3,
         });
         super(room, questions, clickableItems, roomNumber);
     }
