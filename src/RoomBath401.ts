@@ -10,17 +10,17 @@ class RoomBath401 extends Room {
         clickableItems.push(
             {
                 name: 'question',
-                minX: canvasWidth / 5,
-                minY: canvasHeight / 5,
-                maxX: canvasWidth / 3,
-                maxY: canvasHeight / 3,
+                minX: canvasWidth / 2.33,
+                minY: canvasHeight / 2.6,
+                maxX: canvasWidth / 2.2,
+                maxY: canvasHeight / 2.1,
             },
             {
                 name: 'question',
-                minX: canvasWidth / 1.12,
-                minY: canvasHeight / 1.4,
-                maxX: canvasWidth / 1.06,
-                maxY: canvasHeight / 1.31,
+                minX: canvasWidth / 1.23,
+                minY: canvasHeight / 1.15,
+                maxX: canvasWidth / 1.13,
+                maxY: canvasHeight / 1.03,
             })
 
         super(room, questions, clickableItems, roomNumber);

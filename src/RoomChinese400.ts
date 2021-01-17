@@ -11,17 +11,17 @@ class RoomChinese400 extends Room {
         clickableItems.push(
             {
                 name: 'question',
-                minX: canvasWidth / 2.3,
-                minY: canvasHeight / 2.35,
-                maxX: canvasWidth / 1.83,
-                maxY: canvasHeight / 1.78,
+                minX: canvasWidth / 12,
+                minY: canvasHeight / 1.7,
+                maxX: canvasWidth / 9,
+                maxY: canvasHeight / 1.5,
             },
             {
                 name: 'question',
-                minX: canvasWidth / 1.12,
-                minY: canvasHeight / 1.4,
-                maxX: canvasWidth / 1.06,
-                maxY: canvasHeight / 1.31,
+                minX: canvasWidth / 1.5,
+                minY: canvasHeight / 1.35,
+                maxX: canvasWidth / 1.4,
+                maxY: canvasHeight / 1.3,
             })
 
         super(room, questions, clickableItems, roomNumber);
