@@ -47,6 +47,7 @@ class Game {
             this.doorAndLobbyDetection(this.doorLocationsLobby2);
         }
         if (this.view === this.vault) {
+<<<<<<< Updated upstream
             if (this.player.keyListener.isKeyDown(32)) {
                 Game.popup('Goed gedaan', 'Je hebt de kluis geopend en gewonnen');
             }
@@ -56,6 +57,14 @@ class Game {
                 this.keypad.deleteLastNum();
             }
             if (this.player.keyListener.isKeyDown(32)) {
+=======
+        }
+        if (this.view === this.keypad) {
+            if (this.player.keyListener.isKeyDown(8)) {
+                this.keypad.deleteLastNum();
+            }
+            if (this.player.keyListener.isKeyDown(13)) {
+>>>>>>> Stashed changes
                 this.keypad.checkCode(this.player.collectedCodes, this.vault);
             }
         }
@@ -101,12 +110,25 @@ class Game {
         this.view.draw(ctx, this.canvas.width, this.canvas.height);
         this.player.draw(ctx);
         if (this.view === this.vault) {
+<<<<<<< Updated upstream
             Game.writeTextToCanvas(ctx, 'Druk op "spatie" om het spel te beindigen', this.canvas.width / 2, this.canvas.height - 40, 40);
         }
         if (this.view === this.keypad) {
             this.keypad.drawCode(ctx, this.canvas.width, this.canvas.height);
             Game.writeTextToCanvas(ctx, 'Druk op "spatie" om de code te controleren', this.canvas.width / 2, this.canvas.height - 40, 40);
         }
+=======
+        }
+        if (this.view === this.keypad) {
+            this.keypad.drawCode(ctx, this.canvas.width, this.canvas.height);
+        }
+        this.keypad.clickableItems.forEach(obj => {
+            ctx.beginPath();
+            ctx.rect(obj.minX, obj.minY, 1, 1);
+            ctx.rect(obj.maxX, obj.maxY, 1, 1);
+            ctx.stroke();
+        });
+>>>>>>> Stashed changes
     }
     doorAndLobbyDetection(list) {
         let playerX = this.player.x + (this.player.baseImg.width / 2);
@@ -192,6 +214,7 @@ class Game {
         return fullPath.replace(/^.*[\\\/]/, '');
     }
     createRooms() {
+<<<<<<< Updated upstream
         let basic1 = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.png'), this.canvas.width, this.canvas.height, 303);
         let basic2 = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.png'), this.canvas.width, this.canvas.height, 403);
         let bath = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.png'), this.canvas.width, this.canvas.height, 401);
@@ -199,6 +222,15 @@ class Game {
         let chinese = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.png'), this.canvas.width, this.canvas.height, 400);
         let future = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.png'), this.canvas.width, this.canvas.height, 301);
         let penthouse = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.png'), this.canvas.width, this.canvas.height, 302);
+=======
+        let basic1 = new RoomBasic303(Game.loadNewImage('assets/img/rooms/room3.jpg'), this.canvas.width, this.canvas.height, 303);
+        let basic2 = new RoomSky403(Game.loadNewImage('assets/img/rooms/room7.jpg'), this.canvas.width, this.canvas.height, 403);
+        let bath = new RoomBath401(Game.loadNewImage('assets/img/rooms/room4.jpg'), this.canvas.width, this.canvas.height, 401);
+        let beach = new RoomBeach402(Game.loadNewImage('assets/img/rooms/room6.jpg'), this.canvas.width, this.canvas.height, 402);
+        let chinese = new RoomChinese400(Game.loadNewImage('assets/img/rooms/room5.jpg'), this.canvas.width, this.canvas.height, 400);
+        let future = new RoomFuture301(Game.loadNewImage('assets/img/rooms/room1.jpg'), this.canvas.width, this.canvas.height, 301);
+        let penthouse = new RoomPenthouse302(Game.loadNewImage('assets/img/rooms/room2.jpg'), this.canvas.width, this.canvas.height, 302);
+>>>>>>> Stashed changes
         this.rooms.push(basic1, basic2, bath, beach, chinese, future, penthouse);
         this.player.collectedCodes.push(new Code(basic1.roomNumber), new Code(basic2.roomNumber), new Code(bath.roomNumber), new Code(beach.roomNumber), new Code(chinese.roomNumber), new Code(future.roomNumber), new Code(penthouse.roomNumber));
     }
@@ -375,9 +407,15 @@ class Keypad extends View {
                 maxY: canvasHeight / 1.4,
             }, {
                 value: 3,
+<<<<<<< Updated upstream
                 minX: canvasWidth / 1.78,
                 minY: canvasHeight / 1.54,
                 maxX: canvasWidth / 1.58,
+=======
+                minX: canvasWidth / 1.7,
+                minY: canvasHeight / 1.54,
+                maxX: canvasWidth / 1.5,
+>>>>>>> Stashed changes
                 maxY: canvasHeight / 1.4,
             }, {
                 value: 4,
@@ -387,6 +425,7 @@ class Keypad extends View {
                 maxY: canvasHeight / 1.55,
             }, {
                 value: 5,
+<<<<<<< Updated upstream
                 minX: canvasWidth / 2.06,
                 minY: canvasHeight / 1.73,
                 maxX: canvasWidth / 1.8,
@@ -396,6 +435,17 @@ class Keypad extends View {
                 minX: canvasWidth / 1.78,
                 minY: canvasHeight / 1.73,
                 maxX: canvasWidth / 1.58,
+=======
+                minX: canvasWidth / 2,
+                minY: canvasHeight / 1.73,
+                maxX: canvasWidth / 2,
+                maxY: canvasHeight / 1.55,
+            }, {
+                value: 6,
+                minX: canvasWidth / 2,
+                minY: canvasHeight / 1.73,
+                maxX: canvasWidth / 1.6,
+>>>>>>> Stashed changes
                 maxY: canvasHeight / 1.55,
             }, {
                 value: 7,
@@ -405,6 +455,7 @@ class Keypad extends View {
                 maxY: canvasHeight / 1.75,
             }, {
                 value: 8,
+<<<<<<< Updated upstream
                 minX: canvasWidth / 2.06,
                 minY: canvasHeight / 1.97,
                 maxX: canvasWidth / 1.8,
@@ -414,6 +465,17 @@ class Keypad extends View {
                 minX: canvasWidth / 1.78,
                 minY: canvasHeight / 1.97,
                 maxX: canvasWidth / 1.58,
+=======
+                minX: canvasWidth / 2,
+                minY: canvasHeight / 1.97,
+                maxX: canvasWidth / 2,
+                maxY: canvasHeight / 1.75,
+            }, {
+                value: 9,
+                minX: canvasWidth / 2,
+                minY: canvasHeight / 1.97,
+                maxX: canvasWidth / 2,
+>>>>>>> Stashed changes
                 maxY: canvasHeight / 1.75,
             },];
     }
@@ -423,29 +485,45 @@ class Keypad extends View {
             playerCodeString += code.codeNum;
         });
         if (playerCodeString === this.enteredCode) {
+<<<<<<< Updated upstream
             Game.popup('Goed gedaan', 'De kluis is nu open');
             vault.isOpen = true;
         }
         else {
             Game.popup('Verkeerd', 'Probeer opnieuw en controleer of je alle kamers hebt afgemaakt');
         }
+=======
+            vault.isOpen = true;
+        }
+>>>>>>> Stashed changes
     }
     checkClick(x, y, type) {
         this._clickableItems.forEach(obj => {
             if ((x >= obj.minX) && (x <= obj.maxX) && (y >= obj.minY) && (y <= obj.maxY)) {
                 if (type === 'click') {
+<<<<<<< Updated upstream
                     if (this.enteredCode.length < 8) {
                         this.enteredCode += JSON.stringify(obj.value);
                     }
+=======
+                    this.enteredCode += JSON.stringify(obj.value);
+>>>>>>> Stashed changes
                 }
             }
         });
     }
     deleteLastNum() {
+<<<<<<< Updated upstream
         this.enteredCode = this.enteredCode.slice(0, -1);
     }
     drawCode(ctx, canvasWidth, canvasHeight) {
         Game.writeTextToCanvas(ctx, this.enteredCode, canvasWidth / 2, canvasHeight / 3, 50, 'white');
+=======
+        this.enteredCode.slice(this.enteredCode.length, 1);
+    }
+    drawCode(ctx, canvasWidth, canvasHeight) {
+        Game.writeTextToCanvas(ctx, this.enteredCode, canvasWidth / 2, canvasHeight / 2);
+>>>>>>> Stashed changes
     }
     get clickableItems() {
         return this._clickableItems;
