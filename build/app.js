@@ -80,6 +80,7 @@ class Game {
         }
         else {
             Game.popup('Helaas, fout', 'Probeer opnieuw');
+            this.activeQuestion.showHint = true;
             this.activeRoom.hideQuestion();
             this.activeQuestion = undefined;
         }
@@ -100,6 +101,14 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height);
         this.player.draw(ctx);
+        if (this.activeRoom != undefined) {
+            this.activeRoom.clickableItems.forEach(obj => {
+                ctx.beginPath();
+                ctx.rect(obj.minX, obj.minY, 5, 5);
+                ctx.rect(obj.maxX, obj.maxY, 5, 5);
+                ctx.stroke();
+            });
+        }
         if (this.view === this.vault) {
             Game.writeTextToCanvas(ctx, 'Druk op "spatie" om het spel te beindigen', this.canvas.width / 2, this.canvas.height - 40, 40);
         }
@@ -455,7 +464,7 @@ class Player {
     constructor(name, characterName, img, canvasWidth, canvasHeight, lobby) {
         this._baseImg = Game.loadNewImage(`assets/img/players/charaback.png`);
         this._collectedCodes = [];
-        this.speed = 4;
+        this.speed = 10;
         this._inRoom = false;
         this._lastWalkImg = 1;
         this._playerName = name;
@@ -679,7 +688,8 @@ class Point {
     }
 }
 class Question {
-    constructor(question, extraInfo, goodAnswer, badAnswer1, badAnswer2, badAnswer3, img) {
+    constructor(question, goodAnswer, badAnswer1, badAnswer2, badAnswer3, extraInfo, img) {
+        this._showHint = false;
         this._badAnswer1 = badAnswer1;
         this._badAnswer2 = badAnswer2;
         this._badAnswer3 = badAnswer3;
@@ -708,6 +718,12 @@ class Question {
     }
     get badAnswer3() {
         return this._badAnswer3;
+    }
+    get showHint() {
+        return this._showHint;
+    }
+    set showHint(value) {
+        this._showHint = value;
     }
 }
 class Size {
@@ -784,7 +800,12 @@ class Room extends View {
                             document.getElementById('awnser4').classList.remove('hidden');
                             document.getElementById('awnser4').classList.add('visible');
                         }
-                        document.getElementById("hintText").innerHTML = question.extraInfo;
+                        if (question.showHint) {
+                            document.getElementById("hintText").innerHTML = question.extraInfo;
+                        }
+                        else {
+                            document.getElementById("hintText").innerHTML = "Hint is pas beschikbaar als je de vraag 1 keer fout hebt beantwoord.";
+                        }
                         if (question.img != undefined) {
                             document.getElementById("questionImg").classList.add('visible');
                             document.getElementById("questionImg").classList.remove('hidden');
@@ -853,20 +874,20 @@ class Room extends View {
 class RoomBasic303 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Is social media een betrouwbare bron?', 'Nee', 'Ja', undefined, undefined, 'Er gaan veel neppe artikels rond via social media.', undefined), new Question('Zijn de bovenste zoekresultaten altijd de beste?', 'Nee, want er wordt voor de plek betaald', 'Ja, want ze staan bovenaan', 'Ja, want ze zijn relevant', 'Nee, het zijn reclames', 'De bovenste resultaten zijn vaak geplaatst met zichtbaarheid in gedachte, in plaats van relevantie.', undefined));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 35,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 4.1,
+            minY: canvasHeight / 2.56,
+            maxX: canvasWidth / 3.66,
+            maxY: canvasHeight / 2.18,
         }, {
             name: 'question',
-            minX: canvasWidth / 3.4,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 2.25,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 2,
+            minY: canvasHeight / 6.4,
+            maxX: canvasWidth / 1.95,
+            maxY: canvasHeight / 5.35,
         });
         super(room, questions, clickableItems, roomNumber);
     }
@@ -874,20 +895,20 @@ class RoomBasic303 extends Room {
 class RoomBath401 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.', undefined, undefined, undefined), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, undefined));
+        questions.push(new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen er aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurt als je klikt en gaat kijken naar nepnieuws', undefined), new Question('Hackers hebben altijd slechte bedoelingen', 'Niet waar', 'Waar', undefined, undefined, 'Bedenk waar je hackers ook nog voor kan gebruiken in een bedrijf', undefined));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 35,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 5,
+            minY: canvasHeight / 5,
+            maxX: canvasWidth / 3,
+            maxY: canvasHeight / 3,
         }, {
             name: 'question',
-            minX: canvasWidth / 3.4,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 2.25,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 1.12,
+            minY: canvasHeight / 1.4,
+            maxX: canvasWidth / 1.06,
+            maxY: canvasHeight / 1.31,
         });
         super(room, questions, clickableItems, roomNumber);
     }
@@ -895,19 +916,19 @@ class RoomBath401 extends Room {
 class RoomBeach402 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Je ziet de volgende advertentie, wat doe je?', 'Je negeert de advertentie', 'Je klikt op de advertentie', 'Je gooit je telefoon weg', 'Je klikt op de advertentie maar verwacht niks', 'Wat doe je als iets je niet intreseert?', Game.loadNewImage('assets/img/questionImages/geldreclame.jpg')), new Question('Je krijgt een rare e-mail van een Arabische prins, wat doe je?', 'Je verwijdert de e-mail', 'Je doet wat de prins zegt', 'Je negeert de e-mail', 'Je reageert op de mail', 'Is dit wel een Arabische prins?', Game.loadNewImage('assets/img/questionImages/prins.png')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 35,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            minX: 0,
+            minY: canvasHeight / 2.2,
+            maxX: canvasWidth / 10,
+            maxY: canvasHeight / 1.05,
         }, {
             name: 'question',
-            minX: canvasWidth / 3.4,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 2.25,
+            minX: canvasWidth / 1.6,
+            minY: canvasHeight / 1.2,
+            maxX: canvasWidth / 1.5,
             maxY: canvasHeight / 1.1,
         });
         super(room, questions, clickableItems, roomNumber);
@@ -916,20 +937,20 @@ class RoomBeach402 extends Room {
 class RoomChinese400 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Verdienen youtubers veel geld als mensen naar hun fimpjes kijken?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Verdienen youtubers veel geld met het maken van filmpjes?', 'ja', 'nee', undefined, undefined, 'per 1000 views kan je tussen de 30 cent en 4 euro verdienen', Game.loadNewImage('assets/img/questionImages/youtube.png')), new Question('Wat mag je sinds 1 juli 2019 niet meer doen op de fiets?', 'Je telefoon gebruiken', 'Zonder handen fietsen', 'Bellen met je fietsbel', 'Iemand meenemen op je bagagedrager', 'Wat mag je ook niet doen achter het stuur in de auto?', Game.loadNewImage('assets/img/questionImages/fietsen.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 35,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 2.3,
+            minY: canvasHeight / 2.35,
+            maxX: canvasWidth / 1.83,
+            maxY: canvasHeight / 1.78,
         }, {
             name: 'question',
-            minX: canvasWidth / 3.4,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 2.25,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 1.12,
+            minY: canvasHeight / 1.4,
+            maxX: canvasWidth / 1.06,
+            maxY: canvasHeight / 1.31,
         });
         super(room, questions, clickableItems, roomNumber);
     }
@@ -937,20 +958,20 @@ class RoomChinese400 extends Room {
 class RoomFuture301 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Hoe kun je zien of een post betrouwbaar is?', 'De bron is geverifieerd', 'De titel klinkt goed', 'Het leest lekker', 'Het wordt veel gedeeld', 'Bronnen van officiële organisaties zijn het meest betrouwbaar', undefined), new Question('Hoeveel tijd besteden jongeren vanaf 13+ dagelijks aan media?', 'Achtenhalf uur', 'vierenhalf uur', 'tienenhalf uur', 'tweeënhalf uur', 'Het is meer dan je denkt, maar onder de tien', undefined));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 35,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 1.62,
+            minY: canvasHeight / 2.71,
+            maxX: canvasWidth / 1.44,
+            maxY: canvasHeight / 1.87,
         }, {
             name: 'question',
-            minX: canvasWidth / 3.4,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 2.25,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 3.41,
+            minY: canvasHeight / 1.85,
+            maxX: canvasWidth / 3.27,
+            maxY: canvasHeight / 1.78,
         });
         super(room, questions, clickableItems, roomNumber);
     }
@@ -958,7 +979,7 @@ class RoomFuture301 extends Room {
 class RoomPenthouse302 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt hij is echt helemaal echt', 'hij is zoizo 100% Nep', 'dit is een deepfake', 'wie is dit?', Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Bestaat deze man?', 'dit is een deepfake', 'Hij is Nep', 'Hij bestaat', 'Dit is een willekeurige foto', 'Een deepfake is een foto die is gemaakt door een computer', Game.loadNewImage('assets/img/questionImages/deepfake.jpg')), new Question('Wat is de beste manier voor een wachtwoord?', 'Gebruik bij iedere website een ander wachtwoord', 'Gerbuik altijd hetzelfde wachtwoord', 'Laat iemand anders jouw wachtwoord bedenken', 'Vertel iedereen je wachtwoord', 'Houd je wachtwoord altijd voor jezelf', Game.loadNewImage('assets/img/questionImages/wachtwoord.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -979,20 +1000,20 @@ class RoomPenthouse302 extends Room {
 class RoomSky403 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')), new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, Game.loadNewImage('assets/img/questionImages/trump.jpg')));
+        questions.push(new Question('Wat is de gemiddelde leeftijd dat kinderen voor het eerst zelfstandig achter de computer zitten?', '4', '2', '5', '7', 'Ouder dan 2 en jonger dan 7', undefined), new Question('Vanaf welke leeftijd begint de belangstelling van baby’s voor tablets?', 'Tussen de 3 en 5 maanden', 'Tussen de 5 en 7 maanden', 'Tussen de 7 en 10 maanden', 'Tussen de 10 en 12 maanden', 'Het is jonger dan je denkt', undefined));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
-            minX: canvasWidth / 35,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 6,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 15,
+            minY: canvasHeight / 1.2,
+            maxX: canvasWidth / 7,
+            maxY: canvasHeight / 1.08,
         }, {
             name: 'question',
-            minX: canvasWidth / 3.4,
-            minY: canvasHeight / 1.7,
-            maxX: canvasWidth / 2.25,
-            maxY: canvasHeight / 1.1,
+            minX: canvasWidth / 2,
+            minY: canvasHeight / 1.45,
+            maxX: canvasWidth / 1.85,
+            maxY: canvasHeight / 1.35,
         });
         super(room, questions, clickableItems, roomNumber);
     }

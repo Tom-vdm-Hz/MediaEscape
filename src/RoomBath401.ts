@@ -3,23 +3,24 @@ class RoomBath401 extends Room {
     constructor(room: HTMLImageElement, canvasWidth: number, canvasHeight: number, roomNumber: number) {
         let questions: Question[] = []
         questions.push(
-            new Question('Waarom maken mensen nepnieuws?', 'Donald Trump was de president van amerika', 'Ze willen er geld mee verdienen.', 'Ze willen aandacht mee krijgen.', undefined, undefined, undefined),
-            new Question('Is deze man echt of nep?', 'Donald Trump was de president van amerika', 'Echt', 'Nep', undefined, undefined, undefined))
+            new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen er aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurt als je klikt en gaat kijken naar nepnieuws', undefined),
+            new Question('Hackers hebben altijd slechte bedoelingen', 'Niet waar', 'Waar', undefined, undefined, 'Bedenk waar je hackers ook nog voor kan gebruiken in een bedrijf', undefined))
 
         let clickableItems: collisionObj[] = []
-        clickableItems.push({
+        clickableItems.push(
+            {
                 name: 'question',
-                minX: canvasWidth / 35,
-                minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 6,
-                maxY: canvasHeight / 1.1,
+                minX: canvasWidth / 2.33,
+                minY: canvasHeight / 2.6,
+                maxX: canvasWidth / 2.2,
+                maxY: canvasHeight / 2.1,
             },
             {
                 name: 'question',
-                minX: canvasWidth / 3.4,
-                minY: canvasHeight / 1.7,
-                maxX: canvasWidth / 2.25,
-                maxY: canvasHeight / 1.1,
+                minX: canvasWidth / 1.23,
+                minY: canvasHeight / 1.15,
+                maxX: canvasWidth / 1.13,
+                maxY: canvasHeight / 1.03,
             })
 
         super(room, questions, clickableItems, roomNumber);
