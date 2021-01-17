@@ -895,7 +895,7 @@ class RoomBasic303 extends Room {
 class RoomBath401 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurd als je klikt en gaat kijken naar nepnieuws', undefined), new Question('Hackers hebben altijd slechte bedoelingen?', 'Niet waar', 'Waar', undefined, undefined, 'Bedenk waar je hackers ook nog voor kan gebruiken in een bedrijf', undefined));
+        questions.push(new Question('Waarom maken mensen nepnieuws?', 'Ze willen er geld mee verdienen', 'Ze willen er aandacht mee krijgen', 'Ze vinden het grappig om te doen', 'Ze willen dat mensen erin trappen', 'Bedenk wat er gebeurt als je klikt en gaat kijken naar nepnieuws', undefined), new Question('Hackers hebben altijd slechte bedoelingen', 'Niet waar', 'Waar', undefined, undefined, 'Bedenk waar je hackers ook nog voor kan gebruiken in een bedrijf', undefined));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -916,7 +916,7 @@ class RoomBath401 extends Room {
 class RoomBeach402 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Je ziet de volgende advertentie, wat doe je?', 'Je negeert de advertentie', 'Je klikt op de advertentie', 'Je gooit je telefoon weg', 'Je klikt op de advertentie maar verwacht niks', 'Wat doe je als iets je niet intreseert?', Game.loadNewImage('assets/img/questionImages/geldreclame.jpg')), new Question('Je krijgt een raare e-mail van een arabische prins, wat doe je?', 'Je verwijdert de e-mail', 'Je doet wat de prins zegt', 'Je negeert de e-mail', 'Je reageert op de mail', 'Is dit wel een arabische prins?', Game.loadNewImage('assets/img/questionImages/prins.png')));
+        questions.push(new Question('Je ziet de volgende advertentie, wat doe je?', 'Je negeert de advertentie', 'Je klikt op de advertentie', 'Je gooit je telefoon weg', 'Je klikt op de advertentie maar verwacht niks', 'Wat doe je als iets je niet intreseert?', Game.loadNewImage('assets/img/questionImages/geldreclame.jpg')), new Question('Je krijgt een rare e-mail van een Arabische prins, wat doe je?', 'Je verwijdert de e-mail', 'Je doet wat de prins zegt', 'Je negeert de e-mail', 'Je reageert op de mail', 'Is dit wel een Arabische prins?', Game.loadNewImage('assets/img/questionImages/prins.png')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
@@ -979,7 +979,7 @@ class RoomFuture301 extends Room {
 class RoomPenthouse302 extends Room {
     constructor(room, canvasWidth, canvasHeight, roomNumber) {
         let questions = [];
-        questions.push(new Question('Bestaad deze man?', 'dit is een deepfake', 'hij is Nep', 'Hij bestaad', 'Dit is een willekeurige foto', 'Een deepfake is een foto die is gemaakt door een computer', Game.loadNewImage('assets/img/questionImages/deepfake.jpg')), new Question('Wat is de beste manier voor een wachtwoord?', 'Gebruik bij iedere website een ander wachtwoord', 'Gerbuik altijd hetzelfde wachtwoord', 'Laat iemand anders jouw wachtwoord bedenken', 'Vertel iedereen je wachtwoord', 'Houd je wachtwoord altijd voor jezelf', Game.loadNewImage('assets/img/questionImages/wachtwoord.jpg')));
+        questions.push(new Question('Bestaat deze man?', 'dit is een deepfake', 'Hij is Nep', 'Hij bestaat', 'Dit is een willekeurige foto', 'Een deepfake is een foto die is gemaakt door een computer', Game.loadNewImage('assets/img/questionImages/deepfake.jpg')), new Question('Wat is de beste manier voor een wachtwoord?', 'Gebruik bij iedere website een ander wachtwoord', 'Gerbuik altijd hetzelfde wachtwoord', 'Laat iemand anders jouw wachtwoord bedenken', 'Vertel iedereen je wachtwoord', 'Houd je wachtwoord altijd voor jezelf', Game.loadNewImage('assets/img/questionImages/wachtwoord.jpg')));
         let clickableItems = [];
         clickableItems.push({
             name: 'question',
