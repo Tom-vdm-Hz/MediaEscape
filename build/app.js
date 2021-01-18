@@ -718,42 +718,6 @@ class Question {
         this._showHint = value;
     }
 }
-class Size {
-    constructor(width, height) {
-        this._width = width;
-        this._height = height;
-    }
-    get width() {
-        return this._width;
-    }
-    set width(value) {
-        this._width = value;
-    }
-    get height() {
-        return this._height;
-    }
-    set height(value) {
-        this._height = value;
-    }
-}
-class Rectangle {
-    constructor(x, y, w, h) {
-        this._point = new Point(x, y);
-        this._size = new Size(w, h);
-    }
-    get point() {
-        return this._point;
-    }
-    set point(value) {
-        this._point = value;
-    }
-    get size() {
-        return this._size;
-    }
-    set size(value) {
-        this._size = value;
-    }
-}
 class Room extends View {
     constructor(room, questions, clickableItems, roomNumber) {
         super(room);
@@ -1008,6 +972,24 @@ class RoomSky403 extends Room {
             maxY: canvasHeight / 1.35,
         });
         super(room, questions, clickableItems, roomNumber);
+    }
+}
+class Size {
+    constructor(width, height) {
+        this._width = width;
+        this._height = height;
+    }
+    get width() {
+        return this._width;
+    }
+    set width(value) {
+        this._width = value;
+    }
+    get height() {
+        return this._height;
+    }
+    set height(value) {
+        this._height = value;
     }
 }
 class Vault extends View {
