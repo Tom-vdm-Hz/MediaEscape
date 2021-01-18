@@ -48,7 +48,7 @@ class Game {
         }
         if (this.view === this.vault) {
             if (this.player.keyListener.isKeyDown(32)) {
-                Game.popup('Goed gedaan', 'Je hebt de kluis geopend en gewonnen');
+                Game.popup('Goed gedaan, je hebt de kluis geopend en gewonnen', 'En stem op ons voor het beste spelletje!');
             }
         }
         if (this.view === this.keypad) {

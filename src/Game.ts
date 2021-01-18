@@ -55,7 +55,7 @@ class Game {
 
         if (this.view === this.vault) {
             if (this.player.keyListener.isKeyDown(32)) {
-                Game.popup('Goed gedaan', 'Je hebt de kluis geopend en gewonnen')
+                Game.popup('Goed gedaan, je hebt de kluis geopend en gewonnen', 'En stem op ons voor het beste spelletje!')
             }
         }
 
@@ -118,7 +118,7 @@ class Game {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.view.draw(ctx, this.canvas.width, this.canvas.height)
         this.player.draw(ctx)
-        
+
         if (this.view === this.vault) {
             Game.writeTextToCanvas(ctx, 'Druk op "spatie" om het spel te beindigen', this.canvas.width / 2, this.canvas.height - 40, 40)
         }
